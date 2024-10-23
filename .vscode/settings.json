@@ -1,0 +1,11 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "name": "DatabaseRestoration",
+      "database": "${workspaceFolder:Restauracja_PD}/Backend/restauration/db.sqlite3"
+    }
+  ],
+  "sqltools.useNodeRuntime": true
+}
