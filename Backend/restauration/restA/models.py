@@ -6,7 +6,7 @@ from datetime import date
 class Restoration(models.Model):
     id_Restoration = models.AutoField(primary_key=True, unique=True)
     Name = models.CharField(max_length=255)
-    Number_of_tables = models.IntegerField()
+    Number_of_tables = models.SmallIntegerField()
     def __str__(self):
         return (f'Restoration - {self.Name}')
 
@@ -22,7 +22,7 @@ class Menu(models.Model):
 # Tables for one Restoration
 class Table(models.Model):
     id_table = models.AutoField(primary_key=True, unique=True)
-    Number_of_seats = models.IntegerField()
+    Number_of_seats = models.IntegerField(default=1)
     Restoration_idRestoration = models.ForeignKey(Restoration, on_delete=models.CASCADE)
     Menu_Id_Menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
     def __str__(self):
@@ -60,7 +60,7 @@ class Bill(models.Model):
 
 # Guest who came to the Restaurant and take a seat in one Table
 class Guest(models.Model):
-    Id_quest = models.IntegerField(primary_key=True, auto_created=True)
+    Id_quest = models.AutoField(primary_key=True)
     Table_id_table = models.ForeignKey(Table, on_delete=models.CASCADE)
     Table_menu_id_menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
     Bill_id_bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
