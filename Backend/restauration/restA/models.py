@@ -2,20 +2,10 @@ from django.db import models
 from datetime import date
 # Create your models here.
 
-# Restoration 
-class Restoration(models.Model):
-    id_Restoration = models.AutoField(primary_key=True, unique=True)
-    Name = models.CharField(max_length=255)
-    Number_of_tables = models.SmallIntegerField()
-    def __str__(self):
-        return (f'Restoration - {self.Name}')
-
-
 # All possibility menu from Restoration 
 class Menu(models.Model):
     Id_Menu = models.AutoField(primary_key=True, unique=True)
     Date_of_change = models.DateField(auto_now=True)
-    Restoration_idRestoration = models.ForeignKey(Restoration, on_delete=models.CASCADE)
     def __str__(self):
         return f'Menu - {self.Id_Menu}'
 
@@ -23,7 +13,6 @@ class Menu(models.Model):
 class Table(models.Model):
     id_table = models.AutoField(primary_key=True, unique=True)
     Number_of_seats = models.IntegerField(default=1)
-    Restoration_idRestoration = models.ForeignKey(Restoration, on_delete=models.CASCADE)
     Menu_Id_Menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
     def __str__(self):
         return f'Table - {self.id_table} number of sits - {self.Number_of_seats}'
@@ -35,7 +24,6 @@ class Waiter(models.Model):
     Surname= models.TextField(max_length=255)
     Phone_num = models.IntegerField()
     Work_start = models.DateField(default=date.today)
-    Restoration_idRestoration = models.ForeignKey(Restoration, on_delete=models.CASCADE)
     def __str__(self):
         return f'Waiter - {self.Name}'
 
