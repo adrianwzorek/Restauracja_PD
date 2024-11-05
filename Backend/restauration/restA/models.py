@@ -5,6 +5,7 @@ from datetime import date
 # All possibility menu from Restoration 
 class Menu(models.Model):
     Id_Menu = models.AutoField(primary_key=True, unique=True)
+    Name = models.TextField(max_length=50, blank=False)
     Date_of_change = models.DateField(auto_now=True)
     def __str__(self):
         return f'Menu - {self.Id_Menu}'
@@ -113,3 +114,5 @@ class Bill_has_Drink(models.Model):
     Drink_id_drink = models.ForeignKey(Drink, on_delete=models.CASCADE)
     def __str__(self):
         return f'Bill {self.Bill_id_bill} has {self.Drink_id_drink}'
+    
+allModels = [Menu, Table, Waiter, Waiter_has_Table, Bill, Dish, Drink, Guest, Bill_has_Dish, Bill_has_Drink]
