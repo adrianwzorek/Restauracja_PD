@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import allModels
+from .models import Menu, Table
 # Register your models here.
 
-for model in allModels:
-    admin.site.register(model)
+admin.site.register(Menu)
+admin.site.register(Table)

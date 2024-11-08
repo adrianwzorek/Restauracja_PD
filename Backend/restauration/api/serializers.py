@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Menu, Table, Waiter, Waiter_has_Table, Bill, Guest, Dish, Drink, Bill_has_Dish, Bill_has_Drink
+from .models import Menu, Table
 # Models serializers
 
 class MenuSerializer(serializers.ModelSerializer):
@@ -8,48 +8,8 @@ class MenuSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class TableSerializer(serializers.ModelSerializer):
-    menu = MenuSerializer(many=True, read_only=True)
+    Menu_id_menu = serializers.PrimaryKeyRelatedField(queryset=Menu.objects.all())
     class Meta:
         model = Table
-        fields = ['id_table', 'Menu_id_menu','menu']
+        fields = ['id_table', 'Menu_id_menu']
 
-class WaiterSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Waiter
-        fields = '__all__'
-
-class Waiter_has_TableSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Waiter_has_Table
-        fields = '__all__'
-
-class BillSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Bill
-        fields = '__all__'
-
-class GuestSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Guest
-        fields = '__all__'
-
-class DishSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = Dish
-        fields = '__all__'
-
-class DrinkSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Drink
-        fields = '__all__'
-
-class Bill_has_DishSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Bill_has_Dish
-        fields = '__all__'
-
-class Bill_has_DrinkSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Bill_has_Drink
-        fields = '__all__'
