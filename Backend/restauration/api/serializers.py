@@ -8,9 +8,10 @@ class MenuSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class TableSerializer(serializers.ModelSerializer):
+    menu = MenuSerializer(many=True, read_only=True)
     class Meta:
         model = Table
-        fields = '__all__'
+        fields = ['id_table', 'Menu_id_menu','menu']
 
 class WaiterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -33,6 +34,7 @@ class GuestSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class DishSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = Dish
         fields = '__all__'

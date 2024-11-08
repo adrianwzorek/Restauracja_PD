@@ -1,5 +1,13 @@
-from django.db import models
+import os
+from django.db import models, transaction
 from datetime import date
+
+from django.dispatch import receiver
+import qrcode
+from io import BytesIO
+from django.core.files import File
+from PIL import Image
+import qrcode.constants
 # Create your models here.
 
 # All possibility menu from Restoration 
@@ -8,15 +16,51 @@ class Menu(models.Model):
     Name = models.TextField(max_length=50, blank=False)
     Date_of_change = models.DateField(auto_now=True)
     def __str__(self):
-        return f'Menu - {self.Id_Menu}'
+        return f'{self.Name}'
 
 # Tables for one Restoration
 class Table(models.Model):
-    id_table = models.AutoField(primary_key=True, unique=True)
-    Number_of_seats = models.IntegerField(default=1)
-    Menu_Id_Menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
+    id_table = models.IntegerField(primary_key=True, unique=True)
+    Menu_id_menu = models.ForeignKey(Menu, on_delete=models.CASCADE, blank=True)
+    Qr_code = models.ImageField(blank=True, upload_to='qr_codes')
     def __str__(self):
-        return f'Table - {self.id_table} number of sits - {self.Number_of_seats}'
+        return f'Table - {self.id_table}'
+    
+    def save(self, *args, **kwargs):
+       qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_H,box_size=10,border=4,)
+       qr.add_data(self.id_table)
+       qr.make(fit=True)
+        
+        # Create an image from the QR Code instance
+       qr_image = qr.make_image(fill="black", back_color="white").convert('RGB')
+        
+        # Create a white background image to paste the QR code onto
+       qr_offset = Image.new('RGB', (310, 310), 'white')
+        
+        # Resize the QR code to fit into qr_offset if necessary
+       qr_image = qr_image.resize((300, 300))  # Resize to fit within the offset
+        
+        # Paste the QR code onto the offset image, starting at the top-left corner (0, 0)
+       qr_offset.paste(qr_image, (5, 5))
+        
+        # Save to a BytesIO stream
+       file_name = f'table_{self.id_table}.png'
+       stream = BytesIO()
+       qr_offset.save(stream, 'PNG')
+       self.Qr_code.save(file_name, File(stream), save=False)
+        
+        # Clean up
+       stream.close()
+        
+        # Call the superclass save method
+       super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        # Check if qr_code existing and delete it
+        if self.Qr_code and os.path.isfile(self.Qr_code.path):
+            os.remove(self.Qr_code.path)
+        # delete this object
+        super().delete(*args, **kwargs)
 
 # All waiters who work in this Restoration
 class Waiter(models.Model):
@@ -26,7 +70,7 @@ class Waiter(models.Model):
     Phone_num = models.IntegerField()
     Work_start = models.DateField(default=date.today)
     def __str__(self):
-        return f'Waiter - {self.Name}'
+        return f'{self.Name} {self.Surname}'
 
 # Connection from Many waiters to Many Tables
 class Waiter_has_Table(models.Model):
@@ -35,7 +79,6 @@ class Waiter_has_Table(models.Model):
     Date = models.DateField(auto_now=True)
     def __str__(self):
         return f'Waiter {self.Waiter_id_waiter} has {self.Table_id_table}'
-
 
 # The Bill from one Table
 class Bill(models.Model):
@@ -55,11 +98,18 @@ class Guest(models.Model):
     Bill_id_bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
     def __str__(self):
         return f'Guest - {self.Id_quest} seating at table {self.Table_id_table}'
+    
+    def save(self,*args, **kwargs):
+        with transaction.atomic():
+            if not self.Bill_id_bill:
+                new_bill = Bill.objects.create(Table_id_table= self.Table_id_table)
+                self.Bill_id_bill = new_bill
+            super().save(*args,**kwargs)
 
 # Dish model
 class Dish(models.Model):
     Id_dish = models.AutoField(primary_key=True)
-    Title = models.TextField(max_length=50, null=False)
+    Title = models.TextField(max_length=50, blank=False)
     Description = models.TextField(max_length=255, blank=True)
     Ingredients = models.TextField(max_length=255, blank=True)
     Modify = models.BooleanField()
@@ -81,7 +131,7 @@ class Dish(models.Model):
     Portion_weight = models.IntegerField()
     Special = models.BooleanField(default=False)
     def __str__(self):
-        return f'Dish - {self.Title}'
+        return f'{self.Title}'
 
 # Drink model
 class Drink(models.Model):
@@ -99,7 +149,7 @@ class Drink(models.Model):
     Special = models.BooleanField(default=False)
     Menu_id_menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
     def __str__(self):
-        return f'Drink - {self.Name}'
+        return f'{self.Name}'
     
 # Connection from Bill to Dishes
 class Bill_has_Dish(models.Model):
