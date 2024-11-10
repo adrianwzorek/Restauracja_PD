@@ -9,5 +9,9 @@ urlpatterns = [
     path('waiter/', views.WaiterList.as_view()),
     path('waiter/<int:pk>', views.WaiterDetails.as_view()),
     path('waiterTable/', views.Waiters_has_tableList.as_view()),
-    path('waiterTable/<int:pk>', views.Waiter_has_tableDetails.as_view())
+    path('waiterTable/<int:pk>', views.Waiter_has_tableDetails.as_view()),
+    path('bill/', views.BillList.as_view()),
+    path('bill/<int:pk>', views.BillDetails.as_view()),
+    path('guest/', views.GuestList.as_view()),
+    path('guest/<int:pk>', views.GuestDetails.as_view())
 ]

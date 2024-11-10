@@ -30,7 +30,7 @@ class Waiter(models.Model):
         return f'{self.Name} {self.Surname}'
 
 # Connection from Many waiters to Many Tables
-class Waiter_has_Table(models.Model):
+class Waiter_has_table(models.Model):
     Waiter_id_waiter = models.ForeignKey(Waiter,on_delete=models.CASCADE)
     Table_id_table = models.ForeignKey(Table, on_delete=models.Case)
     Date = models.DateField(auto_now=True)
@@ -41,21 +41,21 @@ class Waiter_has_Table(models.Model):
 class Bill(models.Model):
     Id_bill = models.IntegerField(auto_created=True, primary_key=True)
     Table_id_table = models.ForeignKey(Table,on_delete=models.CASCADE)
-    Full_cost = models.FloatField()
-    Split = models.BooleanField()
+    Full_cost = models.FloatField(default=0)
+    Split = models.BooleanField(default=False)
     Date = models.DateField(auto_now=True)
     def __str__(self):
         return f'Bill - {self.Id_bill} Cost - {self.Full_cost}'
 
 # Guest who came to the Restaurant and take a seat in one Table
 class Guest(models.Model):
-    Id_quest = models.AutoField(primary_key=True)
+    Id_guest = models.AutoField(primary_key=True)
     Table_id_table = models.ForeignKey(Table, on_delete=models.CASCADE)
     Table_menu_id_menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
-    Bill_id_bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
+    Bill_id_bill = models.ForeignKey(Bill, on_delete=models.CASCADE, null=True, blank=True)
     def __str__(self):
-        return f'Guest - {self.Id_quest} seating at table {self.Table_id_table}'
-    
+        return f'Guest - {self.Id_guest} seating at table {self.Table_id_table}'
+    # TODO: Why this not workin?
     def save(self,*args, **kwargs):
         with transaction.atomic():
             if not self.Bill_id_bill:
