@@ -19,4 +19,4 @@ class Table(models.Model):
     Qr_code = models.ImageField(blank=True, upload_to='qr_codes')
     def __str__(self):
         return f'Table - {self.id_table}'
-    
+
