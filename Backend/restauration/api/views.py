@@ -1,73 +1,106 @@
 from rest_framework import generics
 from rest_framework import permissions
-from .models import Menu, Table, Waiter, Waiter_has_table, Bill, Guest
+from django.contrib.auth.models import User
 from .serializers import (
-    MenuSerializer, 
+    UserSerializer,
+    AllergenSerializer, 
+    DishSerializer, 
+    DrinkSerializer,
+    MenuSerializer,
     TableSerializer,
     WaiterSerializer,
-    Waiter_has_tableSerializer,
     BillSerializer,
-    GuestSerializer,
-
+    GuestSerializer
     )
+from .models import Allergen, Dish, Drink,Menu, Table, Waiter, Bill, Guest
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
+
+
 # Create your views here.
 
-class MenuList(generics.ListCreateAPIView):
+class CreateUserView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]
+
+class ListAllergens(generics.ListCreateAPIView):
+    queryset = Allergen.objects.all()
+    serializer_class = AllergenSerializer
+    permission_classes = [permissions.AllowAny]
+
+class AllergenDetails(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Allergen.objects.all()
+    serializer_class = AllergenSerializer
+    permission_classes = [permissions.AllowAny]
+
+class ListDishes(generics.ListCreateAPIView):
+    queryset = Dish.objects.all()
+    serializer_class = DishSerializer
+    permission_classes = [permissions.AllowAny]
+
+class DishDetails(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Dish.objects.all()
+    serializer_class = DishSerializer
+    permission_classes = [permissions.AllowAny]
+
+class ListDrinks(generics.ListCreateAPIView):
+    queryset = Drink.objects.all()
+    serializer_class = DrinkSerializer
+    permission_classes = [permissions.AllowAny]
+
+class DrinksDetails(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Drink.objects.all()
+    serializer_class = DrinkSerializer
+    permission_classes = [permissions.AllowAny]
+
+class ListMenu(generics.ListCreateAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.AllowAny]
 
 class MenuDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.AllowAny]
 
-class TableList(generics.ListCreateAPIView):
+class ListTable(generics.ListCreateAPIView):
     queryset = Table.objects.all()
     serializer_class = TableSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.AllowAny]
 
 class TableDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Table.objects.all()
     serializer_class = TableSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.AllowAny]
 
-class WaiterList(generics.ListCreateAPIView):
+class ListWaiter(generics.ListCreateAPIView):
     queryset = Waiter.objects.all()
     serializer_class = WaiterSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.AllowAny]
 
-class WaiterDetails(generics.RetrieveUpdateDestroyAPIView):
+
+class WaiterDetails(generics.ListCreateAPIView):
     queryset = Waiter.objects.all()
     serializer_class = WaiterSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.AllowAny]
 
-class Waiters_has_tableList(generics.ListCreateAPIView):
-    queryset = Waiter_has_table.objects.all()
-    serializer_class = Waiter_has_tableSerializer
-    permission_classes = [permissions.IsAdminUser]
-
-class Waiter_has_tableDetails(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Waiter_has_table.objects.all()
-    serializer_class = Waiter_has_tableSerializer
-    permission_classes = [permissions.IsAdminUser]
-
-class BillList(generics.ListCreateAPIView):
+class ListBill(generics.ListCreateAPIView):
     queryset = Bill.objects.all()
     serializer_class = BillSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.AllowAny]
 
 class BillDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Bill.objects.all()
     serializer_class = BillSerializer
-    permission_classes = [permissions.IsAdminUser, permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
-class GuestList(generics.ListCreateAPIView):
+class ListGuest(generics.ListCreateAPIView):
     queryset = Guest.objects.all()
     serializer_class = GuestSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.AllowAny]
 
 class GuestDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Guest.objects.all()
     serializer_class = GuestSerializer
-    permission_classes = [permissions.IsAdminUser, permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.AllowAny]

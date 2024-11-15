@@ -1,17 +1,37 @@
 from django.urls import path
-from .import views
-
+from .views import (
+    ListAllergens,
+    AllergenDetails,
+    ListDishes,
+    DishDetails,
+    ListDrinks,
+    DrinksDetails,
+    ListMenu,
+    MenuDetails,
+    ListTable,
+    TableDetails,
+    ListWaiter,
+    WaiterDetails,
+    ListBill,
+    BillDetails,
+    ListGuest,
+    GuestDetails
+    )
 urlpatterns = [
-    path('menu/', views.MenuList.as_view()),
-    path('menu/<int:pk>/', views.MenuDetails.as_view()),
-    path('table/',views.TableList.as_view()),
-    path('table/<int:pk>/',views.TableDetails.as_view()),
-    path('waiter/', views.WaiterList.as_view()),
-    path('waiter/<int:pk>', views.WaiterDetails.as_view()),
-    path('waiterTable/', views.Waiters_has_tableList.as_view()),
-    path('waiterTable/<int:pk>', views.Waiter_has_tableDetails.as_view()),
-    path('bill/', views.BillList.as_view()),
-    path('bill/<int:pk>', views.BillDetails.as_view()),
-    path('guest/', views.GuestList.as_view()),
-    path('guest/<int:pk>', views.GuestDetails.as_view())
+    path('allergens/', ListAllergens.as_view()),
+    path('allergens/<int:pk>', AllergenDetails.as_view()),
+    path('dish/',ListDishes.as_view()),
+    path('dish/<int:pk>/', DishDetails.as_view()),
+    path('drink/', ListDrinks.as_view()),
+    path('drink/<int:pk>/', DrinksDetails.as_view()),
+    path('menu/',ListMenu.as_view()),
+    path('menu/<int:pk>', MenuDetails.as_view()),
+    path('table/',ListTable.as_view()),
+    path('table/<int:pk>', TableDetails.as_view()),
+    path('waiter/', ListWaiter.as_view()),
+    path('waiter/<int:pk>', WaiterDetails.as_view()),
+    path('bill/', ListBill.as_view()),
+    path('bill/<int:pk>/', BillDetails.as_view()),
+    path('guest/', ListGuest.as_view()),
+    path('guest/<int:pk>/',GuestDetails.as_view())
 ]

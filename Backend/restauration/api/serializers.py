@@ -1,6 +1,53 @@
 from rest_framework import serializers
-from .models import Menu, Table, Waiter, Waiter_has_table, Bill, Guest
+from django.contrib.auth.models import User
+from .models import Allergen, Dish, Drink, Menu, Table, Waiter, Bill, Guest
+
 # Models serializers
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = User
+        fields =['id','username','password']
+        extra_kwargs = {'password':{'write_only':True}}
+
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user
+    
+class AllergenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Allergen
+        fields = ['id_allergen','name']
+    
+class DishSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Dish
+        fields = '__all__'
+
+    def validate_weight(self, value):
+        if value <=0:
+            raise serializers.ValidationError('Weight need to be positive')
+        return value
+    
+    def validate_cost(self, value):
+        if value <= 0:
+            raise serializers.ValidationError('Cost need to be positive')
+        return value
+
+class DrinkSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = Drink
+        fields = '__all__'
+    
+    def validate_cost(self, value):
+        if value <= 0:
+            raise serializers.ValidationError('Cost need to be positive')
+        return value
+    
+    def validate_weight(self, value):
+        if value <=0:
+            raise serializers.ValidationError('Weight need to be positive')
+        return value
 
 class MenuSerializer(serializers.ModelSerializer):
     class Meta:
@@ -8,33 +55,33 @@ class MenuSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class TableSerializer(serializers.ModelSerializer):
-    # Menu_id_menu = serializers.PrimaryKeyRelatedField(queryset=Menu.objects.all())
     class Meta:
         model = Table
-        fields = ['id_table', 'Menu_id_menu']
+        fields = ['id_table','menu']
 
 class WaiterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Waiter
-        fields = ['Id_waiter','Name','Surname','Phone_num','Work_start']
-        
-    def validate_Phone_num(self,value):
-        if len(str(value)) != 9:
-            raise serializers.ValidationError('Phone Number must be exactly 9 digits')
-        return value
-
-class Waiter_has_tableSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=  Waiter_has_table
         fields = '__all__'
 
+    def validate_phone_num(self, value):
+        if len(value)!=9:
+            raise serializers.ValidationError('Phone number need to have 9 digits')
+        return value
+    
 class BillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bill
         fields = '__all__'
 
+    def validate_full_cost(self, value):
+        if value >= 0:
+            raise serializers.ValidationError('Sum need to be positive')
+        return value
+    # TODO
+    # def validate_date(self, value):
+
 class GuestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Guest
-        fields = ['Id_guest','Table_id_table','Table_menu_id_menu','Bill_id_bill']
-        
+        fields = '__all__'
