@@ -15,9 +15,12 @@ from .views import (
     ListBill,
     BillDetails,
     ListGuest,
-    GuestDetails
+    GuestDetails,
+    BillViewSet,
+    Home
     )
 urlpatterns = [
+    path('', Home.as_view()),
     path('allergens/', ListAllergens.as_view()),
     path('allergens/<int:pk>', AllergenDetails.as_view()),
     path('dish/',ListDishes.as_view()),
@@ -33,5 +36,6 @@ urlpatterns = [
     path('bill/', ListBill.as_view()),
     path('bill/<int:pk>/', BillDetails.as_view()),
     path('guest/', ListGuest.as_view()),
-    path('guest/<int:pk>/',GuestDetails.as_view())
+    path('guest/<int:pk>/',GuestDetails.as_view()),
+    path('guest/bill/', BillViewSet.as_view()),
 ]

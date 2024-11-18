@@ -1,3 +1,4 @@
+from datetime import date
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Allergen, Dish, Drink, Menu, Table, Waiter, Bill, Guest
@@ -69,17 +70,38 @@ class WaiterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Phone number need to have 9 digits')
         return value
     
+    def validate_work_start(self, value):
+        if value < date(2000,1,1):
+            raise serializers.ValidationError("Date need to be after 2000|1|1")
+        if value > date.today():
+            raise serializers.ValidationError("Date can't be in the future")
+        return value
+
+    
 class BillSerializer(serializers.ModelSerializer):
+    dishes = serializers.PrimaryKeyRelatedField(
+        queryset = Dish.objects.all(),
+        many = True,
+        required = False
+    )
+    drinks = serializers.PrimaryKeyRelatedField(
+        queryset = Drink.objects.all(),
+        many = True,
+        required = False
+    )
     class Meta:
         model = Bill
-        fields = '__all__'
+        fields = ['id_bill', 'table', 'full_cost', 'date', 'dishes', 'drinks']
 
-    def validate_full_cost(self, value):
-        if value >= 0:
-            raise serializers.ValidationError('Sum need to be positive')
-        return value
-    # TODO
-    # def validate_date(self, value):
+    def update(self, instance, validated_data):
+        dishes = validated_data.pop('dishes',[])
+        drinks = validated_data.pop('drinks', [])
+        instance.dishes.add(*dishes)
+        instance.drinks.add(*drinks)
+        instance.full_cost = sum(d.cost for d in instance.dishes.all()) + sum(d.cost for d in instance.drinks.all())
+        instance.save()
+        return instance
+
 
 class GuestSerializer(serializers.ModelSerializer):
     class Meta:

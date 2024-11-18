@@ -1,8 +1,12 @@
 from datetime import date
 from django.db import models
-
+from rest_framework.permissions import BasePermission
 # Create your models here.
 
+class IsOwnerOfOrder(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        guest = getattr(request,'guest',None)
+        return obj.guest == guest
 
 # All allergens 
 class Allergen(models.Model):
@@ -19,12 +23,12 @@ class Dish(models.Model):
     description = models.TextField(max_length=255, blank=True)
     ingredients = models.CharField(max_length=255, blank=True)
     image = models.ImageField(upload_to="dish_pic/", blank=True)
-    cost = models.FloatField(null=False)
+    cost = models.DecimalField(max_digits=5, decimal_places=2)
     portion_weight = models.IntegerField()
     special = models.BooleanField(default=False)
     has_allergen = models.ManyToManyField(Allergen, related_name='allergens', blank=True)
     def __str__(self):
-        return f'{self.Title}'
+        return f'{self.title}'
 
 # Drink model
 class Drink(models.Model):
@@ -35,13 +39,13 @@ class Drink(models.Model):
     name = models.CharField(max_length=255)
     type = models.PositiveSmallIntegerField(choices=TYPE, default=TYPE.Normal)
     description = models.TextField(max_length=255)
-    cost = models.FloatField(blank=False)
+    cost = models.DecimalField(max_digits=5, decimal_places=2)
     image = models.ImageField(blank=True, null=True, upload_to="drink_pic/")
     weight = models.IntegerField()
     special = models.BooleanField(default=False)
     
     def __str__(self):
-        return f'{self.Name}'
+        return f'{self.name}'
 
 
 # All possibility menu from Restoration 
@@ -52,7 +56,7 @@ class Menu(models.Model):
     dishes = models.ManyToManyField(Dish, related_name='dishes')
     drinks = models.ManyToManyField(Drink, related_name='drinks')
     def __str__(self):
-        return f'{self.Name}'
+        return f'{self.name}'
 
 # Tables for one Restoration
 class Table(models.Model):
@@ -72,7 +76,7 @@ class Waiter(models.Model):
     has_table = models.ManyToManyField(Table, related_name='tables') 
 
     def __str__(self):
-        return f'{self.Name} {self.Surname}'
+        return f'{self.name} {self.surname}'
     
 
 # The Bill from one Table
@@ -95,9 +99,9 @@ class Guest(models.Model):
     bill = models.ForeignKey(Bill, on_delete=models.CASCADE, blank=True, null=True)
     def __str__(self):
         return f'Guest - {self.id_guest} seating at table {self.table}'
-    # TODO: Why this not workin?
+        
     def save(self,*args, **kwargs):
-            if not self.Bill_id_bill:
+            if not self.bill:
                 new_bill = Bill.objects.create(table = self.table)
-                self.Bill_id_bill = new_bill
+                self.bill = new_bill
             return super().save(*args,**kwargs)
