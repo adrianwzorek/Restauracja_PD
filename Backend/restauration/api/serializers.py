@@ -1,7 +1,7 @@
 from datetime import date
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Allergen, Dish, Drink, Menu, Table, Waiter, Bill, Guest
+from .models import Allergen, Dish, Drink, Menu, Table, Waiter
 
 # Models serializers
 
@@ -54,6 +54,7 @@ class MenuSerializer(serializers.ModelSerializer):
     class Meta:
         model = Menu
         fields = '__all__'
+    
 
 class TableSerializer(serializers.ModelSerializer):
     class Meta:
@@ -77,33 +78,3 @@ class WaiterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Date can't be in the future")
         return value
 
-    
-class BillSerializer(serializers.ModelSerializer):
-    dishes = serializers.PrimaryKeyRelatedField(
-        queryset = Dish.objects.all(),
-        many = True,
-        required = False
-    )
-    drinks = serializers.PrimaryKeyRelatedField(
-        queryset = Drink.objects.all(),
-        many = True,
-        required = False
-    )
-    class Meta:
-        model = Bill
-        fields = ['id_bill', 'table', 'full_cost', 'date', 'dishes', 'drinks']
-
-    def update(self, instance, validated_data):
-        dishes = validated_data.pop('dishes',[])
-        drinks = validated_data.pop('drinks', [])
-        instance.dishes.add(*dishes)
-        instance.drinks.add(*drinks)
-        instance.full_cost = sum(d.cost for d in instance.dishes.all()) + sum(d.cost for d in instance.drinks.all())
-        instance.save()
-        return instance
-
-
-class GuestSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Guest
-        fields = '__all__'

@@ -22,4 +22,5 @@ urlpatterns = [
     path('api/token/',TokenObtainPairView.as_view(), name='token-auth'),
     path('api/token/refresh/',TokenRefreshView.as_view(), name='refresh-auth'),
     path('api/',include('api.urls')),
+    path('app/', include('guest.urls')),
 ]
