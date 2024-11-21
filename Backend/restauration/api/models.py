@@ -24,6 +24,8 @@ class Dish(models.Model):
     has_allergen = models.ManyToManyField(Allergen, related_name='allergens', blank=True)
     def __str__(self):
         return f'{self.title}'
+    class Meta:
+        verbose_name_plural = "Dishes"
 
 # Drink model
 class Drink(models.Model):
@@ -45,14 +47,31 @@ class Drink(models.Model):
 
 # All possibility menu from Restoration 
 class Menu(models.Model):
-    id_Menu = models.AutoField(primary_key=True, unique=True)
+    id_menu = models.AutoField(primary_key=True, unique=True)
     name = models.TextField(max_length=50, blank=False)
     date_of_change = models.DateField(auto_now=True)
     dishes = models.ManyToManyField(Dish, related_name='dishes')
     drinks = models.ManyToManyField(Drink, related_name='drinks')
+    active = models.BooleanField(default=False)
+
     def __str__(self):
         return f'{self.name}'
+    
+    def save(self,*args,**kwargs):
+        if self.active:
+            old_menu = Menu.objects.filter(active=True).exclude(pk=self.pk).first()
+            if old_menu:
+                old_menu.active = False
+                old_menu.save()
+                
+            from .models import Table
+            tables = Table.objects.all()
+            for table in tables:
+                table.menu = self
+                table.save()
 
+        super().save(*args, **kwargs)   
+    
     class Meta:
         ordering = ['-date_of_change']
     
@@ -60,10 +79,16 @@ class Menu(models.Model):
 # Tables for one Restoration
 class Table(models.Model):
     id_table = models.AutoField(primary_key=True, unique=True)
-    menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
+    menu = models.ForeignKey(Menu, on_delete=models.SET_NULL, null=True, blank=True)
     qr_code = models.ImageField(blank=True, upload_to='qr_codes')
+
     def __str__(self):
         return f'Table - {self.id_table}'
+    
+    def save(self, *args, **kwargs):
+        if not self.menu:
+            self.menu = Menu.objects.get(active = True)
+            super().save(*args, **kwargs)
 
 # Waiter models
 class Waiter(models.Model):

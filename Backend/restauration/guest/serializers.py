@@ -26,9 +26,7 @@ class BillSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-
 class GuestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Guest
-        fields = '__all__'
-        read_only_fields = ['user']
+        fields = ['id_guest','table','bill','date_came']

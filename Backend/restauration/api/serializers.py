@@ -53,21 +53,21 @@ class DrinkSerializer(serializers.ModelSerializer):
 class MenuSerializer(serializers.ModelSerializer):
     class Meta:
         model = Menu
-        fields = '__all__'
-    
+        fields = ['id_menu','name','date_of_change','dishes','drinks','active']        
 
 class TableSerializer(serializers.ModelSerializer):
     class Meta:
         model = Table
         fields = ['id_table','menu']
 
+
 class WaiterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Waiter
-        fields = '__all__'
+        fields = ['id_waiter','name','surname','phone_num','work_start','has_table']
 
     def validate_phone_num(self, value):
-        if len(value)!=9:
+        if len(str(value))!=9:
             raise serializers.ValidationError('Phone number need to have 9 digits')
         return value
     
