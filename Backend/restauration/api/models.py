@@ -1,5 +1,5 @@
 from datetime import date
-from django.db import models
+from django.db import models,transaction
 # Create your models here.
 
 
@@ -48,7 +48,7 @@ class Drink(models.Model):
 # All possibility menu from Restoration 
 class Menu(models.Model):
     id_menu = models.AutoField(primary_key=True, unique=True)
-    name = models.TextField(max_length=50, blank=False)
+    name = models.CharField(max_length=50, blank=False)
     date_of_change = models.DateField(auto_now=True)
     dishes = models.ManyToManyField(Dish, related_name='dishes')
     drinks = models.ManyToManyField(Drink, related_name='drinks')
@@ -58,19 +58,16 @@ class Menu(models.Model):
         return f'{self.name}'
     
     def save(self,*args,**kwargs):
-        if self.active:
-            old_menu = Menu.objects.filter(active=True).exclude(pk=self.pk).first()
-            if old_menu:
-                old_menu.active = False
-                old_menu.save()
-                
-            from .models import Table
-            tables = Table.objects.all()
-            for table in tables:
-                table.menu = self
-                table.save()
+        with transaction.atomic():
+            if self.active:
+                old_menu = Menu.objects.filter(active=True).exclude(pk=self.pk).first()
+                if old_menu:
+                    old_menu.active = False
+                    old_menu.save()
+                Table.objects.update(menu = self)
 
-        super().save(*args, **kwargs)   
+        super().save(*args, **kwargs)
+
     
     class Meta:
         ordering = ['-date_of_change']
