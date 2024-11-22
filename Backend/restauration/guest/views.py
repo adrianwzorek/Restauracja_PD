@@ -21,15 +21,12 @@ class GetBill(RetrieveUpdateAPIView):
 @permission_classes([permissions.AllowAny])
 def CreateNewGuest(request,id_table):
     try:
-        # Pobierz stolik na podstawie ID
         table = Table.objects.get(id_table=id_table)
     except Table.DoesNotExist:
         return Response({'error': 'Table does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
-    # Utwórz nowego gościa i przypisz stolik
     guest = Guest.objects.create(table=table)
 
-    # Zwróć odpowiedź
     return Response({
         'Guest': guest.id_guest,
         'table': guest.table.id_table,

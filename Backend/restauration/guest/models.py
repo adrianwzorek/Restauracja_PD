@@ -1,6 +1,5 @@
 from django.db import models
 from api.models import Table, Dish, Drink
-from django.contrib.auth.models import User
 
 
 # ? The Bill from one Table
