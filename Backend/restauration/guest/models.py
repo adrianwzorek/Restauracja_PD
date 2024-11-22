@@ -15,6 +15,7 @@ class Bill(models.Model):
 
     def __str__(self):
         return f'Bill - {self.id_bill} | {self.full_cost}zł'
+
     
 # ? Guest who came to the Restaurant and take a seat in one Table
 class Guest(models.Model):
