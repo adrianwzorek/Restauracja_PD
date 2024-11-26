@@ -21,9 +21,12 @@ class AllergenSerializer(serializers.ModelSerializer):
         fields = ['id_allergen','name']
     
 class DishSerializer(serializers.ModelSerializer):
+    # id_dish = serializers.HyperlinkedRelatedField(view_name='dish', read_only=True)
+    has_allergen = serializers.HyperlinkedRelatedField(many=True, view_name='allergens', read_only=True)
     class Meta:
         model = Dish
-        fields = '__all__'
+        fields = ['id_dish','title','description','ingredients','image','cost',
+                  'portion_weight','special','has_allergen']
 
     def validate_weight(self, value):
         if value <=0:
