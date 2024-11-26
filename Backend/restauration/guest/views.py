@@ -13,8 +13,8 @@ def Home(request, pk):
     menu = Menu.objects.filter(active = True).first()
     serializer = MenuSerializer(menu)
     return Response({
-        'dishes: ': serializer.data.get('dishes',None),
-        'drinks: ': serializer.data.get('drinks',None),
+        'dishes': serializer.data.get('dishes',None),
+        'drinks': serializer.data.get('drinks',None),
         'table': pk
     })
     
