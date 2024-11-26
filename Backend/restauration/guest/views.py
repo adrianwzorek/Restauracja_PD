@@ -1,11 +1,11 @@
-from rest_framework.generics import ListAPIView,RetrieveUpdateAPIView, RetrieveAPIView
+from rest_framework.generics import RetrieveUpdateAPIView, RetrieveAPIView
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view,permission_classes
 from .models import Bill, Guest
 from .serializers import BillSerializer
-from api.models import Dish, Drink, Menu, Table
-from api.serializers import DishSerializer, DrinkSerializer, MenuSerializer
+from api.models import Menu, Table
+from api.serializers import DrinkSerializer, MenuSerializer, DishSerializer
 
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
@@ -19,13 +19,38 @@ def Home(request, pk):
     })
     
 
-class Dishes(RetrieveAPIView):
-    queryset = Dish.objects.all()
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def Dishes(request):
+        
+        menu = Menu.objects.prefetch_related('dishes').get(active = True)
+        dishes = menu.dishes.all()
+        serializer = DishSerializer(dishes, many=True)
+        return Response({
+            'dishes': serializer.data
+        },status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def Drinks(request):
+        
+        menu = Menu.objects.prefetch_related('dishes').get(active = True)
+        drink = menu.drinks.all()
+        serializer = DrinkSerializer(drink, many=True)
+        return Response({
+            'drink': serializer.data
+        },status=status.HTTP_200_OK)
+
+
+class DishDetails(RetrieveAPIView):
+    menu = Menu.objects.prefetch_related('dishes').get(active = True)
+    queryset = menu.dishes.all()
     serializer_class = DishSerializer
     permission_classes = [permissions.AllowAny]
 
-class Drinks(RetrieveAPIView):
-    queryset = Drink.objects.all()
+class DrinkDetails(RetrieveAPIView):
+    menu = Menu.objects.prefetch_related('drinks').get(active = True)
+    queryset = menu.drinks.all()
     serializer_class = DrinkSerializer
     permission_classes = [permissions.AllowAny]
 
