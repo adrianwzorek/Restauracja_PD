@@ -21,7 +21,7 @@ class AllergenSerializer(serializers.ModelSerializer):
         fields = ['id_allergen','name']
     
 class DishSerializer(serializers.ModelSerializer):
-    # id_dish = serializers.HyperlinkedRelatedField(view_name='dish', read_only=True)
+    id_dish = serializers.HyperlinkedRelatedField(view_name='dish', read_only=True)
     has_allergen = serializers.HyperlinkedRelatedField(many=True, view_name='allergens', read_only=True)
     class Meta:
         model = Dish
@@ -39,9 +39,10 @@ class DishSerializer(serializers.ModelSerializer):
         return value
 
 class DrinkSerializer(serializers.ModelSerializer):
+    # id_drink = serializers.HyperlinkedRelatedField(view_name='drink', read_only= True)
     class Meta: 
         model = Drink
-        fields = '__all__'
+        fields = ['id_drink','name','type','description','cost','image','weight','special']
     
     def validate_cost(self, value):
         if value <= 0:
@@ -61,7 +62,7 @@ class MenuSerializer(serializers.ModelSerializer):
 class TableSerializer(serializers.ModelSerializer):
     class Meta:
         model = Table
-        fields = ['id_table','menu']
+        fields = ['id_table']
 
 
 class WaiterSerializer(serializers.ModelSerializer):
