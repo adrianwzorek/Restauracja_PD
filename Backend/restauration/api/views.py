@@ -46,12 +46,12 @@ class DishDetails(generics.RetrieveUpdateDestroyAPIView):
 class ListDrinks(generics.ListCreateAPIView):
     queryset = Drink.objects.all()
     serializer_class = DrinkSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAdminUser]
 
 class DrinksDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Drink.objects.all()
     serializer_class = DrinkSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAdminUser]
 
 class ListMenu(generics.ListCreateAPIView):
     queryset = Menu.objects.all()
@@ -61,7 +61,7 @@ class ListMenu(generics.ListCreateAPIView):
 class MenuDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAdminUser]
 
 class ListTable(generics.ListCreateAPIView):
     queryset = Table.objects.all()
