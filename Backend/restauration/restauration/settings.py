@@ -94,13 +94,17 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':(
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10
 }
 
 SIMPLE_JWT ={
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME':timedelta(days=5),
     'ROTATE_REFRESH_TOKENS':True,
-    'BLACKLIST_AFTER_ROTATION':True
+    'BLACKLIST_AFTER_ROTATION':True,
+    'SINGING_KEY': SECRET_KEY,
+    'AUTH-HEADER-TYPES':('Bearer',)
 }
 
 # Password validation

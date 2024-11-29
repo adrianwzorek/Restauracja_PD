@@ -1,10 +1,9 @@
 import React from "react";
 import { GetDish, GetDrink } from "../components/GetData";
-import { Dish, Drink } from "../types";
 
 const Home = () => {
-  const dish: Dish[] = GetDish();
-  const drink: Drink[] = GetDrink();
+  const [dish, move_dish] = GetDish();
+  const [drink, move_drink] = GetDrink();
   return (
     <div className="main">
       <h1>Hello and welcome in my Restoration!</h1>

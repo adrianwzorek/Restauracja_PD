@@ -2,23 +2,28 @@ from rest_framework.generics import RetrieveUpdateAPIView, RetrieveAPIView
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.decorators import api_view,permission_classes
 from rest_framework.views import APIView
 from .models import Bill, Guest
 from .serializers import BillSerializer
-from api.models import Allergen, Dish, Menu, Table
+from api.models import Allergen, Menu, Table
 from api.serializers import AllergenSerializer, DrinkSerializer, MenuSerializer, DishSerializer
+from rest_framework.pagination import PageNumberPagination
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def HomeFirst(request, pk):
-    menu = Menu.objects.filter(active = True).first()
-    serializer = MenuSerializer(menu)
-    return Response({
-        'dishes': serializer.data.get('dishes',None),
-        'drinks': serializer.data.get('drinks',None),
-        'table': pk
-    })
+class SpecificPaginator(PageNumberPagination):
+    page_size = 1
+    page_query_param = 'page'
+    page_size_query_param = 'page_size'
+
+class HomeFirst(APIView):
+    permission_classes = [AllowAny]
+    def get(self,request,pk):
+        menu = Menu.objects.filter(active = True).first()
+        serializer = MenuSerializer(menu)
+        return Response({
+            'dishes': serializer.data.get('dishes',None),
+            'drinks': serializer.data.get('drinks',None),
+            'table': pk
+        })
 
 class Home(APIView):
     permission_classes = [AllowAny]
@@ -31,21 +36,29 @@ class Home(APIView):
         }, status=status.HTTP_200_OK)
         
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def Dishes(request):
+class Dishes(APIView):
+    permission_classes = [AllowAny]
+    def get(self,request, *args, **kwargs):
         menu = Menu.objects.prefetch_related('dishes').get(active = True)
         dishes = menu.dishes.all()
-        serializer = DishSerializer(dishes, many=True, context={'request':request})
-        return Response(serializer.data,status=status.HTTP_200_OK)
+        paginator = SpecificPaginator()
+        paginator_data = paginator.paginate_queryset(dishes,request)
+        serializer = DishSerializer(paginator_data, many=True)
+        response = paginator.get_paginated_response(serializer.data)
+        return Response(response.data,status=status.HTTP_200_OK)
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def Drinks(request):
-        menu = Menu.objects.prefetch_related('dishes').get(active = True)
+class Drinks(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self,request, *args, **kwargs):
+        menu = Menu.objects.prefetch_related('drinks').get(active = True)
         drink = menu.drinks.all()
         serializer = DrinkSerializer(drink, many=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)
+        paginator = SpecificPaginator()
+        paginator_data = paginator.paginate_queryset(drink,request)
+        serializer = DrinkSerializer(paginator_data, many=True)
+        response = paginator.get_paginated_response(serializer.data)
+        return Response(response.data,status=status.HTTP_200_OK)
 
 class DishDetails(RetrieveAPIView):
     menu = Menu.objects.prefetch_related('dishes').get(active = True)
@@ -69,22 +82,23 @@ class GetAllergen(RetrieveAPIView):
     serializer_class = AllergenSerializer
     permission_classes = [AllowAny]
 
-@api_view(['PUT'])
-@permission_classes([AllowAny])
-def CreateNewGuest(request,id_table):
-    try:
-        table = Table.objects.get(id_table=id_table)
-    except Table.DoesNotExist:
-        return Response({'error': 'Table does not exist'}, status=status.HTTP_404_NOT_FOUND)
+class CreateNewGuest(APIView):
+    permission_classes = [AllowAny]
 
-    guest = Guest.objects.create(table=table)
-    return Response({
-        'Guest': guest.id_guest,
-        'table': guest.table.id_table,
-        'bill': guest.bill.id_bill,
-    }, status=status.HTTP_201_CREATED)
+    def put(self,request, pk):
+        try:
+            table = Table.objects.get(id_table=pk)
+        except Table.DoesNotExist:
+            return Response({'error': 'Table does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+        guest = Guest.objects.create(table=table)
+
+        return Response({
+            'Guest': guest.id_guest,
+            'table': guest.table.id_table,
+            'bill': guest.bill.id_bill,
+        }, status=status.HTTP_201_CREATED)
     
-
 
 class GetAllergen(RetrieveAPIView):
     queryset = Allergen.objects.all()

@@ -13,10 +13,26 @@ export type Dish = {
 export type Drink = {
   id_drink: number;
   name: string;
-  type: string;
+  type: number;
   description: string;
   cost: number;
   image: string;
   weight: number;
   special: boolean;
+};
+
+export const ALCOHOL = (num: number) => {
+  switch (num) {
+    case 1:
+      return "Alcohol";
+    case 2:
+      return "No Alcohol";
+    default:
+      return "Unknown";
+  }
+};
+
+export type Move = {
+  prev: string;
+  next: string;
 };
