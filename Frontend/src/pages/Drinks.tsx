@@ -1,14 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GetDrink } from "../components/GetData";
-import { ALCOHOL } from "../types";
+import { ALCOHOL, DataDrink } from "../types";
 import ChangePage from "../components/ChangePage";
 const Drinks = () => {
-  const [listOfDrinks, move] = GetDrink();
+  const [data, setData] = useState<DataDrink>();
+  const [url, setUrl] = useState("");
+  const [page, setPage] = useState("");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await GetDrink(url);
+        setData(response);
+      } catch (error) {
+        alert("Error on fetching: " + error);
+      }
+    };
+    fetchData();
+    setPage(url.split("=")[1] ?? "1");
+  }, [url]);
   return (
     <ul>
       <h2>List of Drinks</h2>
-      <ChangePage next={move.next} prev={move.prev} />
-      {listOfDrinks.map((e, id) => {
+      <p>{page}</p>
+      <ChangePage
+        next={data?.movement.prev ?? null}
+        prev={data?.movement.next ?? null}
+        setUrl={setUrl}
+      />
+      {data?.data.map((e, id) => {
         return (
           <li key={id}>
             <h3 className="name">{e.name}</h3>

@@ -1,38 +1,56 @@
-import { useEffect, useState } from "react";
 import api from "../api";
-import { Dish, Drink, Move } from "../types";
+import { DataDish, DataDrink } from "../types";
 
-export const GetDish = (page?: string): [Dish[], Move] => {
-  const [list, setList] = useState<Dish[]>([]);
-  const [move, setMove] = useState<Move>({ prev: "", next: "" });
-  const site_page = page?.split("/?")[1] ?? "";
-  const url = site_page ? `app/home/dish/?${site_page}` : `app/home/dish/`;
-  useEffect(() => {
-    api
+export const GetDish = async (page?: string): Promise<DataDish> => {
+  try {
+    let data: DataDish = {
+      data: [],
+      movement: { prev: "", next: "" },
+    };
+    const site_page = page?.split("/?")[1] ?? "";
+    const url = site_page ? `app/home/dish/?${site_page}` : `app/home/dish/`;
+    await api
       .get(url)
       .then((response) => {
-        setList(response.data.results);
-        setMove({ prev: response.data.previous, next: response.data.next });
+        return response.data;
+      })
+      .then((res) => {
+        return (data = {
+          data: res.results,
+          movement: { prev: res.previous, next: res.next },
+        });
       })
       .catch((error) => alert(error));
-  }, [page]);
-
-  return [list, move];
+    return data;
+  } catch (error) {
+    alert(error);
+    throw error;
+  }
 };
 
-export const GetDrink = (page?: string): [Drink[], Move] => {
-  const [list, setList] = useState<Drink[]>([]);
-  const [move, setMove] = useState<Move>({ prev: "", next: "" });
-  const site_page = page?.split("/?")[1] ?? "";
-  const url = site_page ? `app/home/drink/?${site_page}` : `app/home/drink/`;
-  useEffect(() => {
-    api
+export const GetDrink = async (page?: string): Promise<DataDrink> => {
+  try {
+    let data: DataDrink = {
+      data: [],
+      movement: { prev: "", next: "" },
+    };
+    const site_page = page?.split("/?")[1] ?? "";
+    const url = site_page ? `app/home/drink/?${site_page}` : `app/home/drink/`;
+    await api
       .get(url)
       .then((response) => {
-        setList(response.data.results);
-        setMove({ prev: response.data.previous, next: response.data.next });
+        return response.data;
+      })
+      .then((res) => {
+        return (data = {
+          data: res.results,
+          movement: { prev: res.previous, next: res.next },
+        });
       })
       .catch((error) => alert(error));
-  }, [page]);
-  return [list, move];
+    return data;
+  } catch (error) {
+    alert(error);
+    throw error;
+  }
 };

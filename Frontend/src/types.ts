@@ -32,7 +32,18 @@ export const ALCOHOL = (num: number) => {
   }
 };
 
-export type Move = {
-  prev: string;
-  next: string;
+export type DataDrink = {
+  data: Drink[];
+  movement: {
+    prev: string;
+    next: string;
+  };
+};
+
+export type DataDish = {
+  data: Dish[];
+  movement: {
+    prev: string;
+    next: string;
+  };
 };
