@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from .models import Bill, Guest
 from .serializers import BillSerializer
 from api.models import Allergen, Menu, Table
-from api.serializers import AllergenSerializer, DrinkSerializer, MenuSerializer, DishSerializer
+from api.serializers import AllergenSerializer, DrinkSerializer, MenuSerializer, DishSerializer, TableSerializer
 from rest_framework.pagination import PageNumberPagination
 
 class SpecificPaginator(PageNumberPagination):
@@ -17,13 +17,20 @@ class SpecificPaginator(PageNumberPagination):
 class HomeFirst(APIView):
     permission_classes = [AllowAny]
     def get(self,request,pk):
-        menu = Menu.objects.filter(active = True).first()
-        serializer = MenuSerializer(menu)
-        return Response({
-            'dishes': serializer.data.get('dishes',None),
-            'drinks': serializer.data.get('drinks',None),
-            'table': pk
-        })
+        try:
+            table = Table.objects.get(id_table = pk)
+            if table:
+                menu = Menu.objects.filter(active = True).first()
+                serializerMenu = MenuSerializer(menu)
+                serializerTable = TableSerializer(table)
+                return Response({
+                    'dishes': serializerMenu.data.get('dishes',None),
+                    'drinks': serializerMenu.data.get('drinks',None),
+                    'table': serializerTable.data
+                })
+        except Table.DoesNotExist:
+            return Response({'Error': 'No such table in database'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class Home(APIView):
     permission_classes = [AllowAny]

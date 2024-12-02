@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { GetDish, GetDrink } from "../components/GetData";
 import { DataDish, DataDrink } from "../types";
+import { useParams } from "react-router-dom";
 
 const Home = () => {
   const [dish, setDish] = useState<DataDish>();
   const [drink, setDrink] = useState<DataDrink>();
+  const { id } = useParams();
 
   useEffect(() => {
     try {
+      if (id) localStorage.setItem("table", id);
       const funDish = async () => {
         const res = await GetDish();
         setDish(res);
