@@ -93,7 +93,7 @@ class Table(models.Model):
         super().save(*args, **kwargs)
         
         # Generuj URL dla tabeli
-        table_url = settings.FRONT_URL + '/'+ str(self.id_table) +'/'
+        table_url = settings.FRONT_URL + '/table/'+ str(self.id_table) +'/'
 
         # Tworzenie kodu QR
         qr = qrcode.QRCode(

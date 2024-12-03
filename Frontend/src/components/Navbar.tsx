@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const [link, setLink] = useState("/bill/");
+  const [page, setPage] = useState("Your Bill");
   return (
     <nav className="navbar">
       <Link to="/" className="link">
@@ -13,8 +15,8 @@ const Navbar = () => {
       <Link to="/drinks/" className="link">
         Drinks
       </Link>
-      <Link to="/bill/" className="link">
-        Create a Bill
+      <Link to={link} className="link">
+        {page}
       </Link>
     </nav>
   );

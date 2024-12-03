@@ -47,3 +47,7 @@ export type DataDish = {
     next: string;
   };
 };
+
+export type Children = {
+  children: React.ReactNode;
+};
