@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { GetDish, GetDrink } from "../components/GetData";
-import { DataDish, DataDrink } from "../types";
+import { ALCOHOL, DataDish, DataDrink } from "../types";
 import { useParams } from "react-router-dom";
+import SpecificButtons from "../components/SpecificButtons";
 
 const Home = () => {
   const [dish, setDish] = useState<DataDish>();
@@ -29,19 +30,34 @@ const Home = () => {
   return (
     <div className="main">
       <h1>Hello and welcome in my Restoration!</h1>
-      <div className="dishes-home">
+      <div className="dishes-home-container">
         <h2>Check out Dishes</h2>
-        <div className="dishes-items">
+        <div className="dishes-items-container">
           {dish?.data.map((e, id) => {
-            return <li key={id}>{e.title}</li>;
+            return (
+              <li key={id} className="card-item">
+                <h4>{e.title}</h4>
+                <p>{e.portion_weight} g</p>
+                <p>{e.cost} zł</p>
+                <SpecificButtons id={e.id_dish} type="dish" />
+              </li>
+            );
           })}
         </div>
       </div>
-      <div className="drinks-home">
+      <div className="drinks-home-container">
         <h2>Check out Drinks</h2>
-        <div className="drinks-items">
+        <div className="drinks-items-container">
           {drink?.data.map((e, id) => {
-            return <li key={id}>{e.name}</li>;
+            return (
+              <li key={id} className="card-item">
+                <h4>{e.name}</h4>
+                <p>{ALCOHOL(e.type)}</p>
+                <p>{e.weight} ml</p>
+                <p>{e.cost} zł</p>
+                <SpecificButtons id={e.id_drink} type="drink" />
+              </li>
+            );
           })}
         </div>
       </div>

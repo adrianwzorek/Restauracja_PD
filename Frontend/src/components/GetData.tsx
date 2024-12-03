@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import api from "../api";
 import { DataDish, DataDrink } from "../types";
 
@@ -52,5 +53,24 @@ export const GetDrink = async (page?: string): Promise<DataDrink> => {
   } catch (error) {
     alert(error);
     throw error;
+  }
+};
+
+export const fetchDetails = (type: string, id: string) => {
+  const navigator = useNavigate();
+  try {
+    return api
+      .get(`/app/home/${type}/${id}/`)
+      .then((response) => {
+        console.log(response.data);
+        return response.data;
+      })
+      .catch((err) => {
+        console.log(`Something wrong with get ${type}` + err);
+        navigator("/error/");
+        throw err;
+      });
+  } catch (err) {
+    console.log("Wrong with url " + err);
   }
 };

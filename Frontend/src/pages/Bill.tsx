@@ -1,6 +1,5 @@
 import React from "react";
 import { NewBill } from "../components/SetData";
-import Help from "./Help";
 
 const Bill = (props: { haveBill: boolean; setBill: Function }) => {
   const createNewBill = async () => {
@@ -19,7 +18,6 @@ const Bill = (props: { haveBill: boolean; setBill: Function }) => {
   return props.haveBill ? (
     <div>
       <h1>Welcome in your bill view</h1>
-      <Help />
     </div>
   ) : (
     <div>

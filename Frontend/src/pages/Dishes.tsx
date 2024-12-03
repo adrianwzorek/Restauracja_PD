@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { GetDish } from "../components/GetData";
 import ChangePage from "../components/ChangePage";
 import { DataDish } from "../types";
+import SpecificButtons from "../components/SpecificButtons";
 const Dishes = () => {
   const [data, setData] = useState<DataDish>();
   const [url, setUrl] = useState("");
@@ -39,6 +40,7 @@ const Dishes = () => {
               })}
             </div>
             <p className="weight">{e.portion_weight}g</p>
+            <SpecificButtons id={e.id_dish} type="dish" />
           </li>
         );
       })}
