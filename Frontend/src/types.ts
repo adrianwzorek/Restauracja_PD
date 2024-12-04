@@ -51,3 +51,12 @@ export type DataDish = {
 export type Children = {
   children: React.ReactNode;
 };
+
+export type Bill = {
+  date: Date;
+  dishes: number[];
+  drinks: number[];
+  full_cost: number;
+  id_bill: number;
+  table: number;
+};

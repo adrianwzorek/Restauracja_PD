@@ -20,12 +20,38 @@ const SpecificButtons = (props: { type: string; id: number }) => {
       throw err;
     }
   };
+
+  const addToBill = async (item: number) => {
+    const bill = localStorage.getItem("bill");
+    if (bill === null) return navigator("/bill");
+    props.type === "dish"
+      ? await api
+          .put(`/app/bill/${bill}/`, { dishes: [item] })
+          .then((result) => {
+            console.log(result);
+            return result;
+          })
+          .catch((err) => {
+            console.log("Wrong query on put an item to the bill dish " + err);
+            throw err;
+          })
+      : await api
+          .put(`/app/bill/${bill}/`, { drinks: [item] })
+          .then((result) => {
+            console.log(result);
+            return result;
+          })
+          .catch((err) => {
+            console.log("Wrong query on put an item to the bill drink " + err);
+            throw err;
+          });
+  };
   return (
     <div className="buttons-container">
       <button className="s-btn" onClick={() => getDetails()}>
         Details
       </button>
-      <button className="s-btn" onClick={() => alert("Adding")}>
+      <button className="s-btn" onClick={() => addToBill(props.id)}>
         Add
       </button>
     </div>

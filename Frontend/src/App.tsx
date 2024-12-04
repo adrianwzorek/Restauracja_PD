@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import Bill from "./pages/Bill";
 import NotFound from "./pages/NotFound";
 // import Protected from "./components/Protected";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DrinkDetails from "./pages/DrinkDetails";
 import Error from "./pages/Error";
 import DishDetails from "./pages/DishDetails";
