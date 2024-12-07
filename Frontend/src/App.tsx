@@ -5,12 +5,12 @@ import Home from "./pages/Home";
 import Bill from "./pages/Bill";
 import NotFound from "./pages/NotFound";
 // import Protected from "./components/Protected";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DrinkDetails from "./pages/DrinkDetails";
 import Error from "./pages/Error";
 import DishDetails from "./pages/DishDetails";
 function App() {
-  const [haveBill, setHaveBill] = useState(false);
+  const [haveBill, setHaveBill] = useState(true);
   return (
     <Routes>
       <Route Component={Home} path="/" />
@@ -22,8 +22,8 @@ function App() {
         element={<Bill haveBill={haveBill} setBill={setHaveBill} />}
         path="/bill/"
       />
-      <Route element={<DrinkDetails />} path="/drink/details/:id/" />
-      <Route element={<DishDetails />} path="/dish/details/:id/" />
+      <Route element={<DrinkDetails />} path="/drinks/details/:id/" />
+      <Route element={<DishDetails />} path="/dishes/details/:id/" />
       <Route Component={NotFound} path="*" />
       {/* <Route element={<Protected></Protected>} path="/guestBill/" /> */}
     </Routes>

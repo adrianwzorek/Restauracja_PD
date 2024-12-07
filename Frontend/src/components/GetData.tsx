@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import api from "../api";
 import { DataDish, DataDrink, Dish, Drink, Bill } from "../types";
 
@@ -62,6 +62,7 @@ export const fetchDetails = (type: string, id: string) => {
 };
 
 export const getGuestDish = async (items: number[]): Promise<Dish[]> => {
+  if (!items) return [];
   try {
     const responses = await Promise.all(
       items.map((e) => api.get(`/app/home/dish/${e}/`))
@@ -72,6 +73,7 @@ export const getGuestDish = async (items: number[]): Promise<Dish[]> => {
     throw err;
   }
 };
+
 export const getGuestDrink = async (items: number[]): Promise<Drink[]> => {
   try {
     const responses = await Promise.all(
@@ -95,4 +97,38 @@ export const getBill = async (): Promise<Bill> => {
       console.log("Wrong query for get bill " + err);
       throw err;
     });
+};
+
+export const getDetailsDish = async (id: number): Promise<Dish> => {
+  try {
+    return await api
+      .get(`/app/home/dish/${id}/`)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((err) => {
+        console.log("Something wrong with get details" + err);
+        throw err;
+      });
+  } catch (err) {
+    console.log("Wrong api " + err);
+    throw err;
+  }
+};
+
+export const getDetailsDrink = async (id: number): Promise<Drink> => {
+  try {
+    return await api
+      .get(`/app/home/drink/${id}/`)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((err) => {
+        console.log("Something wrong with get details" + err);
+        throw err;
+      });
+  } catch (err) {
+    console.log("Wrong api " + err);
+    throw err;
+  }
 };

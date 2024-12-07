@@ -16,10 +16,15 @@ const GuestBill = () => {
   }, []);
 
   return (
-    <form>
+    <div>
+      <h1>Bill {order?.id_bill}</h1>
       <h2>Dishes</h2>
-      <DishesList />
-      <DrinksList />
+      <DishesList billOrder={order!} setOrder={setOrder} />
+      {order?.dishes.map((e) => {
+        return <p key={0 + e}>{e}</p>;
+      })}
+      <h2>Drinks</h2>
+      <DrinksList billOrder={order!} setOrder={setOrder} />
       <h2>
         Full cost <i>{order?.full_cost} zł</i>
       </h2>
@@ -29,7 +34,7 @@ const GuestBill = () => {
       <button type="button" onClick={() => alert("Order now")}>
         Order
       </button>
-    </form>
+    </div>
   );
 };
 

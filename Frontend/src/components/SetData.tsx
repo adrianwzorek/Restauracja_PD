@@ -1,5 +1,6 @@
 import React from "react";
 import api from "../api";
+import { getBill } from "./GetData";
 
 export const NewBill = async (id_table: string) => {
   const res = await api
@@ -14,4 +15,23 @@ export const NewBill = async (id_table: string) => {
       throw err;
     });
   return res;
+};
+
+export const addToBill = async (type: string, item: number) => {
+  try {
+    const bill = await getBill();
+    type === "dish" ? bill.dishes.push(item) : bill.drinks.push(item);
+    await api
+      .put(`/app/bill/${bill.id_bill}/`, bill)
+      .then((response) => {
+        console.log(response.data);
+        return response.data;
+      })
+      .catch((err) => {
+        console.log(`Something wrong with put an new item ${err}`);
+        throw err;
+      });
+  } catch (err) {
+    console.log("No such bill " + err);
+  }
 };

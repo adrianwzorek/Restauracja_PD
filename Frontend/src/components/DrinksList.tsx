@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Drink } from "../types";
+import { Bill, Drink } from "../types";
 import { getBill, getGuestDrink } from "./GetData";
+import api from "../api";
 
-const DrinksList = () => {
+const DrinksList = (props: { billOrder: Bill; setOrder: Function }) => {
   const [drinks, setDrinks] = useState<Drink[]>();
 
   useEffect(() => {
@@ -13,7 +14,26 @@ const DrinksList = () => {
     };
     fetchBill();
   }, []);
-  console.log(drinks);
+  const putOutItem = async (id_item: number) => {
+    const item = props.billOrder?.drinks.filter((e: number) => e != id_item);
+    props.setOrder((prev: Bill) => {
+      return {
+        ...prev,
+        drinks: item,
+      };
+    });
+    console.log(item);
+    await api
+      .put(`/app/bill/${props.billOrder?.id_bill}/`, {
+        ...props.billOrder,
+        dishes: item,
+      })
+      .catch((err) => {
+        console.log("something wrong with put out the item " + err);
+        throw err;
+      });
+    setDrinks((prev) => prev?.filter((e) => e.id_drink != id_item));
+  };
   return (
     <ul>
       {drinks?.map((e) => {
@@ -21,7 +41,7 @@ const DrinksList = () => {
           <li key={e.id_drink}>
             <p>{e.name}</p>
             <p>{e.cost}</p>
-            <button onClick={() => alert("delete view")}>Delete</button>
+            <button onClick={() => putOutItem(e.id_drink)}>Delete</button>
           </li>
         );
       })}
@@ -30,3 +50,6 @@ const DrinksList = () => {
 };
 
 export default DrinksList;
+function setDishes(arg0: (prev: any) => any) {
+  throw new Error("Function not implemented.");
+}

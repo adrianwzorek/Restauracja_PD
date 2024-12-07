@@ -59,4 +59,6 @@ export type Bill = {
   full_cost: number;
   id_bill: number;
   table: number;
+  done: boolean;
+  abandoned: boolean;
 };

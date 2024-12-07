@@ -11,7 +11,8 @@ class Bill(models.Model):
     date = models.DateField(auto_now=True)
     dishes = models.ManyToManyField(Dish, related_name='buy_dishes', blank=True)
     drinks = models.ManyToManyField(Drink, related_name='buy_drinks', blank=True)
-
+    done = models.BooleanField(default=False)
+    abandoned = models.BooleanField(default=False) 
     def __str__(self):
         return f'Bill - {self.id_bill} | {self.full_cost}zł'
 

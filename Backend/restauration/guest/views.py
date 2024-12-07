@@ -79,20 +79,11 @@ class DrinkDetails(RetrieveAPIView):
     serializer_class = DrinkSerializer
     permission_classes = [AllowAny]
 
-class ManageBill(APIView):
+class ManageBill(RetrieveUpdateAPIView):
+    queryset = Bill.objects.all()
+    serializer_class = BillSerializer
     permission_classes = [AllowAny]
     
-    def get(self,request, pk):
-        try:
-            bill = Bill.objects.get(id_bill = pk)
-            serializer = BillSerializer(bill)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Bill.DoesNotExist:
-            return Response({'error': 'No such Bill in database'}, status=status.HTTP_400_BAD_REQUEST)
-    def put(self,request):
-        
-        pass
-            
 class GetAllergen(RetrieveAPIView):
     queryset = Allergen.objects.all()
     serializer_class = AllergenSerializer
