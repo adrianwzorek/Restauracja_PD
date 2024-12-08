@@ -4,13 +4,21 @@ import Drinks from "./pages/Drinks";
 import Home from "./pages/Home";
 import Bill from "./pages/Bill";
 import NotFound from "./pages/NotFound";
-// import Protected from "./components/Protected";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DrinkDetails from "./pages/DrinkDetails";
 import Error from "./pages/Error";
 import DishDetails from "./pages/DishDetails";
+import EndPage from "./pages/EndPage";
+import Abaddon from "./pages/Abaddon";
+
 function App() {
-  const [haveBill, setHaveBill] = useState(true);
+  const [haveBill, setHaveBill] = useState(false);
+
+  useEffect(() => {
+    const bill = localStorage.getItem("bill");
+    bill ? setHaveBill(true) : setHaveBill(false);
+  }, []);
+
   return (
     <Routes>
       <Route Component={Home} path="/" />
@@ -25,7 +33,8 @@ function App() {
       <Route element={<DrinkDetails />} path="/drinks/details/:id/" />
       <Route element={<DishDetails />} path="/dishes/details/:id/" />
       <Route Component={NotFound} path="*" />
-      {/* <Route element={<Protected></Protected>} path="/guestBill/" /> */}
+      <Route Component={Abaddon} path="/bill/abaddon/" />
+      <Route Component={EndPage} path="/bill/done/" />
     </Routes>
   );
 }
