@@ -17,7 +17,7 @@ function App() {
   useEffect(() => {
     const bill = localStorage.getItem("bill");
     bill ? setHaveBill(true) : setHaveBill(false);
-  }, []);
+  }, [localStorage.getItem("bill")]);
 
   return (
     <Routes>
