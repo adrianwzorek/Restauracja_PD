@@ -35,9 +35,6 @@ const DishDetails = () => {
     fetchDrink();
   }, []);
 
-  //! Console log the result
-  console.log(allergen);
-
   return (
     <div className="details-container">
       <h1>{dish?.title}</h1>

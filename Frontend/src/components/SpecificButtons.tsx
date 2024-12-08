@@ -17,6 +17,8 @@ const SpecificButtons = (props: { type: string; id: number }) => {
   };
 
   const addItem = async () => {
+    const bill = localStorage.getItem("bill");
+    if (!bill) return navigator("/bill/");
     const result = await addToBill(props.type, props.id);
     return result;
   };

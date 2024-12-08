@@ -8,7 +8,10 @@ const DishesList = (props: { dishes: Dish[]; putOut: Function }) => {
         return (
           <li key={e.id_dish} className="drink-item">
             <p>{e.title}</p>
-            <img src={e.image} alt={e.title} />
+            <img
+              src={`${import.meta.env.VITE_BASE_URL + e.image}`}
+              alt={e.title}
+            />
             <p>{e.cost} zł</p>
             <button onClick={() => props.putOut(e.id_dish, "dish")}>
               Delete

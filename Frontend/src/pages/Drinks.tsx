@@ -22,7 +22,7 @@ const Drinks = () => {
   return (
     <ul>
       <h2>List of Drinks</h2>
-      <p>{page}</p>
+      <p>Page {page}</p>
       <ChangePage
         next={data?.movement.prev ?? null}
         prev={data?.movement.next ?? null}
@@ -32,6 +32,10 @@ const Drinks = () => {
         return (
           <li key={id}>
             <h3 className="name">{e.name}</h3>
+            <img
+              src={`${import.meta.env.VITE_BASE_URL + e.image}`}
+              alt={e.name}
+            />
             <p className="cost">{e.cost}zł</p>
             <p className="type">{ALCOHOL(e.type)}</p>
             <p className="description">{e.description}</p>

@@ -22,7 +22,7 @@ const Dishes = () => {
   return (
     <ul>
       <h2>List of Dishes</h2>
-      <p>{page}</p>
+      <p>Page {page}</p>
       <ChangePage
         next={data?.movement.next ?? null}
         prev={data?.movement.prev ?? null}
@@ -32,13 +32,12 @@ const Dishes = () => {
         return (
           <li key={id}>
             <h3 className="title">{e.title}</h3>
+            <img
+              src={`${import.meta.env.VITE_BASE_URL + e.image}`}
+              alt={e.title}
+            />
             <p className="cost">{e.cost}zł</p>
             <p className="description">{e.description}</p>
-            <div className="allergens">
-              {e.has_allergen.map((e1, id2) => {
-                return <p key={id2}>{e1}</p>;
-              })}
-            </div>
             <p className="weight">{e.portion_weight}g</p>
             <SpecificButtons id={e.id_dish} type="dish" />
           </li>

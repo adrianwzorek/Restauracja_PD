@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import api from "../api";
 import { DataDish, DataDrink, Dish, Drink, Bill, Allergen } from "../types";
 
@@ -46,9 +46,9 @@ export const GetDrink = async (page?: string): Promise<DataDrink> => {
   return data;
 };
 
-export const fetchDetails = (type: string, id: string) => {
+export const fetchDetails = async (type: string, id: string) => {
   const navigator = useNavigate();
-  return api
+  return await api
     .get(`/app/home/${type}/${id}/`)
     .then((response) => {
       console.log(response.data);

@@ -9,7 +9,7 @@ const Bill = (props: { haveBill: boolean; setBill: Function }) => {
       await NewBill(table);
       props.setBill(true);
     } else {
-      alert("No table found in local storage!");
+      alert("No table found, Please speak to one of our employee");
     }
   };
   return props.haveBill ? (

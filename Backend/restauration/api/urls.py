@@ -1,4 +1,6 @@
 from django.urls import path
+
+
 from .views import (
     ListAllergens,
     AllergenDetails,
@@ -34,5 +36,4 @@ urlpatterns = [
     path('bill/<int:pk>/',BillDetails.as_view(), name='bill_details'),
     path('guest/', ListGuest.as_view(), name='all_guest'),
     path('guest/<int:pk>/', GuestDetails.as_view(),name='guest_details'),
-
-]
+] 

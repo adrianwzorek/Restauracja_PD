@@ -39,7 +39,10 @@ const Home = () => {
             return id < 3 ? (
               <li key={id} className="card-item">
                 <h4>{e.title}</h4>
-                <img src={e.image} alt={e.title} />
+                <img
+                  src={`${import.meta.env.VITE_BASE_URL + e.image}`}
+                  alt={e.title}
+                />
                 <p>{e.portion_weight} g</p>
                 <p>{e.cost} zł</p>
                 <SpecificButtons id={e.id_dish} type="dish" />
@@ -57,7 +60,10 @@ const Home = () => {
             return id < 3 ? (
               <li key={id} className="card-item">
                 <h4>{e.name}</h4>
-                <img src={e.image} alt={e.name} />
+                <img
+                  src={`${import.meta.env.VITE_BASE_URL + e.image}`}
+                  alt={e.name}
+                />
                 <p>{ALCOHOL(e.type)}</p>
                 <p>{e.weight} ml</p>
                 <p>{e.cost} zł</p>
