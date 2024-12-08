@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import api from "../api";
-import { DataDish, DataDrink, Dish, Drink, Bill } from "../types";
+import { DataDish, DataDrink, Dish, Drink, Bill, Allergen } from "../types";
 
 export const GetDish = async (page?: string): Promise<DataDish> => {
   let data: DataDish = {
@@ -129,6 +129,20 @@ export const getDetailsDrink = async (id: number): Promise<Drink> => {
       });
   } catch (err) {
     console.log("Wrong api " + err);
+    throw err;
+  }
+};
+
+export const getAllergen = async (
+  id_allergen: number[]
+): Promise<Allergen[]> => {
+  try {
+    const responses = await Promise.all(
+      id_allergen.map((e) => api.get(`/app/home/dish/allergen/${e}/`))
+    );
+    return responses.map((response) => response.data);
+  } catch (err) {
+    console.error("Something wrong with get specific drink", err);
     throw err;
   }
 };

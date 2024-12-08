@@ -7,7 +7,7 @@ export type Dish = {
   cost: number;
   portion_weight: number;
   special: boolean;
-  has_allergen: string[];
+  has_allergen: number[];
 };
 
 export type Drink = {
@@ -61,4 +61,9 @@ export type Bill = {
   table: number;
   done: boolean;
   abandoned: boolean;
+};
+
+export type Allergen = {
+  id_allergen: number;
+  name: string;
 };

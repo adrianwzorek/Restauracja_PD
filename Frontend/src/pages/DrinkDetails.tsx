@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ALCOHOL, Drink } from "../types";
 import api from "../api";
+import { addToBill } from "../components/SetData";
 
 const DrinkDetails = () => {
   const { id } = useParams();
@@ -33,13 +34,14 @@ const DrinkDetails = () => {
   return (
     <div className="details-container">
       <h1>{drink?.name}</h1>
+      <img src={drink?.image} alt={drink?.name} />
       <h2>{drink?.description}</h2>
       <p>{ALCOHOL(drink?.type ?? 0)}</p>
-      <p>{drink?.cost}</p>
-      <p>{drink?.special ? "🟢" : "🔴"}</p>
+      <p>{drink?.cost} zł</p>
+      <p>Special {drink?.special ? "🟢" : "🔴"}</p>
       <button
         onClick={() => {
-          alert("Adding view");
+          addToBill("drink", drink?.id_drink!);
         }}
       >
         Add
