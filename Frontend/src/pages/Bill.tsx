@@ -15,12 +15,11 @@ const Bill = (props: { haveBill: boolean; setBill: Function }) => {
   return props.haveBill ? (
     <div className="bill-container">
       <h1>Welcome in your bill view</h1>
-      <GuestBill />
+      <GuestBill setBill={props.setBill} />
     </div>
   ) : (
     <div className="bill-container">
-      <h1>Welcome in your bill view</h1>
-      <h2>Right now you do not have a bill</h2>
+      <h1>Right now you do not have a bill</h1>
       <button onClick={() => createNewBill()}>Create Bill</button>
     </div>
   );

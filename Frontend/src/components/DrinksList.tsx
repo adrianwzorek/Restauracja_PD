@@ -7,15 +7,14 @@ const DrinksList = (props: { drinks: Drink[]; putOut: Function }) => {
       {props.drinks?.map((e) => {
         return (
           <li key={e.id_drink} className="drink-item">
-            <img
-              src={`${import.meta.env.VITE_BASE_URL + e.image}`}
-              alt={e.name}
-            />
-            <p>{e.name}</p>
-            <p>{e.cost} zł</p>
-            <button onClick={() => props.putOut(e.id_drink, "drink")}>
-              Delete
-            </button>
+            <img src={e.image} alt={e.name} />
+            <h2>{e.name}</h2>
+            <h3>{e.cost} zł</h3>
+            <div className="buttons-container">
+              <button onClick={() => props.putOut(e.id_drink, "drink")}>
+                Delete
+              </button>
+            </div>
           </li>
         );
       })}

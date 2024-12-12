@@ -1,0 +1,9 @@
+#root {
+  --color-black: #01161e;
+  --color-first: #124559;
+  --color-second: #598392;
+  --color-third: #aec3b0;
+  --color-back: #eff6e0;
+  --padding: 0.5rem;
+  --gap: 1rem;
+}

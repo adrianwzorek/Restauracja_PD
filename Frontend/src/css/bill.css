@@ -1,0 +1,6 @@
+.btn-container {
+  width: 100%;
+  button {
+    width: 50%;
+  }
+}

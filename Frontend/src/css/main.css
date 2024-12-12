@@ -1,0 +1,107 @@
+@import "./variable.css";
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+::-webkit-scrollbar {
+  background-color: #000;
+}
+
+#root {
+  background-color: var(--color-back);
+}
+.main {
+  background: linear-gradient(var(--color-second), var(--color-first));
+  padding: var(--padding);
+  display: grid;
+  place-items: center;
+  grid-template-rows: repeat(min-content, auto-fill);
+  min-height: calc(100svh - var(--padding) * 5);
+}
+
+div[class*="-container"] {
+  place-items: center;
+  width: 100%;
+}
+div[class*="-items"] {
+  display: grid;
+}
+ul {
+  list-style-type: none;
+  &[class*="-list"] {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-rows: min-content min-content min-content auto;
+    gap: var(--gap);
+  }
+}
+li[class*="item"] {
+  outline: 1px solid black;
+  filter: drop-shadow(2px 5px 8px var(--color-black));
+  display: grid;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(to top, var(--color-third), transparent);
+  position: relative;
+  img {
+    z-index: 0;
+    aspect-ratio: 2/1;
+    width: 100%;
+  }
+  *:not(img) {
+    z-index: 1;
+    padding-inline: var(--padding);
+  }
+  .buttons-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    padding: calc(var(--padding) * 2);
+    button {
+      width: 80%;
+    }
+  }
+}
+button {
+  aspect-ratio: 4/1;
+  border-radius: 100px;
+  border: none;
+  position: relative;
+  background-color: transparent;
+  overflow: hidden;
+  transition: all 0.2s;
+  &:hover,
+  &:active {
+    background-color: var(--color-first);
+  }
+  &::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-back);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    filter: blur(10px);
+  }
+}
+
+.pagination {
+  width: 100%;
+  height: min-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  place-items: center;
+  padding: var(--padding);
+  button {
+    width: clamp(2rem, 20%, 5rem);
+    aspect-ratio: 2/1;
+  }
+}

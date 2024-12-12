@@ -31,6 +31,10 @@ const DrinkDetails = () => {
   // ! Console log
   console.log(drink);
 
+  const getAddToBill = async () => {
+    const res = await addToBill("drink", drink?.id_drink!);
+    if (res) return navigator(res);
+  };
   return (
     <div className="details-container">
       <h1>{drink?.name}</h1>
@@ -41,7 +45,7 @@ const DrinkDetails = () => {
       <p>Special {drink?.special ? "🟢" : "🔴"}</p>
       <button
         onClick={() => {
-          addToBill("drink", drink?.id_drink!);
+          getAddToBill();
         }}
       >
         Add

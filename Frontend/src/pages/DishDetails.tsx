@@ -4,6 +4,7 @@ import { Allergen, Dish } from "../types";
 import api from "../api";
 import { addToBill } from "../components/SetData";
 import { getAllergen } from "../components/GetData";
+import "../css/details.css";
 
 const DishDetails = () => {
   const { id } = useParams();
@@ -31,6 +32,11 @@ const DishDetails = () => {
     }
   };
 
+  const getAddToBill = async () => {
+    const res = await addToBill("dish", dish?.id_dish!);
+    if (res) return navigator(res);
+  };
+
   useEffect(() => {
     fetchDrink();
   }, []);
@@ -39,9 +45,9 @@ const DishDetails = () => {
     <div className="details-container">
       <h1>{dish?.title}</h1>
       <img src={dish?.image} alt={dish?.title} />
+      <h3>Portion weight {dish?.portion_weight} g</h3>
       <p>{dish?.description}</p>
       <p>{dish?.ingredients}</p>
-      <h3>Portion weight {dish?.portion_weight} g</h3>
       <p>{dish?.cost} zł</p>
       <ul className="allergen-container">
         <h3>Allergens</h3>
@@ -51,7 +57,7 @@ const DishDetails = () => {
       </ul>
       <button
         onClick={() => {
-          addToBill("dish", dish?.id_dish!);
+          getAddToBill();
         }}
       >
         Add

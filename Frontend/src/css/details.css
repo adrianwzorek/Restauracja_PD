@@ -1,0 +1,23 @@
+.details-container {
+  background-color: red;
+  display: grid;
+
+  img {
+    width: 50%;
+    aspect-ratio: 3/2;
+    border-radius: 20px;
+  }
+  ul {
+    width: 50%;
+    h3 {
+      text-align: center;
+    }
+    list-style-type: "- ";
+    list-style-position: inside;
+    padding-inline: var(--padding);
+  }
+  button {
+    width: 20%;
+    background-color: var(--color-second);
+  }
+}

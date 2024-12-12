@@ -5,8 +5,9 @@ import DishesList from "../components/DishesList";
 import DrinksList from "../components/DrinksList";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
+import "../css/bill.css";
 
-const GuestBill = () => {
+const GuestBill = (props: { setBill: Function }) => {
   const [order, setOrder] = useState<Bill>();
   const [dishes, setDishes] = useState<Dish[]>();
   const [drinks, setDrinks] = useState<Drink[]>();
@@ -25,9 +26,13 @@ const GuestBill = () => {
     let choseType = type === "dish" ? order?.dishes : order?.drinks;
     const item = choseType?.filter((e) => e != id_item);
     if (type === "dish") {
+      const cost = Number(
+        order?.full_cost! - dishes?.find((e) => e.id_dish === id_item)?.cost!
+      );
       setOrder((prev) => {
         return {
           ...prev,
+          full_cost: Number(cost.toFixed(2)),
           dishes: item,
         } as Bill;
       });
@@ -43,9 +48,13 @@ const GuestBill = () => {
       setDishes((prev) => prev?.filter((e) => e.id_dish != id_item));
     }
     if (type === "drink") {
+      const cost = Number(
+        order?.full_cost! - drinks?.find((e) => e.id_drink === id_item)?.cost!
+      );
       setOrder((prev) => {
         return {
           ...prev,
+          full_cost: Number(cost.toFixed(2)),
           drinks: item,
         } as Bill;
       });
@@ -58,11 +67,12 @@ const GuestBill = () => {
           console.log("something wrong with put out the item drink " + err);
           throw err;
         });
-      setDishes((prev) => prev?.filter((e) => e.id_dish != id_item));
+      setDrinks((prev) => prev?.filter((e) => e.id_drink != id_item));
     }
   };
   const abaddonBill = async () => {
     console.log("Order has been abaddon");
+    props.setBill(false);
     localStorage.clear();
     setOrder((prev) => {
       return {
@@ -90,6 +100,8 @@ const GuestBill = () => {
       return;
     }
     console.log("Order has been done");
+    localStorage.clear();
+    props.setBill(false);
     setOrder((prev) => {
       return {
         ...prev,
@@ -113,7 +125,13 @@ const GuestBill = () => {
 
   useEffect(() => {
     fetchOrder();
-  }, [order]);
+  }, []);
+
+  useEffect(() => {
+    setOrder(order);
+    setDishes(dishes);
+    setDrinks(drinks);
+  }, [order?.dishes, order?.drinks]);
 
   return (
     <div>

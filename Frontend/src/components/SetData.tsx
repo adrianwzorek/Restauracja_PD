@@ -33,5 +33,6 @@ export const addToBill = async (type: string, item: number) => {
       });
   } catch (err) {
     console.log("No such bill " + err);
+    return "/bill/";
   }
 };
