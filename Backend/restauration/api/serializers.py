@@ -1,6 +1,7 @@
 from datetime import date
 from rest_framework import serializers
 from django.contrib.auth.models import User
+
 from .models import Allergen, Dish, Drink, Menu, Table, Waiter
 
 # Models serializers
@@ -18,12 +19,12 @@ class UserSerializer(serializers.ModelSerializer):
 class AllergenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Allergen
-        fields = ['id_allergen','name']
+        fields = ['id','name']
     
 class DishSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dish
-        fields = ['id_dish','title','description','ingredients','image','cost',
+        fields = ['id','title','description','ingredients','image','cost',
                 'portion_weight','special','has_allergen']
 
     def validate_weight(self, value):
@@ -39,7 +40,7 @@ class DishSerializer(serializers.ModelSerializer):
 class DrinkSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Drink
-        fields = ['id_drink','name','type','description','cost','image','weight','special']
+        fields = ['id','name','type','description','cost','image','weight','special']
     
     def validate_cost(self, value):
         if value <= 0:
@@ -54,18 +55,18 @@ class DrinkSerializer(serializers.ModelSerializer):
 class MenuSerializer(serializers.ModelSerializer):
     class Meta:
         model = Menu
-        fields = ['id_menu','name','date_of_change','dishes','drinks','active']        
+        fields = ['id','name','date_of_change','dishes','drinks','active']        
 
 class TableSerializer(serializers.ModelSerializer):
     class Meta:
         model = Table
-        fields = ['id_table']
+        fields = ['id']
 
 
 class WaiterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Waiter
-        fields = ['id_waiter','name','surname','phone_num','work_start','has_table']
+        fields = ['id','name','surname','phone_num','work_start','has_table']
 
     def validate_phone_num(self, value):
         if len(str(value))!=9:
@@ -78,4 +79,3 @@ class WaiterSerializer(serializers.ModelSerializer):
         if value > date.today():
             raise serializers.ValidationError("Date can't be in the future")
         return value
-

@@ -1,5 +1,5 @@
 {
   "sqltools.connections": [],
   "sqltools.useNodeRuntime": true,
-  "cSpell.words": ["corsheaders"]
+  "cSpell.words": ["corsheaders", "Dishserializer"]
 }
