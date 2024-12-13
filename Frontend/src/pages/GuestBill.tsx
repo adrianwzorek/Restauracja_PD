@@ -68,12 +68,20 @@ const GuestBill = (props: { setBill: Function }) => {
   };
 
   return (
-    <div>
+    <>
       <h1>Bill {order?.id_bill}</h1>
       <h2>Dishes</h2>
-      <DishesList dishes={dishes ?? []} putOut={putOutItem} />
+      <DishesList
+        dishes={dishes ?? []}
+        putOut={putOutItem}
+        numsDish={billDish!}
+      />
       <h2>Drinks</h2>
-      <DrinksList drinks={drinks ?? []} putOut={putOutItem} />
+      <DrinksList
+        drinks={drinks ?? []}
+        putOut={putOutItem}
+        numsDrink={billDrink!}
+      />
       <h2>
         Full cost <i>{order?.full_cost} zł</i>
       </h2>
@@ -85,7 +93,7 @@ const GuestBill = (props: { setBill: Function }) => {
           Order
         </button>
       </div>
-    </div>
+    </>
   );
 };
 

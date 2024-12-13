@@ -4,3 +4,14 @@
     width: 50%;
   }
 }
+
+.dish-container {
+  display: grid;
+  width: 100%;
+  place-items: center;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  li {
+    width: 100%;
+  }
+}
