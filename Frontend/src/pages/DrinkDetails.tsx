@@ -32,7 +32,7 @@ const DrinkDetails = () => {
   console.log(drink);
 
   const getAddToBill = async () => {
-    const res = await addToBill("drink", drink?.id_drink!);
+    const res = await addToBill("drink", drink?.id!);
     if (res) return navigator(res);
   };
   return (

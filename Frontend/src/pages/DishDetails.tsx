@@ -33,8 +33,7 @@ const DishDetails = () => {
   };
 
   const getAddToBill = async () => {
-    const res = await addToBill("dish", dish?.id_dish!);
-    if (res) return navigator(res);
+    await addToBill("dish", dish?.id!);
   };
 
   useEffect(() => {
@@ -52,7 +51,7 @@ const DishDetails = () => {
       <ul className="allergen-container">
         <h3>Allergens</h3>
         {allergen.map((e) => {
-          return <li key={e.id_allergen}>{e.name}</li>;
+          return <li key={e.id}>{e.name}</li>;
         })}
       </ul>
       <button

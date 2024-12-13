@@ -3,6 +3,7 @@ import { GetDish } from "../components/GetData";
 import ChangePage from "../components/ChangePage";
 import { DataDish } from "../types";
 import SpecificButtons from "../components/SpecificButtons";
+
 const Dishes = () => {
   const [data, setData] = useState<DataDish>();
   const [url, setUrl] = useState("");
@@ -44,7 +45,7 @@ const Dishes = () => {
               <p className="cost">{e.cost}zł</p>
               <p className="description">{e.description}</p>
               <p className="weight">{e.portion_weight}g</p>
-              <SpecificButtons id={e.id_dish} type="dish" />
+              <SpecificButtons id={e.id} type="dish" name={e.title} />
             </li>
           );
         })}

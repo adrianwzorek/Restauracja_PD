@@ -1,5 +1,5 @@
 export type Dish = {
-  id_dish: number;
+  id: number;
   title: string;
   description: string;
   ingredients: string;
@@ -11,7 +11,7 @@ export type Dish = {
 };
 
 export type Drink = {
-  id_drink: number;
+  id: number;
   name: string;
   type: number;
   description: string;
@@ -64,6 +64,20 @@ export type Bill = {
 };
 
 export type Allergen = {
-  id_allergen: number;
+  id: number;
   name: string;
+};
+
+export type BillDish = {
+  id?: number;
+  id_dish?: number;
+  id_bill: number;
+  number: number;
+};
+
+export type BillDrink = {
+  id?: number;
+  id_drink?: number;
+  id_bill: number;
+  number: number;
 };

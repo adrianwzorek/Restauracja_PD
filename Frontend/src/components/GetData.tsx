@@ -1,6 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import api from "../api";
-import { DataDish, DataDrink, Dish, Drink, Bill, Allergen } from "../types";
+import {
+  DataDish,
+  DataDrink,
+  Dish,
+  Drink,
+  Bill,
+  Allergen,
+  BillDish,
+  BillDrink,
+} from "../types";
 
 export const GetDish = async (page?: string): Promise<DataDish> => {
   let data: DataDish = {
@@ -61,25 +70,63 @@ export const fetchDetails = async (type: string, id: string) => {
     });
 };
 
-export const getGuestDish = async (items: number[]): Promise<Dish[]> => {
+export const numberOfDish = async () => {
+  const bill = Number(localStorage.getItem("bill"));
+  if (!bill) return [];
+  return await api
+    .get(`app/bill_dish/`)
+    .then((res) => {
+      return res.data;
+    })
+    .then((data: BillDish[]) => {
+      return data.filter((e) => e.id_bill === bill);
+    })
+    .catch((err) => {
+      console.log("get billDish " + err);
+      throw err;
+    });
+};
+
+export const numberOfDrink = async () => {
+  const bill = Number(localStorage.getItem("bill"));
+  if (!bill) return [];
+  return await api
+    .get(`app/bill_drink/`)
+    .then((res) => {
+      return res.data;
+    })
+    .then((data: BillDish[]) => {
+      return data.filter((e) => e.id_bill === bill);
+    })
+    .catch((err) => {
+      console.log("get billDrink " + err);
+      throw err;
+    });
+};
+
+export const getGuestDish = async (items: BillDish[]): Promise<Dish[]> => {
   if (!items) return [];
   try {
-    const responses = await Promise.all(
-      items.map((e) => api.get(`/app/home/dish/${e}/`))
+    const responses = await Promise.allSettled(
+      items.map((e) => api.get(`/app/home/dish/${e.id_dish}/`))
     );
-    return responses.map((response) => response.data);
+    return responses
+      .filter((result) => result.status === "fulfilled")
+      .map((data) => data.value.data);
   } catch (err) {
     console.error("Something wrong with get specific dishes", err);
     throw err;
   }
 };
 
-export const getGuestDrink = async (items: number[]): Promise<Drink[]> => {
+export const getGuestDrink = async (items: BillDrink[]): Promise<Drink[]> => {
   try {
-    const responses = await Promise.all(
-      items.map((e) => api.get(`/app/home/drink/${e}/`))
+    const responses = await Promise.allSettled(
+      items.map((e) => api.get(`/app/home/drink/${e.id_drink}/`))
     );
-    return responses.map((response) => response.data);
+    return responses
+      .filter((result) => result.status === "fulfilled")
+      .map((data) => data.value.data);
   } catch (err) {
     console.error("Something wrong with get specific drink", err);
     throw err;

@@ -22,10 +22,10 @@ function App() {
   return (
     <div className="main">
       <Routes>
-        <Route Component={Home} path="/" />
-        <Route Component={Home} path="/table/:id/" />
-        <Route Component={Dishes} path="/dishes/" />
-        <Route Component={Drinks} path="/drinks/" />
+        <Route element={<Home />} path="/" />
+        <Route element={<Home />} path="/table/:id/" />
+        <Route element={<Dishes />} path="/dishes/" />
+        <Route element={<Drinks />} path="/drinks/" />
         <Route element={<Error />} path="/error/" />
         <Route
           element={<Bill haveBill={haveBill} setBill={setHaveBill} />}
@@ -33,9 +33,9 @@ function App() {
         />
         <Route element={<DrinkDetails />} path="/drinks/details/:id/" />
         <Route element={<DishDetails />} path="/dishes/details/:id/" />
-        <Route Component={NotFound} path="*" />
-        <Route Component={Abaddon} path="/bill/abaddon/" />
-        <Route Component={EndPage} path="/bill/done/" />
+        <Route element={<NotFound />} path="*" />
+        <Route element={<Abaddon />} path="/bill/abaddon/" />
+        <Route element={<EndPage />} path="/bill/done/" />
       </Routes>
     </div>
   );
