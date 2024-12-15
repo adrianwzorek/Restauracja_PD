@@ -1,32 +1,68 @@
 import React, { useEffect, useState } from "react";
 import { BillDish, Dish } from "../types";
+import { getGuestDish, numberOfDish } from "./GetData";
+import EditPop from "./EditPop";
 
 const DishesList = (props: {
-  dishes: Dish[];
   putOut: Function;
-  numsDish: BillDish[];
+  mainWait: boolean;
+  setWait: Function;
 }) => {
-  const [item, setItem] = useState<Dish[]>();
+  const [dish, setDish] = useState<Dish[]>();
+  const [billDish, setBillDish] = useState<BillDish[]>();
+  const [local, setLocal] = useState(false);
+  const fetchDishes = async () => {
+    const bdish = await numberOfDish();
+    setBillDish(bdish);
+    const resDish = await getGuestDish(bdish);
+    setDish(resDish);
+  };
 
   useEffect(() => {
-    const one = props.numsDish;
-    console.log(one);
+    fetchDishes();
   }, []);
-  console.log(item);
+
+  useEffect(() => {
+    fetchDishes();
+  }, [props.mainWait, props.putOut]);
+
+  const edit = () => {
+    setLocal(true);
+    props.setWait(true);
+  };
+
   return (
-    <ul className="dish-container">
-      {props.dishes?.map((e, id) => {
-        return (
-          <li key={id} className="dish-item">
-            {e.image ? <img src={e.image} alt={e.title} /> : ""}
-            <h2>{e.title}</h2>
-            <h2>{props.numsDish[id].number}</h2>
-            <h3>{e.cost * props.numsDish[id].number} zł</h3>
-            <button onClick={() => props.putOut(e.id, "dish")}>Delete</button>
-          </li>
-        );
-      })}
-    </ul>
+    <>
+      <ul className="dish-container">
+        {dish?.map((e, id) => {
+          return (
+            <li key={id} className="dish-item">
+              {props.mainWait && local ? (
+                <EditPop
+                  name={e.title}
+                  setWait={props.setWait}
+                  mainWait={props.mainWait}
+                  val={billDish![id].number}
+                  type="dish"
+                  id_dish={e.id}
+                  refresh={fetchDishes}
+                />
+              ) : (
+                ""
+              )}
+              {e.image ? <img src={e.image} alt={e.title} /> : ""}
+              <h2>
+                {e.title} x{billDish![id].number}
+              </h2>
+              <h3>one - {e.cost} zł</h3>
+              <p>full cost - {e.cost * billDish![id].number}zł</p>
+              <button onClick={() => edit()}>Edit</button>
+              <button onClick={() => props.putOut("dish", e.id)}>Delete</button>
+            </li>
+          );
+        })}
+      </ul>
+    </>
   );
 };
 

@@ -139,43 +139,72 @@ class GetAllergen(RetrieveAPIView):
 class ManageBillDish(APIView):
     permission_classes = [AllowAny]
     
-    def get(self, request, pk):
-        bill_dish = BillDish.objects.get(id=pk)
+    def get(self, request, pk1):
+        bill_dish = BillDish.objects.get(id=pk1)
         serializer = BillDishSerializer(bill_dish)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def put(self, request, pk):
+    def put(self, request, pk1):
         try:
-            bill_dish = BillDish.objects.get(id=pk)
+            bill_dish = BillDish.objects.get(id_bill=pk1)
         except BillDish.DoesNotExist:
             return Response({'error': 'BillDish not found'}, status=status.HTTP_404_NOT_FOUND)
-
+        
         serializer = BillDishSerializer(bill_dish, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self,request, pk1, pk2):
+        try:
+            bill_dish = BillDish.objects.get(id_bill = pk1, id_dish=pk2)
+            bill = Bill.objects.get(id = pk1)
+            bill_dish.delete()
+            bill.calculate_cost()
+            bill.save()
+            return Response({'info':'Success with delete an item'}, status=status.HTTP_204_NO_CONTENT)
+        except Bill.DoesNotExist:
+            return Response({'error':'Not Found Bill'}, status=status.HTTP_400_BAD_REQUEST)
+        except BillDish.DoesNotExist:
+            return Response({'error':'Not Found BillDrink'}, status=status.HTTP_400_BAD_REQUEST)
+    
+
 
 class ManageBillDrink(APIView):
     permission_classes = [AllowAny]
     
-    def get(self, request, pk):
-        bill_dish = BillDish.objects.get(id=pk)
-        serializer = BillDishSerializer(bill_dish)
+    def get(self, request, pk1):
+        bill_drink = BillDrink.objects.get(id=pk1)
+        serializer = BillDrinkSerializer(bill_drink)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def put(self, request, pk):
+    def put(self, request, pk1):
         try:
-            bill_dish = BillDish.objects.get(id=pk)
-        except BillDish.DoesNotExist:
+            bill_drink = BillDrink.objects.get(id_bill=pk1)
+        except BillDrink.DoesNotExist:
             return Response({'error': 'BillDish not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = BillDishSerializer(bill_dish, data=request.data, partial=True)
+        serializer = BillDrinkSerializer(bill_drink, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self,request, pk1, pk2):
+        try:
+            bill_drink = BillDrink.objects.get(id_bill = pk1, id_drink=pk2)
+            bill = Bill.objects.get(id = pk1)
+            bill_drink.delete()
+            bill.calculate_cost()
+            bill.save()
+            return Response({'info':'Success with delete an item'}, status=status.HTTP_204_NO_CONTENT)
+        except Bill.DoesNotExist:
+            return Response({'error':'Not Found Bill'}, status=status.HTTP_400_BAD_REQUEST)
+        except BillDrink.DoesNotExist:
+            return Response({'error':'Not Found BillDrink'}, status=status.HTTP_400_BAD_REQUEST)
+
+    
 class AllBillDrink(APIView):
     permission_classes = [AllowAny]
 

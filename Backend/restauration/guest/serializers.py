@@ -40,35 +40,46 @@ class GuestSerializer(serializers.ModelSerializer):
 class BillDishSerializer(serializers.ModelSerializer):
     class Meta:
         model = BillDish
-        fields = ['id','id_dish','id_bill','number']
+        fields = ['id', 'id_dish', 'id_bill', 'number']
         
     def validate_number(self, value):
         if value <= 0:
-            raise serializers.ValidationError('Number need to be positive')
+            raise serializers.ValidationError('Number needs to be positive.')
         return value
 
     def create(self, validated_data):
-        # Create a new BillDish
-        bill_dish = BillDish.objects.create(**validated_data)
-        # Update the associated bill's cost
+        id_dish = validated_data.get('id_dish')
+        id_bill = validated_data.get('id_bill')
+
+        # Sprawdzenie, czy BillDish już istnieje
+        bill_dish = BillDish.objects.filter(id_dish=id_dish, id_bill=id_bill).first()
+        if bill_dish:
+            # Jeśli istnieje, zwiększ liczbę
+            bill_dish.number += validated_data.get('number', 1)
+            bill_dish.save()
+        else:
+            # Jeśli nie istnieje, utwórz nowy obiekt
+            bill_dish = BillDish.objects.create(**validated_data)
+
+        # Zaktualizuj koszt powiązanego rachunku
         bill = bill_dish.id_bill
         bill.calculate_cost()
+
         return bill_dish
 
     def update(self, instance, validated_data):
-        # Calculate the old cost
+        # Oblicz poprzedni koszt
         old_cost = instance.cost()
 
-        # Update instance fields
+        # Zaktualizuj liczbę
         instance.number = validated_data.get('number', instance.number)
         instance.save()
 
-        # Update the associated bill's cost
+        # Zaktualizuj koszt powiązanego rachunku
         bill = instance.id_bill
         bill.calculate_cost()
 
         return instance
-
 
 class BillDrinkSerializer(serializers.ModelSerializer):
     class Meta:
@@ -81,7 +92,14 @@ class BillDrinkSerializer(serializers.ModelSerializer):
         return value
     
     def create(self, validated_data):
-        bill_drink = BillDrink.objects.create(**validated_data)
+        id_bill = validated_data.get('id_bill')
+        id_drink = validated_data.get('id_drink')
+        bill_drink = BillDrink.objects.filter(id_bill=id_bill, id_drink=id_drink).first()
+        if bill_drink:
+            bill_drink.number+=validated_data.get('number')
+            bill_drink.save()
+        else:
+            bill_drink = BillDrink.objects.create(**validated_data)
         bill = bill_drink.id_bill
         bill.calculate_cost()
         return bill_drink

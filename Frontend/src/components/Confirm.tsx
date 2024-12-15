@@ -1,5 +1,4 @@
 import React, { FormEvent, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import api from "../api";
 import { BillDish, BillDrink } from "../types";
 
@@ -8,9 +7,9 @@ const Confirm = (props: {
   id: number;
   setWait: Function;
   name: string;
+  val?: number;
 }) => {
   const [data, setData] = useState<BillDish | BillDrink>();
-  const { url } = useParams();
   useEffect(() => {
     const bill = Number(localStorage.getItem("bill"));
     props.type === "dish"
@@ -23,26 +22,18 @@ const Confirm = (props: {
     console.log(data);
     try {
       if (props.type === "dish") {
-        api
-          .post(`app/bill_${props.type}/`, {
-            id_dish: props.id,
-            id_bill: data?.id_bill,
-            number: data?.number,
-          })
-          .catch((err) => {
-            console.log("something in post dish " + err);
-          });
+        api.post(`app/bill_${props.type}/`, {
+          id_dish: props.id,
+          id_bill: data?.id_bill,
+          number: data?.number,
+        });
         alert("added dish");
       } else {
-        api
-          .post(`app/bill_${props.type}/`, {
-            id_drink: props.id,
-            id_bill: data?.id_bill,
-            number: data?.number,
-          })
-          .catch((err) => {
-            console.log("something in post drink " + err);
-          });
+        api.post(`app/bill_${props.type}/`, {
+          id_drink: props.id,
+          id_bill: data?.id_bill,
+          number: data?.number,
+        });
         alert("added drink");
       }
     } catch (err) {
@@ -52,7 +43,7 @@ const Confirm = (props: {
     props.setWait(false);
   };
   return (
-    <form action={url} className="popup" onSubmit={addToBill}>
+    <form action="/" className="popup" onSubmit={addToBill}>
       <h1>Confirm</h1>
       <h2>{props?.name}</h2>
       <label htmlFor="number">

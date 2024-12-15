@@ -6,7 +6,7 @@ from api.models import Table, Dish, Drink
 class Bill(models.Model):
     id = models.AutoField(primary_key=True)
     table = models.ForeignKey(Table,on_delete=models.CASCADE)
-    full_cost = models.FloatField(default=0)
+    full_cost = models.DecimalField(default=0,decimal_places=2, max_digits=10)
     date = models.DateField(auto_now=True)
     done = models.BooleanField(default=False)
     abandoned = models.BooleanField(default=False) 

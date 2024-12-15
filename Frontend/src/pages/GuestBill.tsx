@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Bill, BillDish, BillDrink, Dish, Drink } from "../types";
-import {
-  getBill,
-  getGuestDish,
-  getGuestDrink,
-  numberOfDish,
-  numberOfDrink,
-} from "../components/GetData";
+import { Bill } from "../types";
+import { getBill } from "../components/GetData";
 import DishesList from "../components/DishesList";
 import DrinksList from "../components/DrinksList";
 import api from "../api";
@@ -15,23 +9,12 @@ import "../css/bill.css";
 
 const GuestBill = (props: { setBill: Function }) => {
   const [order, setOrder] = useState<Bill>();
-  const [dishes, setDishes] = useState<Dish[]>();
-  const [drinks, setDrinks] = useState<Drink[]>();
-  const [billDrink, setBillDrink] = useState<BillDrink[]>();
-  const [billDish, setBillDish] = useState<BillDish[]>();
+  const [wait, setWait] = useState(false);
   const navigator = useNavigate();
 
   const fetchOrder = async () => {
     const res = await getBill();
     setOrder(res);
-    const bdish = await numberOfDish();
-    setBillDish(bdish);
-    const bdrink = await numberOfDrink();
-    setBillDrink(bdrink);
-    const dish = await getGuestDish(bdish);
-    setDishes(dish);
-    const drink = await getGuestDrink(bdrink);
-    setDrinks(drink);
   };
 
   const abaddonBill = async () => {
@@ -63,25 +46,25 @@ const GuestBill = (props: { setBill: Function }) => {
     fetchOrder();
   }, []);
 
-  const putOutItem = () => {
-    alert("good");
+  useEffect(() => {
+    if (wait === false) fetchOrder();
+  }, [wait]);
+
+  const putOutItem = async (type: string, id: number) => {
+    const bill = localStorage.getItem("bill");
+    return await api
+      .delete(`app/bill_${type}/${bill}/${id}/`)
+      .catch((err) => console.log("Delete " + err))
+      .finally(() => fetchOrder());
   };
 
   return (
     <>
       <h1>Bill {order?.id_bill}</h1>
       <h2>Dishes</h2>
-      <DishesList
-        dishes={dishes ?? []}
-        putOut={putOutItem}
-        numsDish={billDish!}
-      />
+      <DishesList putOut={putOutItem} mainWait={wait} setWait={setWait} />
       <h2>Drinks</h2>
-      <DrinksList
-        drinks={drinks ?? []}
-        putOut={putOutItem}
-        numsDrink={billDrink!}
-      />
+      <DrinksList putOut={putOutItem} mainWait={wait} setWait={setWait} />
       <h2>
         Full cost <i>{order?.full_cost} zł</i>
       </h2>
