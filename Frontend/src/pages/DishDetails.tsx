@@ -35,7 +35,9 @@ const DishDetails = () => {
   };
 
   const getAddToBill = async () => {
-    await addToBill("dish", dish!.id);
+    const bill = localStorage.getItem("bill");
+    if (!bill) return navigator("/bill/");
+    setWait(true);
   };
 
   useEffect(() => {
@@ -60,16 +62,21 @@ const DishDetails = () => {
         <h3>Portion weight {dish?.portion_weight} g</h3>
         <p>{dish?.description}</p>
         <p>{dish?.ingredients}</p>
+        <p>Special - {dish?.special ? "🟢" : "🔴"}</p>
         <p>{dish?.cost} zł</p>
         <ul className="allergen-container">
           <h3>Allergens</h3>
-          {allergen.map((e) => {
-            return <li key={e.id}>{e.name}</li>;
-          })}
+          {allergen.length > 0 ? (
+            allergen.map((e) => {
+              return <li key={e.id}>{e.name}</li>;
+            })
+          ) : (
+            <li>BRAK</li>
+          )}
         </ul>
         <button
           onClick={() => {
-            setWait(true);
+            getAddToBill();
           }}
         >
           Add

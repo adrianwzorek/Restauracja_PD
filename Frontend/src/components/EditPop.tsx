@@ -23,14 +23,14 @@ const EditPop = (props: {
     try {
       props.type === "dish"
         ? await api
-            .put(`app/bill_${props.type}/${props.id_dish}/`, {
+            .put(`app/bill_${props.type}/${data.id_bill}/${props.id_dish}/`, {
               id_bill: data.id_bill,
               id_dish: props.id_dish,
               number: data.number,
             })
             .then((res) => res.data)
         : await api
-            .put(`app/bill_${props.type}/${props.id_drink}/`, {
+            .put(`app/bill_${props.type}/${data.id_bill}/${props.id_drink}/`, {
               id_bill: data.id_bill,
               id_drink: props.id_drink,
               number: data.number,

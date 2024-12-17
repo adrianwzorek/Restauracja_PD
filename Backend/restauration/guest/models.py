@@ -55,7 +55,7 @@ class Guest(models.Model):
     table = models.ForeignKey(Table, on_delete=models.CASCADE)
     bill = models.ForeignKey(Bill, on_delete=models.CASCADE, blank=True, null=True)
     date_came = models.DateField(auto_now=True)
-
+    wait = models.BooleanField(default=False)
     def __str__(self):
         return f'Guest - {self.id} seating at table {self.table}'
         

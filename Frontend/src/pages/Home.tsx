@@ -37,13 +37,13 @@ const Home = () => {
       <div className="dishes-home-container">
         <h2>Check out Dishes</h2>
         <div className="dishes-items-container">
-          <Dishes />
+          <Dishes showPagination={false} />
         </div>
       </div>
       <div className="drinks-home-container">
         <h2>Check out Drinks</h2>
         <div className="drinks-items-container">
-          <Drinks />
+          <Drinks showPagination={false} />
         </div>
       </div>
     </>

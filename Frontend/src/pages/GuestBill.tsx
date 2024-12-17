@@ -19,19 +19,10 @@ const GuestBill = (props: { setBill: Function }) => {
 
   const abaddonBill = async () => {
     console.log("Order has been abaddon");
-    props.setBill(false);
-    localStorage.clear();
-    setOrder((prev) => {
-      return {
-        ...prev,
-        abandoned: true,
-      } as Bill;
-    });
     await api
-      .put(`app/bill/${order?.id_bill}/`, {
+      .put(`app/bill/${order!.id}/`, {
         ...order,
         abandoned: true,
-        done: false,
       })
       .then(() => {
         return navigator("/bill/abaddon/");
@@ -40,6 +31,8 @@ const GuestBill = (props: { setBill: Function }) => {
         console.log("Can not change the bill " + err);
         throw err;
       });
+    props.setBill(false);
+    localStorage.clear();
   };
 
   useEffect(() => {
@@ -58,9 +51,18 @@ const GuestBill = (props: { setBill: Function }) => {
       .finally(() => fetchOrder());
   };
 
+  const orderNow = async () => {
+    const guest = localStorage.getItem("guest");
+    if (!guest) return alert("Please contact our staff");
+    await api
+      .put(`app/guest/${guest}/`, { wait: true })
+      .catch((err) => alert("wrong query " + err));
+    return navigator("/bill/done/");
+  };
+
   return (
     <>
-      <h1>Bill {order?.id_bill}</h1>
+      <h1>Bill {order?.id}</h1>
       <h2>Dishes</h2>
       <DishesList putOut={putOutItem} mainWait={wait} setWait={setWait} />
       <h2>Drinks</h2>
@@ -72,7 +74,7 @@ const GuestBill = (props: { setBill: Function }) => {
         <button type="button" onClick={() => abaddonBill()}>
           Cancel
         </button>
-        <button type="button" onClick={() => alert("end")}>
+        <button type="button" onClick={() => orderNow()}>
           Order
         </button>
       </div>

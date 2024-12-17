@@ -3,9 +3,8 @@ import { GetDrink } from "../components/GetData";
 import { ALCOHOL, DataDrink } from "../types";
 import ChangePage from "../components/ChangePage";
 import SpecificButtons from "../components/SpecificButtons";
-import Confirm from "../components/Confirm";
 
-const Drinks = () => {
+const Drinks = ({ showPagination }: { showPagination: boolean }) => {
   const [data, setData] = useState<DataDrink>();
   const [url, setUrl] = useState("");
   const [page, setPage] = useState("");
@@ -23,13 +22,19 @@ const Drinks = () => {
   }, [url]);
   return (
     <>
-      <h2>List of Drinks</h2>
-      <p>Page {page}</p>
-      <ChangePage
-        next={data?.movement.prev ?? null}
-        prev={data?.movement.next ?? null}
-        setUrl={setUrl}
-      />
+      {showPagination ?? true ? (
+        <>
+          <h2>List of Drinks</h2>
+          <p>Page {page}</p>
+          <ChangePage
+            next={data?.movement.prev ?? null}
+            prev={data?.movement.next ?? null}
+            setUrl={setUrl}
+          />
+        </>
+      ) : (
+        ""
+      )}
       <ul className="drinks-list">
         {data?.data.map((e, id) => {
           return (

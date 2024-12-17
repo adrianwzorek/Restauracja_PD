@@ -31,6 +31,12 @@ const DrinkDetails = () => {
     fetchDrink();
   }, []);
 
+  const getAddToBill = async () => {
+    const bill = localStorage.getItem("bill");
+    if (!bill) return navigator("/bill/");
+    setWait(true);
+  };
+
   return (
     <>
       {wait ? (
@@ -52,7 +58,7 @@ const DrinkDetails = () => {
         <p>Special {drink?.special ? "🟢" : "🔴"}</p>
         <button
           onClick={() => {
-            setWait(true);
+            getAddToBill();
           }}
         >
           Add

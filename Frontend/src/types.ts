@@ -57,7 +57,7 @@ export type Bill = {
   dishes: number[];
   drinks: number[];
   full_cost: number;
-  id_bill: number;
+  id: number;
   table: number;
   done: boolean;
   abandoned: boolean;

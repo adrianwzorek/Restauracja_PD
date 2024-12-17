@@ -34,7 +34,7 @@ class BillSerializer(serializers.ModelSerializer):
 class GuestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Guest
-        fields = ['id','table','bill','date_came']
+        fields = ['id','table','bill','date_came','wait']
 
 
 class BillDishSerializer(serializers.ModelSerializer):

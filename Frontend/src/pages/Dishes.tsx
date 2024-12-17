@@ -4,7 +4,7 @@ import ChangePage from "../components/ChangePage";
 import { DataDish } from "../types";
 import SpecificButtons from "../components/SpecificButtons";
 
-const Dishes = () => {
+const Dishes = ({ showPagination }: { showPagination: boolean }) => {
   const [data, setData] = useState<DataDish>();
   const [url, setUrl] = useState("");
   const [page, setPage] = useState("");
@@ -22,13 +22,19 @@ const Dishes = () => {
   }, [url]);
   return (
     <>
-      <h2>List of Dishes</h2>
-      <p>Page {page}</p>
-      <ChangePage
-        next={data?.movement.next ?? null}
-        prev={data?.movement.prev ?? null}
-        setUrl={setUrl}
-      />
+      {showPagination ?? true ? (
+        <>
+          <h2>List of Dishes</h2>
+          <p>Page {page}</p>
+          <ChangePage
+            next={data?.movement.next ?? null}
+            prev={data?.movement.prev ?? null}
+            setUrl={setUrl}
+          />
+        </>
+      ) : (
+        ""
+      )}
       <ul className="dishes-list">
         {data?.data.map((e, id) => {
           return (

@@ -56,8 +56,12 @@ const DishesList = (props: {
               </h2>
               <h3>one - {e.cost} zł</h3>
               <p>full cost - {e.cost * billDish![id].number}zł</p>
-              <button onClick={() => edit()}>Edit</button>
-              <button onClick={() => props.putOut("dish", e.id)}>Delete</button>
+              <div className="buttons-container">
+                <button onClick={() => edit()}>Edit</button>
+                <button onClick={() => props.putOut("dish", e.id)}>
+                  Delete
+                </button>
+              </div>
             </li>
           );
         })}
