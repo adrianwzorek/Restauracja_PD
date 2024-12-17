@@ -32,6 +32,7 @@ class BillSerializer(serializers.ModelSerializer):
         return instance
 
 class GuestSerializer(serializers.ModelSerializer):
+    date_came = serializers.ReadOnlyField()
     class Meta:
         model = Guest
         fields = ['id','table','bill','date_came','wait']

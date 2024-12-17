@@ -1,11 +1,10 @@
 from datetime import date
 import os
 from django.db import models,transaction
-from django.urls import reverse
 import qrcode
 from io import BytesIO
 from django.core.files.base import ContentFile
-
+from django.contrib.auth.models import User
 from restauration import settings
 # Create your models here.
 
@@ -127,6 +126,7 @@ class Table(models.Model):
 # Waiter models
 class Waiter(models.Model):
     id = models.AutoField(primary_key=True,null=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='waiter_user')
     name = models.CharField(max_length=255)
     surname= models.CharField(max_length=255)
     phone_num = models.IntegerField()

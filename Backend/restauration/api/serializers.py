@@ -7,13 +7,27 @@ from .models import Allergen, Dish, Drink, Menu, Table, Waiter
 # Models serializers
 
 class UserSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(write_only=True)
+    surname = serializers.CharField(write_only=True)
+    phone_num = serializers.IntegerField(write_only=True)
     class Meta: 
         model = User
-        fields =['id','username','password']
+        fields =['username','password','email','name','surname','phone_num']
         extra_kwargs = {'password':{'write_only':True}}
 
     def create(self, validated_data):
-        user = User.objects.create_user(**validated_data)
+        waiter_data = {
+            'name':validated_data.pop('name'),
+            'surname':validated_data.pop('surname'),
+            'phone_num':validated_data.pop('phone_num')
+        }
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email= validated_data['email'],
+            password= validated_data['password'],
+            is_staff = True
+        )
+        Waiter.objects.create(user=user, **waiter_data)
         return user
     
 class AllergenSerializer(serializers.ModelSerializer):

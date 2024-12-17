@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ALCOHOL, Drink } from "../types";
 import api from "../api";
-import { addToBill } from "../components/SetData";
 import Confirm from "../components/Confirm";
 
 const DrinkDetails = () => {
