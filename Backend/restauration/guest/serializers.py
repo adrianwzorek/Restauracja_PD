@@ -41,7 +41,7 @@ class GuestSerializer(serializers.ModelSerializer):
 class BillDishSerializer(serializers.ModelSerializer):
     class Meta:
         model = BillDish
-        fields = ['id', 'id_dish', 'id_bill', 'number']
+        fields = ['id', 'id_dish', 'id_bill', 'number','out']
         
     def validate_number(self, value):
         if value <= 0:
@@ -85,7 +85,7 @@ class BillDishSerializer(serializers.ModelSerializer):
 class BillDrinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = BillDrink
-        fields = ['id','id_drink','id_bill','number']
+        fields = ['id','id_drink','id_bill','number','out']
 
     def validate_number(self, value):
         if value <=0:

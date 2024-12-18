@@ -20,6 +20,11 @@ class Bill(models.Model):
             sum(item.cost() for item in self.bill_drink.all())
         )
         self.save()
+
+    def save(self, *args,**kwargs):
+        if all(bill_dish.out for bill_dish in self.bill_dish.all()) and all(bill_drink.out for bill_drink in self.bill_drink.all()):
+               self.done = True
+        super().save(*args,**kwargs)
     
 # ? Number of Dish in Bill  
 
@@ -28,6 +33,7 @@ class BillDish(models.Model):
     id_dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
     id_bill = models.ForeignKey(Bill,related_name='bill_dish', on_delete=models.CASCADE)
     number = models.IntegerField(default=1)
+    out = models.BooleanField(default=False)
     
     def __str__(self):
         return f'{self.id_bill} num - {self.id_dish.cost*self.number}' 
@@ -42,7 +48,7 @@ class BillDrink(models.Model):
     id_drink = models.ForeignKey(Drink, on_delete=models.CASCADE)
     id_bill = models.ForeignKey(Bill,related_name='bill_drink' ,on_delete=models.CASCADE)
     number = models.IntegerField(default=1)
-    
+    out = models.BooleanField(default=False)
     def __str__(self):
         return f'{self.id_bill} - {self.id_drink.cost*self.number}' 
     
@@ -52,7 +58,7 @@ class BillDrink(models.Model):
 # ? Guest who came to the Restaurant and take a seat in one Table
 class Guest(models.Model):
     id = models.AutoField(primary_key=True)
-    table = models.ForeignKey(Table, on_delete=models.CASCADE)
+    table = models.ForeignKey(Table, on_delete=models.CASCADE,related_name='guest')
     bill = models.ForeignKey(Bill, on_delete=models.CASCADE, blank=True, null=True)
     date_came = models.DateField(auto_now=True)
     wait = models.BooleanField(default=False)

@@ -81,7 +81,7 @@ class Menu(models.Model):
 
 # Tables for one Restoration
 class Table(models.Model):
-    id = models.AutoField(primary_key=True, unique=True)
+    id = models.AutoField(primary_key=True)
     qr_code = models.ImageField(blank=True, upload_to='qr_codes')
 
     def __str__(self):
@@ -89,7 +89,6 @@ class Table(models.Model):
     
     def save(self, *args, **kwargs):
         
-        super().save(*args, **kwargs)
         
         # Generuj URL dla tabeli
         table_url = settings.FRONT_URL + '/table/'+ str(self.id) +'/'

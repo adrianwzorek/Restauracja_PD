@@ -3,7 +3,6 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 
 from .models import Allergen, Dish, Drink, Menu, Table, Waiter
-
 # Models serializers
 
 class UserSerializer(serializers.ModelSerializer):
@@ -12,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
     phone_num = serializers.IntegerField(write_only=True)
     class Meta: 
         model = User
-        fields =['username','password','email','name','surname','phone_num']
+        fields =['id','username','password','email','name','surname','phone_num']
         extra_kwargs = {'password':{'write_only':True}}
 
     def create(self, validated_data):

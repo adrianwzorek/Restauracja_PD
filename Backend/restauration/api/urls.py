@@ -10,7 +10,7 @@ from .views import (
     DrinksDetails,
     ListMenu,
     MenuDetails,
-    ListTable,
+    ListTableAdmin,
     TableDetails,
     ListWaiter,
     WaiterDetails,
@@ -18,9 +18,12 @@ from .views import (
     BillDetails,
     ListGuest,
     GuestDetails,
-    CreateUserView
+    CreateUserView,
+    ManageByWaiter,
+    WaiterOrders
     )
 urlpatterns = [
+    path('login/<int:pk>/',ManageByWaiter.as_view(), name='login' ),
     path('register/',CreateUserView.as_view(), name='register_waiter'),
     path('allergen/', ListAllergens.as_view(),name='all_allergens'),
     path('allergen/<int:pk>/', AllergenDetails.as_view(), name='allergen_details'),
@@ -30,7 +33,7 @@ urlpatterns = [
     path('drink/<int:pk>/',DrinksDetails.as_view(),name='drink_details'),
     path('menu/',ListMenu.as_view(), name='all_menus'),
     path('menu/<int:pk>/',MenuDetails.as_view(), name='menu_details'),
-    path('table/', ListTable.as_view(), name='all_tables'),
+    path('table/', ListTableAdmin.as_view(), name='all_tables'),
     path('table/<int:pk>/', TableDetails.as_view(), name='table_details'),
     path('waiter/', ListWaiter.as_view(), name='all_waiters'),
     path('waiter/<int:pk>/', WaiterDetails.as_view(), name='waiter_details'),
@@ -38,4 +41,5 @@ urlpatterns = [
     path('bill/<int:pk>/',BillDetails.as_view(), name='bill_details'),
     path('guest/', ListGuest.as_view(), name='all_guest'),
     path('guest/<int:pk>/', GuestDetails.as_view(),name='guest_details'),
+    path('order/',WaiterOrders.as_view(),name='order'),
 ] 
