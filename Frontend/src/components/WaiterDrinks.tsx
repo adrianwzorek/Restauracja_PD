@@ -44,7 +44,11 @@ const WaiterDrinks = (props: { drink: BillDrink[]; setDrink: Function }) => {
       {drink?.map((e, id) => {
         return !props.drink[id].isReady ? (
           <li key={id}>
-            {e.image ? <img src={e.image} alt={e.name} /> : ""}
+            {e.image ? (
+              <img src={import.meta.env.VITE_BASE_URL + e.image} alt={e.name} />
+            ) : (
+              ""
+            )}
             <p>{e.name}</p>
             <p>bill - {props.drink[id].id_bill}</p>
             <p>number - {props.drink[id].number}</p>

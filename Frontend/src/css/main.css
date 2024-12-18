@@ -47,11 +47,7 @@ li[class*="item"] {
   overflow: hidden;
   background: linear-gradient(to top, var(--color-third), transparent);
   position: relative;
-  img {
-    z-index: 0;
-    aspect-ratio: 2/1;
-    width: 100%;
-  }
+
   *:not(img) {
     z-index: 1;
     padding-inline: var(--padding);
@@ -66,6 +62,11 @@ li[class*="item"] {
       width: 80%;
     }
   }
+}
+img {
+  z-index: 0;
+  aspect-ratio: 2/1;
+  width: 100%;
 }
 button {
   aspect-ratio: 4/1;

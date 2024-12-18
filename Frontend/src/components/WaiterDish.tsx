@@ -45,7 +45,14 @@ const WaiterDish = (props: { dish: BillDish[]; setDish: Function }) => {
       {dish?.map((e, id) => {
         return !props.dish[id].isReady ? (
           <li key={id}>
-            {e.image ? <img src={e.image} alt={e.title} /> : ""}
+            {e.image ? (
+              <img
+                src={import.meta.env.VITE_BASE_URL + e.image}
+                alt={e.title}
+              />
+            ) : (
+              ""
+            )}
             <p>{e.title}</p>
             <p>number - {props.dish[id].number}</p>
             <p>bill - {props.dish[id].id_bill}</p>
