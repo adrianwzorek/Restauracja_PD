@@ -16,13 +16,12 @@ from .models import Allergen, Dish, Drink,Menu, Table, Waiter
 from guest.models import Guest, Bill, BillDish, BillDrink
 from guest.serializers import GuestSerializer, BillSerializer, BillDrinkSerializer, BillDishSerializer
 from .permission import IsSuperUser
-
+from .authentication import BearerJWTAuthentication
 # Create your views here.
-
 
 class WaiterOrders(APIView):
     permission_classes = [permissions.IsAuthenticated]
-    
+    authentication_classes = [BearerJWTAuthentication]
     def get(self,request):
         try:
             waiter =  Waiter.objects.get(user = request.user)
@@ -33,7 +32,7 @@ class WaiterOrders(APIView):
             bill_drink = BillDrink.objects.filter(id_bill__in=bills)
             bill_dish = BillDish.objects.filter(id_bill__in=bills)
             
-            
+            sWaiter = WaiterSerializer(waiter)            
             sBill = BillSerializer(bills,many=True)
             sBill_drink = BillDrinkSerializer(bill_drink, many=True)
             sBill_dish = BillDishSerializer(bill_dish,many=True)
@@ -41,14 +40,13 @@ class WaiterOrders(APIView):
             return Response( {
                 'bills':sBill.data,
                 'bill_dishes':sBill_dish.data,
-                'bill_drinks':sBill_drink.data
+                'bill_drinks':sBill_drink.data,
+                'user': sWaiter.data
             },status=status.HTTP_200_OK)
         except Waiter.DoesNotExist:
             return Response({'error':'No such Waiter'}, status=status.HTTP_400_BAD_REQUEST)
         except Table.DoesNotExist:
             return Response({'error':'No such Tables'}, status=status.HTTP_400_BAD_REQUEST)
-
-
 
 
 
@@ -95,18 +93,8 @@ class CustomTokenObtainView(TokenObtainPairView):
             access_token = tokens['access']
             refresh_token = tokens['refresh']
 
-            res = Response({'success':True}, status=status.HTTP_200_OK)
-            res.set_cookie(
-                key='access_token',
-                value=access_token,
-                path='/'
-            )
-            res.set_cookie(
-                key='refresh_token',
-                value=refresh_token,
-                path='/'
-            )
-            
+            res = Response({'success':True, 'access':access_token, 'refresh':refresh_token}, status=status.HTTP_200_OK)
+
             return res
         except:
 
@@ -168,7 +156,7 @@ class MenuDetails(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MenuSerializer
     permission_classes = [permissions.IsAuthenticated, IsSuperUser]
 
-class ListTableAdmin(APIView):
+class ListTable(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self,request):
         try:

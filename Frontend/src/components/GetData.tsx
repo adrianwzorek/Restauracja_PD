@@ -193,3 +193,21 @@ export const getAllergen = async (
     throw err;
   }
 };
+
+export const getAllBills = async () => {
+  const token = localStorage.getItem("access");
+  if (!token) return "";
+  await api
+    .get(`order/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("get Bill waiter " + err);
+      throw err;
+    });
+};

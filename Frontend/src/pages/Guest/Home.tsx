@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { GetDish, GetDrink } from "../components/GetData";
-import { ALCOHOL, DataDish, DataDrink } from "../types";
+import { GetDish, GetDrink } from "../../components/GetData";
+import { DataDish, DataDrink } from "../../types";
 import { useParams } from "react-router-dom";
-import SpecificButtons from "../components/SpecificButtons";
 import Dishes from "./Dishes";
 import Drinks from "./Drinks";
 

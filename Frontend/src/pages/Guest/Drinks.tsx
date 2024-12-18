@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { GetDrink } from "../components/GetData";
-import { ALCOHOL, DataDrink } from "../types";
-import ChangePage from "../components/ChangePage";
-import SpecificButtons from "../components/SpecificButtons";
+import { GetDrink } from "../../components/GetData";
+import { ALCOHOL, DataDrink } from "../../types";
+import ChangePage from "../../components/ChangePage";
+import SpecificButtons from "../../components/SpecificButtons";
 
 const Drinks = ({ showPagination }: { showPagination: boolean }) => {
   const [data, setData] = useState<DataDrink>();
@@ -22,7 +22,7 @@ const Drinks = ({ showPagination }: { showPagination: boolean }) => {
   }, [url]);
   return (
     <>
-      {showPagination ?? true ? (
+      {showPagination ? (
         <>
           <h2>List of Drinks</h2>
           <p>Page {page}</p>

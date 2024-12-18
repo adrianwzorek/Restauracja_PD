@@ -1,16 +1,30 @@
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-class CookiesJWTAuthentication(JWTAuthentication):
+class BearerJWTAuthentication(JWTAuthentication):
     def authenticate(self, request):
-        access_token = request.COOKIES.get('access_token')
-        if not access_token:
+        # Sprawdzanie nagłówka Authorization
+        auth_header = request.headers.get('Authorization')
+
+        if not auth_header:
+            return None
+
+        # Token Bearer w formacie "Bearer <token>"
+        if not auth_header.startswith('Bearer '):
+            return None
+
+        # Wyciąganie samego tokenu
+        access_token = auth_header.split(' ')[1]
+
+        # Walidacja tokenu
+        try:
+            validate_token = self.get_validated_token(access_token)
+        except:
             return None
         
-        validate_token = self.get_validated_token(access_token)
-
+        # Pobranie użytkownika z walidowanego tokenu
         try:
             user = self.get_user(validate_token)
         except:
             return None
-        
-        return (user,validate_token)
+
+        return (user, validate_token)

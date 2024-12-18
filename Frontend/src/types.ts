@@ -73,6 +73,7 @@ export type BillDish = {
   id_dish?: number;
   id_bill: number;
   number: number;
+  isReady: Boolean;
 };
 
 export type BillDrink = {
@@ -80,4 +81,20 @@ export type BillDrink = {
   id_drink?: number;
   id_bill: number;
   number: number;
+  isReady: Boolean;
+};
+
+export type User = {
+  username: string;
+  password: string;
+};
+
+export type Waiter = {
+  id: number;
+  user: User;
+  name: string;
+  surname: string;
+  phone_num: number;
+  work_start: string;
+  has_table: number[];
 };

@@ -75,6 +75,9 @@ button {
   background-color: transparent;
   overflow: hidden;
   transition: all 0.2s;
+  /*  */
+  width: 100px;
+  /*  */
   &:hover,
   &:active {
     background-color: var(--color-first);

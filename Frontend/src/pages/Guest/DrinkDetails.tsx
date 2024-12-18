@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ALCOHOL, Drink } from "../types";
-import api from "../api";
-import Confirm from "../components/Confirm";
+import { ALCOHOL, Drink } from "../../types";
+import api from "../../api";
+import Confirm from "../../components/Confirm";
 
 const DrinkDetails = () => {
   const { id } = useParams();

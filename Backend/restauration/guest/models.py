@@ -21,8 +21,9 @@ class Bill(models.Model):
         )
         self.save()
 
-    def save(self, *args,**kwargs):
+    def check_items(self, *args,**kwargs):
         if all(bill_dish.out for bill_dish in self.bill_dish.all()) and all(bill_drink.out for bill_drink in self.bill_drink.all()):
+            if not self.abandoned:
                self.done = True
         super().save(*args,**kwargs)
     
@@ -33,7 +34,7 @@ class BillDish(models.Model):
     id_dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
     id_bill = models.ForeignKey(Bill,related_name='bill_dish', on_delete=models.CASCADE)
     number = models.IntegerField(default=1)
-    out = models.BooleanField(default=False)
+    isReady = models.BooleanField()
     
     def __str__(self):
         return f'{self.id_bill} num - {self.id_dish.cost*self.number}' 
@@ -48,7 +49,7 @@ class BillDrink(models.Model):
     id_drink = models.ForeignKey(Drink, on_delete=models.CASCADE)
     id_bill = models.ForeignKey(Bill,related_name='bill_drink' ,on_delete=models.CASCADE)
     number = models.IntegerField(default=1)
-    out = models.BooleanField(default=False)
+    isReady = models.BooleanField(default=False)
     def __str__(self):
         return f'{self.id_bill} - {self.id_drink.cost*self.number}' 
     

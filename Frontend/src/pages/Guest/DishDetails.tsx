@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Allergen, Dish } from "../types";
-import api from "../api";
-import { addToBill } from "../components/SetData";
-import { getAllergen } from "../components/GetData";
-import "../css/details.css";
-import Confirm from "../components/Confirm";
+import { Allergen, Dish } from "../../types";
+import api from "../../api";
+import { getAllergen } from "../../components/GetData";
+import "../../css/details.css";
+import Confirm from "../../components/Confirm";
 
 const DishDetails = () => {
   const { id } = useParams();

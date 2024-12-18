@@ -15,7 +15,7 @@ class BillAdmin(admin.ModelAdmin):
 
 @admin.register(BillDish)
 class BillDishAdmin(admin.ModelAdmin):
-    list_display = ('id', 'id_dish', 'id_bill', 'number','out')
+    list_display = ('id', 'id_dish', 'id_bill', 'number','isReady')
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)  
@@ -23,7 +23,7 @@ class BillDishAdmin(admin.ModelAdmin):
 
 @admin.register(BillDrink)
 class BillDrinkAdmin(admin.ModelAdmin):
-    list_display = ('id', 'id_drink', 'id_bill', 'number','out')
+    list_display = ('id', 'id_drink', 'id_bill', 'number','isReady')
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)  

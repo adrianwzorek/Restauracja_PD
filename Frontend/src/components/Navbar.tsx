@@ -28,6 +28,12 @@ const Navbar = () => {
       >
         Bill
       </NavLink>
+      <NavLink
+        to="/login/"
+        className={({ isActive }) => (isActive ? "active link" : "link")}
+      >
+        Admin
+      </NavLink>
     </nav>
   );
 };

@@ -8,6 +8,7 @@ from .serializers import BillSerializer,BillDishSerializer,BillDrinkSerializer, 
 from api.models import Allergen, Menu, Table
 from api.serializers import AllergenSerializer, DrinkSerializer, MenuSerializer, DishSerializer, TableSerializer
 from rest_framework.pagination import PageNumberPagination
+from api.permission import IsGuestOrAuthenticated
 
 class SpecificPaginator(PageNumberPagination):
     page_size = 8
@@ -15,7 +16,7 @@ class SpecificPaginator(PageNumberPagination):
     page_size_query_param = 'page_size'
 
 class HomeFirst(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny,IsGuestOrAuthenticated ]
     def get(self,request,pk):
         try:
             table = Table.objects.get(id = pk)
@@ -36,7 +37,8 @@ class HomeFirst(APIView):
 
 
 class Home(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny,IsGuestOrAuthenticated]
+
     def get(self, request):
         try:
             menu = Menu.objects.filter(active= True).first()
@@ -49,7 +51,7 @@ class Home(APIView):
             return Response({'error':'No Menu in database'}, status=status.HTTP_400_BAD_REQUEST)
 
 class Dishes(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny,IsGuestOrAuthenticated]
     def get(self,request, *args, **kwargs):
         try:
             menu = Menu.objects.prefetch_related('dishes').get(active = True)
@@ -63,7 +65,7 @@ class Dishes(APIView):
             return Response({'error':'No Menu in database'}, status=status.HTTP_400_BAD_REQUEST)
 
 class Drinks(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny,IsGuestOrAuthenticated]
     
     def get(self,request, *args, **kwargs):
         try:
@@ -80,7 +82,7 @@ class Drinks(APIView):
             
 
 class DishDetails(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny,IsGuestOrAuthenticated]
     serializer_class = DishSerializer
     def get(self,request, pk):
         try:
@@ -93,7 +95,7 @@ class DishDetails(APIView):
 
 
 class DrinkDetails(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny,IsGuestOrAuthenticated]
     def get(self,request,pk):
         try:
             menu = Menu.objects.prefetch_related('drinks').get(active = True)
@@ -106,17 +108,17 @@ class DrinkDetails(APIView):
 class ManageBill(RetrieveUpdateAPIView):
     queryset = Bill.objects.all()
     serializer_class = BillSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny,IsGuestOrAuthenticated]
     
 class GetAllergen(RetrieveAPIView):
     queryset = Allergen.objects.all()
     serializer_class = AllergenSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny,IsGuestOrAuthenticated]
 
 class CreateNewGuest(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny,IsGuestOrAuthenticated]
 
-    def put(self,request, pk):
+    def post(self,request, pk):
         try:
             table = Table.objects.get(id=pk)
         except Table.DoesNotExist:
@@ -134,10 +136,10 @@ class CreateNewGuest(APIView):
 class GetAllergen(RetrieveAPIView):
     queryset = Allergen.objects.all()
     serializer_class = AllergenSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny,IsGuestOrAuthenticated]
 
 class ManageBillDish(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny,IsGuestOrAuthenticated]
     
     def get(self, request, pk1,pk2):
         bill_dish = BillDish.objects.get(id_bill=pk1,id_dish=pk2)
@@ -150,7 +152,13 @@ class ManageBillDish(APIView):
         except BillDish.DoesNotExist:
             return Response({'error': 'BillDish not found'}, status=status.HTTP_404_NOT_FOUND)
         
+        if request.data.get('isReady'):
+            bill_dish.isReady = True
+        else:
+            bill_dish.isReady = False
+        
         serializer = BillDishSerializer(bill_dish, data=request.data, partial=True)
+        print(request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -172,7 +180,7 @@ class ManageBillDish(APIView):
 
 
 class ManageBillDrink(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny,IsGuestOrAuthenticated]
     
     def get(self, request, pk1,pk2):
         bill_drink = BillDrink.objects.get(id_bill=pk1,id_drink=pk2)
@@ -184,9 +192,16 @@ class ManageBillDrink(APIView):
             bill_drink = BillDrink.objects.get(id_bill=pk1,id_drink=pk2)
         except BillDrink.DoesNotExist:
             return Response({'error': 'BillDish not found'}, status=status.HTTP_404_NOT_FOUND)
-
+            
+        if request.data.get('isReady'):
+            bill_drink.isReady = True
+        else:
+            bill_drink.isReady = False
+            
         serializer = BillDrinkSerializer(bill_drink, data=request.data, partial=True)
+            
         if serializer.is_valid():
+            print(request.data)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -206,7 +221,7 @@ class ManageBillDrink(APIView):
 
     
 class AllBillDrink(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny,IsGuestOrAuthenticated]
 
     def get(self,request):
         data = BillDrink.objects.all()
@@ -221,7 +236,7 @@ class AllBillDrink(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class AllBillDish(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny,IsGuestOrAuthenticated]
 
     def get(self,request):
         data = BillDish.objects.all()
@@ -236,8 +251,7 @@ class AllBillDish(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class ManageGuest(APIView):
-    permission_classes = [AllowAny]
-
+    permission_classes = [AllowAny,IsGuestOrAuthenticated]
     def get(self,request,pk):
         try:
             data = Guest.objects.get(id = pk)

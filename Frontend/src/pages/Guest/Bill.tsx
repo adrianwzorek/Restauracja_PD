@@ -1,12 +1,12 @@
 import React from "react";
-import { NewBill } from "../components/SetData";
+import { NewBill } from "../../components/SetData";
 import GuestBill from "./GuestBill";
 
 const Bill = (props: { haveBill: boolean; setBill: Function }) => {
   const table = localStorage.getItem("table");
   const createNewBill = async () => {
     if (table) {
-      await NewBill(table);
+      await NewBill();
       props.setBill(true);
     } else {
       alert("No table found, Please speak to one of our employee");

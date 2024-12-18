@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Bill } from "../types";
-import { getBill } from "../components/GetData";
-import DishesList from "../components/DishesList";
-import DrinksList from "../components/DrinksList";
-import api from "../api";
+import { Bill } from "../../types";
+import { getBill } from "../../components/GetData";
+import DishesList from "../../components/DishesList";
+import DrinksList from "../../components/DrinksList";
+import api from "../../api";
 import { useNavigate } from "react-router-dom";
-import "../css/bill.css";
+import "../../css/bill.css";
 
 const GuestBill = (props: { setBill: Function }) => {
   const [order, setOrder] = useState<Bill>();
@@ -54,12 +54,16 @@ const GuestBill = (props: { setBill: Function }) => {
   const orderNow = async () => {
     const guest = localStorage.getItem("guest");
     if (!guest) return alert("Please contact our staff");
-    await api
-      .put(`app/guest/${guest}/`, { wait: true })
-      .catch((err) => alert("wrong query " + err));
-    return navigator("/bill/done/");
+    if (order?.full_cost == 0.0)
+      return alert("You do not have any item to Order");
+    else {
+      await api
+        .put(`app/guest/${guest}/`, { wait: true })
+        .catch((err) => alert("wrong query " + err));
+      return navigator("/bill/done/");
+    }
   };
-
+  console.log(order);
   return (
     <>
       <h1>Bill {order?.id}</h1>

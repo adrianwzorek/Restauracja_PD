@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { GetDish } from "../components/GetData";
-import ChangePage from "../components/ChangePage";
-import { DataDish } from "../types";
-import SpecificButtons from "../components/SpecificButtons";
+import { GetDish } from "../../components/GetData";
+import ChangePage from "../../components/ChangePage";
+import { DataDish } from "../../types";
+import SpecificButtons from "../../components/SpecificButtons";
 
 const Dishes = ({ showPagination }: { showPagination: boolean }) => {
   const [data, setData] = useState<DataDish>();
@@ -22,7 +22,7 @@ const Dishes = ({ showPagination }: { showPagination: boolean }) => {
   }, [url]);
   return (
     <>
-      {showPagination ?? true ? (
+      {showPagination ? (
         <>
           <h2>List of Dishes</h2>
           <p>Page {page}</p>
