@@ -65,7 +65,6 @@ const Login = () => {
         </label>
         <div className="buttons-container">
           <button type="submit">Login</button>
-          <button type="reset">Cancel</button>
         </div>
       </form>
     </>

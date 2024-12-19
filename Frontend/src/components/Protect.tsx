@@ -12,7 +12,7 @@ const Protect: React.FC<Children> = ({ children }) => {
     const token = localStorage.getItem("access");
     if (!token) navigator("/login");
   }, []);
-  return <div>{children}</div>;
+  return <>{children}</>;
 };
 
 export default Protect;

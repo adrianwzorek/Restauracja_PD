@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Bill, BillDish, BillDrink, Waiter } from "../../types";
 import { jwtDecode } from "jwt-decode";
 import api from "../../api";
-import WaiterTable from "../../components/WaiterTable";
+import Table from "../../components/WaiterTable";
 import { useNavigate } from "react-router-dom";
 
 export type Token = {
@@ -14,49 +14,42 @@ export type Token = {
 };
 
 const Dashboard = () => {
-  const [user, setUser] = useState<Waiter>();
-  const [bills, setBills] = useState<Bill[]>();
-  const [billDish, setBillDish] = useState<BillDish[]>();
-  const [billDrink, setBillDrink] = useState<BillDrink[]>();
+  const [user, setUser] = useState<Waiter | null>(null);
+  const [bills, setBills] = useState<Bill[]>([]);
+  const [billDish, setBillDish] = useState<BillDish[]>([]);
+  const [billDrink, setBillDrink] = useState<BillDrink[]>([]);
   const [wait, setWait] = useState(false);
 
   const navigator = useNavigate();
+
   const getUser = async () => {
     const token = localStorage.getItem("access");
-    if (!token) return "";
+    if (!token) return;
     try {
       const data: Token = jwtDecode(token);
-      await api
-        .get(`api/order/`)
-        .then((res) => {
-          setUser(res.data.user);
-          setBillDish(res.data.bill_dishes);
-          setBillDrink(res.data.bill_drinks);
-          setBills(res.data.bills);
-          console.log("Success");
-        })
-        .catch((err) => {
-          setWait(true);
-          console.log("Error on fetching waiter " + err);
-        });
+      const response = await api.get("api/order/");
+      const { user, bill_dishes, bill_drinks, bills } = response.data;
+      setUser(user);
+      setBillDish(bill_dishes || []);
+      setBillDrink(bill_drinks || []);
+      setBills(bills || []);
+      console.log("Success", { user, bill_dishes, bill_drinks, bills });
     } catch (err) {
-      console.log("Error with decoding " + err);
-      throw err;
+      setWait(true);
+      console.error("Error fetching waiter data:", err);
     }
   };
 
-  console.log(user, billDrink);
-
   const logout = async () => {
-    await api
-      .post(`logout/`)
-      .then((res) => console.log(res))
-      .catch((err) => {
-        console.log("something wrong with logout " + err);
-        throw err;
-      });
-    localStorage.clear();
-    navigator("/login/");
+    try {
+      await api.post("logout/");
+      console.log("Logged out successfully.");
+    } catch (err) {
+      console.error("Error during logout:", err);
+    } finally {
+      localStorage.clear();
+      navigator("/login/");
+    }
   };
 
   useEffect(() => {
@@ -64,16 +57,15 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="container">
-      <WaiterTable
-        dish={billDish ?? []}
-        drink={billDrink ?? []}
-        table={user?.has_table ?? []}
-        setDish={setBillDish}
-        setDrink={setBillDrink}
+    <div>
+      <Table
+        table={user?.has_table || []}
+        bills={bills}
+        billDish={billDish}
+        billDrink={billDrink}
       />
-      <button onClick={() => logout()}>Logout</button>
-      {wait ? <a href="http://127.0.0.1:8000/admin/">SuperUser</a> : ""}
+      <button onClick={logout}>Logout</button>
+      {wait && <a href="http://127.0.0.1:8000/admin/">SuperUser</a>}
     </div>
   );
 };

@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { BillDrink, Drink } from "../types";
+import { Bill, BillDrink, Drink } from "../types";
 import { getGuestDrink } from "./GetData";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 
-const WaiterDrinks = (props: { drink: BillDrink[]; setDrink: Function }) => {
+const WaiterDrinks = (props: {
+  drink: BillDrink[];
+  setDrink: Function;
+  table: number[];
+  bills: Bill[];
+}) => {
   const [drink, setDrink] = useState<Drink[]>();
   const navigator = useNavigate();
   const fetch = async () => {
@@ -27,21 +32,13 @@ const WaiterDrinks = (props: { drink: BillDrink[]; setDrink: Function }) => {
       console.log("Something went wrong with itemOut " + err);
       throw err;
     }
-    // Zaktualizuj stan 'drink' w rodzicu (w props.setDrink) po zaktualizowaniu drinka
-    props.setDrink((prevDishes: BillDrink[]) =>
-      prevDishes?.map((e) =>
-        e.id === item.id_drink ? { ...e, isReady: true } : e
-      )
-    );
 
-    // Opcjonalnie, jeżeli chcesz zaktualizować 'drink' w tym komponencie
-    // np. usunąć z listy napój, które zostało przetworzone
-    setDrink((prevDrink) => prevDrink?.filter((d) => d.id !== item.id_drink));
     navigator("/login/");
   };
 
   return (
     <div>
+      <h1>Drinks</h1>
       {drink?.map((e, id) => {
         return !props.drink[id].isReady ? (
           <div key={id}>

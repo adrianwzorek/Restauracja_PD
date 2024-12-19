@@ -1,31 +1,76 @@
-import React from "react";
-import { BillDish, BillDrink } from "../types";
-import WaiterDish from "./WaiterDish";
-import WaiterDrinks from "./WaiterDrinks";
+import React, { useEffect } from "react";
 
-const WaiterTable = (props: {
+import { Bill, BillDish, BillDrink } from "../types";
+import "../css/waiter.css";
+
+const Table = (props: {
   table: number[];
-  dish: BillDish[];
-  drink: BillDrink[];
-  setDrink: Function;
-  setDish: Function;
+  bills: Bill[];
+  billDish: BillDish[];
+  billDrink: BillDrink[];
 }) => {
   // Funkcja filtrująca dania przypisane do konkretnego stolika
   const getDishesForTable = (tableId: number) => {
-    return props.dish.filter((dish) => dish.id_bill === tableId);
+    return props.billDish.filter((dish) => {
+      const bill = props.bills.find((b) => b.id === dish.id_bill);
+      return bill?.table === tableId;
+    });
   };
 
   // Funkcja filtrująca napoje przypisane do konkretnego stolika
   const getDrinksForTable = (tableId: number) => {
-    return props.drink.filter((drink) => drink.id_bill === tableId);
+    return props.billDrink.filter((drink) => {
+      const bill = props.bills.find((b) => b.id === drink.id_bill);
+      return bill?.table === tableId;
+    });
   };
 
   return (
-    <div>
-      <WaiterDrinks drink={props.drink} setDrink={props.setDrink} />
-      <WaiterDish dish={props.dish} setDish={props.setDish} />
+    <div className="table-list">
+      {props.table.map((tableId) => (
+        <div key={tableId} className="table-item">
+          <h1>Table {tableId}</h1>
+          <div className="bills-section">
+            <h2>Dishes</h2>
+            {getDishesForTable(tableId).length > 0 ? (
+              <ul>
+                {getDishesForTable(tableId).map((dish) =>
+                  !dish.isReady ? (
+                    <li key={dish.id_dish || dish.id}>
+                      <p>Dish ID: {dish.id_dish}</p>
+                      <p>Number: {dish.number}</p>
+                    </li>
+                  ) : (
+                    ""
+                  )
+                )}
+              </ul>
+            ) : (
+              <p>No dishes for this table.</p>
+            )}
+          </div>
+
+          <div className="bills-section">
+            <h2>Drinks</h2>
+            {getDrinksForTable(tableId).length > 0 ? (
+              <ul>
+                {getDrinksForTable(tableId).map((drink) => (
+                  <li key={drink.id_drink || drink.id}>
+                    <p>Drink ID: {drink.id_drink}</p>
+                    <p>Number: {drink.number}</p>
+                    <p>Status: {drink.isReady ? "Ready" : "Not Ready"}</p>
+                    <button onClick={() => alert("DOne")}>DONE</button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No drinks for this table.</p>
+            )}
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
 
-export default WaiterTable;
+export default Table;
