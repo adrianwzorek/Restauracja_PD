@@ -13,8 +13,8 @@ const Confirm = (props: {
   useEffect(() => {
     const bill = Number(localStorage.getItem("bill"));
     props.type === "dish"
-      ? setData({ id_bill: bill, number: 1 })
-      : setData({ id_bill: bill, number: 1 });
+      ? setData({ id_bill: bill, number: 1, isReady: false })
+      : setData({ id_bill: bill, number: 1, isReady: false });
   }, []);
 
   const addToBill = async (e: FormEvent<HTMLElement>) => {
@@ -26,6 +26,7 @@ const Confirm = (props: {
           id_dish: props.id,
           id_bill: data?.id_bill,
           number: data?.number,
+          isReady: false,
         });
         alert("added dish");
       } else {
@@ -33,6 +34,7 @@ const Confirm = (props: {
           id_drink: props.id,
           id_bill: data?.id_bill,
           number: data?.number,
+          isReady: false,
         });
         alert("added drink");
       }

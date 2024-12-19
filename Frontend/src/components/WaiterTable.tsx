@@ -21,36 +21,10 @@ const WaiterTable = (props: {
   };
 
   return (
-    <table style={{ width: "100%", textAlign: "center" }}>
-      <thead>
-        <tr style={{ outline: "1px solid black" }}>
-          {props.table.map((tableId) => (
-            <th key={tableId}>Table - {tableId}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          {props.table.map((tableId) => (
-            <td key={tableId}>
-              {/* Użycie WaiterDish */}
-              <h3>Dishes:</h3>
-              <WaiterDish
-                dish={getDishesForTable(tableId)}
-                setDish={props.setDish}
-              />
-
-              {/* Użycie WaiterDrinks */}
-              <h3>Drinks:</h3>
-              <WaiterDrinks
-                drink={getDrinksForTable(tableId)}
-                setDrink={props.setDrink}
-              />
-            </td>
-          ))}
-        </tr>
-      </tbody>
-    </table>
+    <div>
+      <WaiterDrinks drink={props.drink} setDrink={props.setDrink} />
+      <WaiterDish dish={props.dish} setDish={props.setDish} />
+    </div>
   );
 };
 

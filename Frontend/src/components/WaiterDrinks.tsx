@@ -39,11 +39,12 @@ const WaiterDrinks = (props: { drink: BillDrink[]; setDrink: Function }) => {
     setDrink((prevDrink) => prevDrink?.filter((d) => d.id !== item.id_drink));
     navigator("/login/");
   };
+
   return (
-    <ul>
+    <div>
       {drink?.map((e, id) => {
         return !props.drink[id].isReady ? (
-          <li key={id}>
+          <div key={id}>
             {e.image ? (
               <img src={import.meta.env.VITE_BASE_URL + e.image} alt={e.name} />
             ) : (
@@ -55,12 +56,12 @@ const WaiterDrinks = (props: { drink: BillDrink[]; setDrink: Function }) => {
             <button onClick={() => itemOut("drink", props.drink[id])}>
               DONE
             </button>
-          </li>
+          </div>
         ) : (
           ""
         );
       })}
-    </ul>
+    </div>
   );
 };
 

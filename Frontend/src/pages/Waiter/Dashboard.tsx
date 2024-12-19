@@ -3,7 +3,7 @@ import { Bill, BillDish, BillDrink, Waiter } from "../../types";
 import { jwtDecode } from "jwt-decode";
 import api from "../../api";
 import WaiterTable from "../../components/WaiterTable";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export type Token = {
   exp: number;
@@ -18,6 +18,8 @@ const Dashboard = () => {
   const [bills, setBills] = useState<Bill[]>();
   const [billDish, setBillDish] = useState<BillDish[]>();
   const [billDrink, setBillDrink] = useState<BillDrink[]>();
+  const [wait, setWait] = useState(false);
+
   const navigator = useNavigate();
   const getUser = async () => {
     const token = localStorage.getItem("access");
@@ -34,6 +36,7 @@ const Dashboard = () => {
           console.log("Success");
         })
         .catch((err) => {
+          setWait(true);
           console.log("Error on fetching waiter " + err);
         });
     } catch (err) {
@@ -42,7 +45,7 @@ const Dashboard = () => {
     }
   };
 
-  console.log(user);
+  console.log(user, billDrink);
 
   const logout = async () => {
     await api
@@ -70,6 +73,7 @@ const Dashboard = () => {
         setDrink={setBillDrink}
       />
       <button onClick={() => logout()}>Logout</button>
+      {wait ? <a href="http://127.0.0.1:8000/admin/">SuperUser</a> : ""}
     </div>
   );
 };

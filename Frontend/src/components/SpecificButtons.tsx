@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { addToBill } from "./SetData";
 import { getDetailsDish, getDetailsDrink } from "./GetData";
 import { useNavigate } from "react-router-dom";
 import Confirm from "./Confirm";

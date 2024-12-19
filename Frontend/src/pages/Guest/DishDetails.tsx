@@ -57,12 +57,20 @@ const DishDetails = () => {
       )}
       <div className="details-container">
         <h1>{dish?.title}</h1>
-        {dish?.image ? <img src={dish?.image} alt={dish?.title} /> : ""}
+        {dish?.image ? (
+          <img
+            src={import.meta.env.VITE_BASE_URL + dish?.image}
+            alt={dish?.title}
+          />
+        ) : (
+          ""
+        )}
         <h3>Portion weight {dish?.portion_weight} g</h3>
         <p>{dish?.description}</p>
         <p>{dish?.ingredients}</p>
         <p>Special - {dish?.special ? "🟢" : "🔴"}</p>
         <p>{dish?.cost} zł</p>
+        <p>weight - {dish?.portion_weight}g</p>
         <ul className="allergen-container">
           <h3>Allergens</h3>
           {allergen.length > 0 ? (

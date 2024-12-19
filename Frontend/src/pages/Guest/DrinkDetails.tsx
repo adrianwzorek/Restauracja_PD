@@ -50,11 +50,19 @@ const DrinkDetails = () => {
       )}
       <div className="details-container">
         <h1>{drink?.name}</h1>
-        {drink?.image ? <img src={drink?.image} alt={drink?.name} /> : ""}
+        {drink?.image ? (
+          <img
+            src={import.meta.env.VITE_BASE_URL + drink?.image}
+            alt={drink?.name}
+          />
+        ) : (
+          ""
+        )}
         <h2>{drink?.description}</h2>
         <p>{ALCOHOL(drink?.type ?? 0)}</p>
         <p>{drink?.cost} zł</p>
         <p>Special {drink?.special ? "🟢" : "🔴"}</p>
+        <p>Weight - {drink?.weight}</p>
         <button
           onClick={() => {
             getAddToBill();

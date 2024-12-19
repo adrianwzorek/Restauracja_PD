@@ -50,7 +50,14 @@ const DishesList = (props: {
               ) : (
                 ""
               )}
-              {e.image ? <img src={e.image} alt={e.title} /> : ""}
+              {e.image ? (
+                <img
+                  src={import.meta.env.VITE_BASE_URL + e.image}
+                  alt={e.title}
+                />
+              ) : (
+                ""
+              )}
               <h2>
                 {e.title} x{billDish![id].number}
               </h2>
