@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { Bill, BillDish, BillDrink } from "../types";
 import "../css/waiter.css";
@@ -24,6 +24,8 @@ const Table = (props: {
       return bill?.table === tableId;
     });
   };
+
+  console.log(props.billDish);
 
   return (
     <div className="table-list">
@@ -55,7 +57,7 @@ const Table = (props: {
             {getDrinksForTable(tableId).length > 0 ? (
               <ul>
                 {getDrinksForTable(tableId).map((drink) => (
-                  <li key={drink.id_drink || drink.id}>
+                  <li key={drink.id}>
                     <p>Drink ID: {drink.id_drink}</p>
                     <p>Number: {drink.number}</p>
                     <p>Status: {drink.isReady ? "Ready" : "Not Ready"}</p>

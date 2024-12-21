@@ -32,6 +32,14 @@ export const ALCOHOL = (num: number) => {
   }
 };
 
+export type Guest = {
+  id: number;
+  table: number;
+  bill: number;
+  date_came: Date;
+  wait: boolean;
+};
+
 export type DataDrink = {
   data: Drink[];
   movement: {

@@ -27,34 +27,6 @@ class Bill(models.Model):
                self.done = True
         super().save(*args,**kwargs)
     
-# ? Number of Dish in Bill  
-
-class BillDish(models.Model):
-    id = models.AutoField(primary_key=True)
-    id_dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
-    id_bill = models.ForeignKey(Bill,related_name='bill_dish', on_delete=models.CASCADE)
-    number = models.IntegerField(default=1)
-    isReady = models.BooleanField()
-    
-    def __str__(self):
-        return f'{self.id_bill} num - {self.id_dish.cost*self.number}' 
-
-    def cost(self):
-        return self.id_dish.cost * self.number
-
-# ? Number of Drinks in Bill
-
-class BillDrink(models.Model):
-    id = models.AutoField(primary_key=True)
-    id_drink = models.ForeignKey(Drink, on_delete=models.CASCADE)
-    id_bill = models.ForeignKey(Bill,related_name='bill_drink' ,on_delete=models.CASCADE)
-    number = models.IntegerField(default=1)
-    isReady = models.BooleanField(default=False)
-    def __str__(self):
-        return f'{self.id_bill} - {self.id_drink.cost*self.number}' 
-    
-    def cost(self):
-        return self.id_drink.cost*self.number
 
 # ? Guest who came to the Restaurant and take a seat in one Table
 class Guest(models.Model):
@@ -71,3 +43,34 @@ class Guest(models.Model):
                 new_bill = Bill.objects.create(table = self.table)
                 self.bill = new_bill
             return super().save(*args,**kwargs)
+
+# ? Number of Dish in Bill  
+
+class BillDish(models.Model):
+    id = models.AutoField(primary_key=True)
+    id_dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
+    id_bill = models.ForeignKey(Bill,related_name='bill_dish', on_delete=models.CASCADE)
+    number = models.IntegerField(default=1)
+    guest = models.ForeignKey(Guest, on_delete=models.CASCADE)
+    isReady = models.BooleanField()
+    
+    def __str__(self):
+        return f'{self.id_bill} num - {self.id_dish.cost*self.number}' 
+
+    def cost(self):
+        return self.id_dish.cost * self.number
+
+# ? Number of Drinks in Bill
+
+class BillDrink(models.Model):
+    id = models.AutoField(primary_key=True)
+    id_drink = models.ForeignKey(Drink, on_delete=models.CASCADE)
+    id_bill = models.ForeignKey(Bill,related_name='bill_drink' ,on_delete=models.CASCADE)
+    number = models.IntegerField(default=1)
+    guest = models.ForeignKey(Guest, on_delete=models.CASCADE)
+    isReady = models.BooleanField(default=False)
+    def __str__(self):
+        return f'{self.id_bill} - {self.id_drink.cost*self.number}' 
+    
+    def cost(self):
+        return self.id_drink.cost*self.number

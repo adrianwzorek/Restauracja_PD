@@ -20,12 +20,14 @@ const Confirm = (props: {
   const addToBill = async (e: FormEvent<HTMLElement>) => {
     e.preventDefault();
     console.log(data);
+    const guest = localStorage.getItem("guest");
     try {
       if (props.type === "dish") {
         api.post(`app/bill_${props.type}/`, {
           id_dish: props.id,
           id_bill: data?.id_bill,
           number: data?.number,
+          guest: guest,
           isReady: false,
         });
         alert("added dish");
@@ -34,6 +36,7 @@ const Confirm = (props: {
           id_drink: props.id,
           id_bill: data?.id_bill,
           number: data?.number,
+          guest: guest,
           isReady: false,
         });
         alert("added drink");
