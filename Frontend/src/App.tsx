@@ -13,6 +13,7 @@ import Abaddon from "./pages/Guest/Abaddon";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Waiter/Dashboard";
 import Protect from "./components/Protect";
+import GetWaiter from "./components/GetWaiter";
 
 function App() {
   const [haveBill, setHaveBill] = useState(false);
@@ -49,6 +50,7 @@ function App() {
           path="/dashboard"
         />
       </Routes>
+      <GetWaiter />
     </div>
   );
 }

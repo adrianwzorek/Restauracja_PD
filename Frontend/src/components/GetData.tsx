@@ -9,6 +9,7 @@ import {
   Allergen,
   BillDish,
   BillDrink,
+  Guest,
 } from "../types";
 
 export const GetDish = async (page?: string): Promise<DataDish> => {
@@ -210,4 +211,18 @@ export const getAllBills = async () => {
       console.log("get Bill waiter " + err);
       throw err;
     });
+};
+
+export const getGuests = async (bill: Bill[]): Promise<Guest[]> => {
+  try {
+    const response = await Promise.allSettled(
+      bill.map((e) => api.get(`/app/guest/${e.id}/`))
+    );
+    return response
+      .filter((res) => res.status === "fulfilled")
+      .map((data) => data.value.data);
+  } catch (err) {
+    console.log("something wrong with guest " + err);
+    throw err;
+  }
 };
