@@ -6,8 +6,9 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 ::-webkit-scrollbar {
-  background-color: #000;
+  width: 0;
 }
 
 #root {
@@ -16,16 +17,19 @@
 .main {
   background: linear-gradient(var(--color-second), var(--color-first));
   padding: var(--padding);
+  text-align: center;
   display: grid;
   place-items: center;
   grid-template-rows: repeat(min-content, auto-fill);
-  min-height: calc(100svh - var(--padding) * 5);
+  min-height: 100svh;
+  position: relative;
 }
 
 div[class*="-container"] {
   place-items: center;
   width: 100%;
 }
+
 div[class*="-items"] {
   display: grid;
 }
@@ -34,8 +38,9 @@ ul {
   &[class*="-list"] {
     display: grid;
     width: 100%;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    grid-template-rows: min-content min-content min-content auto;
+    place-content: center;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 300px));
+    grid-template-rows: min-content;
     gap: var(--gap);
   }
 }
@@ -67,6 +72,8 @@ img {
   z-index: 0;
   aspect-ratio: 2/1;
   width: 100%;
+  box-shadow: 0px 0px 10px black;
+  margin-bottom: 0.5rem;
 }
 button {
   aspect-ratio: 4/1;
@@ -82,6 +89,7 @@ button {
   &:hover,
   &:active {
     background-color: var(--color-first);
+    cursor: pointer;
   }
   &::after {
     content: "";
@@ -102,10 +110,32 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  place-items: center;
+  gap: var(--gap);
   padding: var(--padding);
   button {
     width: clamp(2rem, 20%, 5rem);
     aspect-ratio: 2/1;
   }
+}
+
+.help {
+  position: fixed;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  aspect-ratio: 1;
+  width: clamp(2rem, 10svw - 1rem, 3rem);
+  z-index: 100;
+  &:hover {
+    cursor: pointer;
+    scale: 1.25;
+  }
+}
+
+h1 {
+  font-size: clamp(1.75rem, 10svw - 1rem, 2rem);
+}
+
+h2 {
+  margin-block: 2rem;
+  font-size: clamp(1.5rem, 10svw - 1rem, 2rem);
 }

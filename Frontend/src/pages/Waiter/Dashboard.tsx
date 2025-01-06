@@ -18,6 +18,8 @@ import {
   getGuests,
 } from "../../components/GetData";
 
+import "../../css/waiter.css";
+
 export type Token = {
   exp: number;
   iat: number;

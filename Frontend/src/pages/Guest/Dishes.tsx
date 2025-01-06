@@ -3,6 +3,7 @@ import { GetDish } from "../../components/GetData";
 import ChangePage from "../../components/ChangePage";
 import { DataDish } from "../../types";
 import SpecificButtons from "../../components/SpecificButtons";
+import "../../css/lists.css";
 
 const Dishes = ({ showPagination }: { showPagination: boolean }) => {
   const [data, setData] = useState<DataDish>();
@@ -25,10 +26,10 @@ const Dishes = ({ showPagination }: { showPagination: boolean }) => {
       {showPagination ? (
         <>
           <h2>List of Dishes</h2>
-          <p>Page {page}</p>
           <ChangePage
             next={data?.movement.next ?? null}
             prev={data?.movement.prev ?? null}
+            page={page}
             setUrl={setUrl}
           />
         </>
@@ -48,9 +49,8 @@ const Dishes = ({ showPagination }: { showPagination: boolean }) => {
                 ""
               )}
               <h3 className="title">{e.title}</h3>
-              <p className="cost">{e.cost}zł</p>
-              <p className="description">{e.description}</p>
-              <p className="weight">{e.portion_weight}g</p>
+              <p className="weight"> Portion - {e.portion_weight}g</p>
+              <p className="cost">Cost - {e.cost}zł</p>
               <SpecificButtons id={e.id} type="dish" name={e.title} />
             </li>
           );

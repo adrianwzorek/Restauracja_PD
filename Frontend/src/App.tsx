@@ -23,6 +23,12 @@ function App() {
     bill ? setHaveBill(true) : setHaveBill(false);
   }, []);
 
+  const showHelp = () => {
+    const guest = localStorage.getItem("guest");
+    const access = localStorage.getItem("access");
+    if (guest && !access) return <GetWaiter />;
+  };
+
   return (
     <div className="main">
       <Routes>
@@ -50,7 +56,8 @@ function App() {
           path="/dashboard"
         />
       </Routes>
-      <GetWaiter />
+
+      {showHelp()}
     </div>
   );
 }

@@ -2,7 +2,6 @@ from api.models import Dish
 from .models import BillDish, BillDrink, Guest, Bill
 from rest_framework import serializers
 
-from api.serializers import DishSerializer, DrinkSerializer
 
 class BillSerializer(serializers.ModelSerializer):
 

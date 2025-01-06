@@ -3,7 +3,7 @@ import { GetDrink } from "../../components/GetData";
 import { ALCOHOL, DataDrink } from "../../types";
 import ChangePage from "../../components/ChangePage";
 import SpecificButtons from "../../components/SpecificButtons";
-
+import "../../css/lists.css";
 const Drinks = ({ showPagination }: { showPagination: boolean }) => {
   const [data, setData] = useState<DataDrink>();
   const [url, setUrl] = useState("");
@@ -25,10 +25,10 @@ const Drinks = ({ showPagination }: { showPagination: boolean }) => {
       {showPagination ? (
         <>
           <h2>List of Drinks</h2>
-          <p>Page {page}</p>
           <ChangePage
             next={data?.movement.prev ?? null}
             prev={data?.movement.next ?? null}
+            page={page ?? null}
             setUrl={setUrl}
           />
         </>
@@ -50,8 +50,7 @@ const Drinks = ({ showPagination }: { showPagination: boolean }) => {
               <h3 className="name">{e.name}</h3>
               <p className="cost">{e.cost}zł</p>
               <p className="type">{ALCOHOL(e.type)}</p>
-              <p className="description">{e.description}</p>
-              <p className="weight">{e.weight}ml</p>
+              <p className="weight">Portion - {e.weight}ml</p>
               <SpecificButtons id={e.id} type="drink" name={e.name} />
             </li>
           );

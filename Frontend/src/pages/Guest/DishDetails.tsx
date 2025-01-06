@@ -66,11 +66,18 @@ const DishDetails = () => {
           ""
         )}
         <h3>Portion weight {dish?.portion_weight} g</h3>
-        <p>{dish?.description}</p>
-        <p>{dish?.ingredients}</p>
+        <div className="wrapper-description">
+          <h3>Description</h3>
+          <p>{dish?.description}</p>
+        </div>
+        <div className="wrapper-ingredients">
+          <h3>Ingredients</h3>
+          <p>{dish?.ingredients}</p>
+        </div>
         <p>Special - {dish?.special ? "🟢" : "🔴"}</p>
-        <p>{dish?.cost} zł</p>
-        <p>weight - {dish?.portion_weight}g</p>
+        <div className="wrapper-cost">
+          <h3>Cost {dish?.cost} zł</h3>
+        </div>
         <ul className="allergen-container">
           <h3>Allergens</h3>
           {allergen.length > 0 ? (

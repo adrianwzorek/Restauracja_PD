@@ -33,6 +33,7 @@ const Login = () => {
       .catch((err) => {
         alert("wrong Data");
         console.log("Wrong login or password " + err);
+        setData({ password: "", username: "" });
         throw err;
       });
   };

@@ -4,3 +4,18 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
 }
+
+ul {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  & > li {
+    width: 80%;
+  }
+}
+li > img {
+  aspect-ratio: 1;
+  border-radius: 20px;
+}

@@ -1,6 +1,6 @@
 .details-container {
   display: grid;
-
+  height: 90svh;
   img {
     width: 50%;
     aspect-ratio: 3/2;

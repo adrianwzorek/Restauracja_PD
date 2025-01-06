@@ -13,7 +13,11 @@ const GetWaiter = () => {
       throw err;
     }
   };
-  return <button onClick={() => getWaiter()}>Help</button>;
+  return (
+    <button onClick={() => getWaiter()} className="help">
+      Help
+    </button>
+  );
 };
 
 export default GetWaiter;

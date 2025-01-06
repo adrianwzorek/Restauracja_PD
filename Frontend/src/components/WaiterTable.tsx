@@ -38,8 +38,9 @@ const Table = (props: {
           src={import.meta.env.VITE_BASE_URL + item?.image}
           alt={item?.name}
         />
-        <p>{item?.name}</p>
-        <p>{drink.number}</p>
+        <p>
+          {item?.name} x {drink.number}
+        </p>
         <button onClick={() => props.outDrink(drink)}>Done</button>
       </>
     );
@@ -52,8 +53,9 @@ const Table = (props: {
           src={import.meta.env.VITE_BASE_URL + item?.image}
           alt={item?.title}
         />
-        <p>{item?.title}</p>
-        <p>{dish.number}</p>
+        <p>
+          {item?.title} x{dish.number}
+        </p>
         <button onClick={() => props.outDish(dish)}>Done</button>
       </>
     );
