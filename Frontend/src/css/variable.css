@@ -6,4 +6,6 @@
   --color-back: #eff6e0;
   --padding: 0.5rem;
   --gap: 1rem;
+  --min-font-size: 1.75rem;
+  --max-font-size: 2rem;
 }

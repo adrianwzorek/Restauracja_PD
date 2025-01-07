@@ -50,7 +50,7 @@ function App() {
         <Route
           element={
             <Protect>
-              <Dashboard />
+              <Dashboard bill={setHaveBill} />
             </Protect>
           }
           path="/dashboard"

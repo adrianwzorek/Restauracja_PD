@@ -65,7 +65,6 @@ const DishDetails = () => {
         ) : (
           ""
         )}
-        <h3>Portion weight {dish?.portion_weight} g</h3>
         <div className="wrapper-description">
           <h3>Description</h3>
           <p>{dish?.description}</p>
@@ -76,6 +75,7 @@ const DishDetails = () => {
         </div>
         <p>Special - {dish?.special ? "🟢" : "🔴"}</p>
         <div className="wrapper-cost">
+          <h3>Portion weight {dish?.portion_weight} g</h3>
           <h3>Cost {dish?.cost} zł</h3>
         </div>
         <ul className="allergen-container">

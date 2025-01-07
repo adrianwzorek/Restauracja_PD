@@ -15,7 +15,7 @@ ul {
     width: 80%;
   }
 }
-li > img {
+.bills-section > ul > li > img {
   aspect-ratio: 1;
   border-radius: 20px;
 }

@@ -1,6 +1,3 @@
 .main {
   grid-template-rows: min-content min-content 1fr;
 }
-
-ul[class*="-list"] {
-}

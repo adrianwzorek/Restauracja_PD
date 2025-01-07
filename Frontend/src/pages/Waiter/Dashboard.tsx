@@ -28,7 +28,7 @@ export type Token = {
   user_id: number;
 };
 
-const Dashboard = () => {
+const Dashboard = (props: { bill: Function }) => {
   const [user, setUser] = useState<Waiter | null>(null);
   const [bills, setBills] = useState<Bill[]>([]);
   const [billDish, setBillDish] = useState<BillDish[]>([]);
@@ -111,6 +111,7 @@ const Dashboard = () => {
     } catch (err) {
       console.error("Error during logout:", err);
     } finally {
+      props.bill(false);
       localStorage.clear();
       navigator("/login/");
     }

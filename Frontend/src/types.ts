@@ -23,10 +23,10 @@ export type Drink = {
 
 export const ALCOHOL = (num: number) => {
   switch (num) {
+    case 0:
+      return "No Alcohol";
     case 1:
       return "Alcohol";
-    case 2:
-      return "No Alcohol";
     default:
       return "Unknown";
   }

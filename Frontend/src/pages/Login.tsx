@@ -2,7 +2,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { User } from "../types";
-
+import "../css/form.css";
 const Login = () => {
   const [data, setData] = useState<User>({ username: "", password: "" });
   const navigator = useNavigate();

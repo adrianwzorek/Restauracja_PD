@@ -1,6 +1,7 @@
 import React from "react";
 import { NewBill } from "../../components/SetData";
 import GuestBill from "./GuestBill";
+import "../../css/bill.css";
 
 const Bill = (props: { haveBill: boolean; setBill: Function }) => {
   const table = localStorage.getItem("table");

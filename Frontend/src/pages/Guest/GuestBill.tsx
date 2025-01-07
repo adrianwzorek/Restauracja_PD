@@ -36,6 +36,8 @@ const GuestBill = (props: { setBill: Function }) => {
   };
 
   useEffect(() => {
+    const guest = localStorage.getItem("guest");
+    if (!guest) console.log("help");
     fetchOrder();
   }, []);
 
@@ -45,6 +47,7 @@ const GuestBill = (props: { setBill: Function }) => {
 
   const putOutItem = async (type: string, id: number) => {
     const bill = localStorage.getItem("bill");
+    console.log(id);
     return await api
       .delete(`app/bill_${type}/${bill}/${id}/`)
       .catch((err) => console.log("Delete " + err))
@@ -67,10 +70,6 @@ const GuestBill = (props: { setBill: Function }) => {
   return (
     <>
       <h1>Bill {order?.id}</h1>
-      <h2>Dishes</h2>
-      <DishesList putOut={putOutItem} mainWait={wait} setWait={setWait} />
-      <h2>Drinks</h2>
-      <DrinksList putOut={putOutItem} mainWait={wait} setWait={setWait} />
       <h2>
         Full cost <i>{order?.full_cost} zł</i>
       </h2>
@@ -82,6 +81,10 @@ const GuestBill = (props: { setBill: Function }) => {
           Order
         </button>
       </div>
+      <h2>Dishes</h2>
+      <DishesList putOut={putOutItem} mainWait={wait} setWait={setWait} />
+      <h2>Drinks</h2>
+      <DrinksList putOut={putOutItem} mainWait={wait} setWait={setWait} />
     </>
   );
 };

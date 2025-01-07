@@ -58,11 +58,14 @@ const DrinkDetails = () => {
         ) : (
           ""
         )}
-        <h2>{drink?.description}</h2>
-        <p>{ALCOHOL(drink?.type ?? 0)}</p>
-        <p>{drink?.cost} zł</p>
+        <h3>Weight - {drink?.weight} ml</h3>
+        <div className="wrapper-description">
+          <h3>Description</h3>
+          <p>{drink?.description}</p>
+        </div>
+        <h3>{ALCOHOL(drink?.type ?? 2)}</h3>
+        <p>Cost - {drink?.cost} zł</p>
         <p>Special {drink?.special ? "🟢" : "🔴"}</p>
-        <p>Weight - {drink?.weight}</p>
         <button
           onClick={() => {
             getAddToBill();

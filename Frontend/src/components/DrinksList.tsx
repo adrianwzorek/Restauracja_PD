@@ -24,7 +24,13 @@ const DrinksList = (props: {
 
   useEffect(() => {
     fetchDrink();
-  }, [props.mainWait, props.putOut]);
+  }, [props.mainWait]);
+
+  const deleteItem = (id: number) => {
+    const list = drink?.filter((e) => e.id !== id);
+    setDrink(list);
+    props.putOut("drink", id);
+  };
 
   const edit = () => {
     setLocal(true);
@@ -58,16 +64,14 @@ const DrinksList = (props: {
               ) : (
                 ""
               )}
-              <h2>
-                {e.name} x {billDrink![id].number}
-              </h2>
-              <h3>One - {e.cost} zł</h3>
-              <p>full cost - {e.cost * billDrink![id].number}zł</p>
+              <h3>
+                {e.name} x{billDrink![id].number}
+              </h3>
+              <h4>full cost - {e.cost * billDrink![id].number}zł</h4>
+              <p>One - {e.cost} zł</p>
               <div className="buttons-container">
                 <button onClick={() => edit()}>Edit</button>
-                <button onClick={() => props.putOut("drink", e.id)}>
-                  Delete
-                </button>
+                <button onClick={() => deleteItem(e.id)}>Delete</button>
               </div>
             </li>
           );

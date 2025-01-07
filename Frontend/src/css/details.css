@@ -1,22 +1,59 @@
+@import "./variable.css";
 .details-container {
   display: grid;
-  height: 90svh;
+  /* outline: 1px solid red; */
+  border-radius: 10px;
+  position: relative;
+  width: 80% !important;
+  height: 80%;
+  grid-row: 1/4;
+  gap: calc(var(--gap) - 0.5rem);
+  z-index: 10;
+  padding-block: 1rem;
+  box-shadow: 0px 0px 20px white;
+  &::before {
+    content: "";
+    inset: 0;
+    outline: 1px solid white;
+    background: linear-gradient(to top, var(--color-third), transparent);
+    filter: drop-shadow(0px 0px rgba(0, 0, 0, 0.419));
+    position: absolute;
+    z-index: -1;
+    border-radius: inherit;
+  }
   img {
-    width: 50%;
+    width: clamp(15rem, 100%, 30svw);
     aspect-ratio: 3/2;
     border-radius: 20px;
   }
   ul {
-    width: 50%;
-    h3 {
-      text-align: center;
-    }
+    place-items: center;
     list-style-type: "- ";
     list-style-position: inside;
-    padding-inline: var(--padding);
+    gap: 0;
+    & > li {
+      place-self: start;
+    }
   }
   button {
-    width: 20%;
+    width: clamp(8rem, 10svw - 1rem, 12rem);
     background-color: var(--color-second);
+  }
+}
+
+[class|="wrapper"] {
+  width: 75%;
+  text-wrap: wrap;
+  font-size: clamp(1rem, 2svw - 0.5rem, 1.2rem);
+}
+
+.allergen-container {
+  width: 50% !important;
+  grid-template-columns: 1fr 1fr;
+  & > h3 {
+    grid-column: 1/3;
+  }
+  & > li {
+    width: 100%;
   }
 }

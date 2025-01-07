@@ -24,7 +24,13 @@ const DishesList = (props: {
 
   useEffect(() => {
     fetchDishes();
-  }, [props.mainWait, props.putOut]);
+  }, [props.mainWait]);
+
+  const deleteItem = (id: number) => {
+    const list = dish?.filter((e) => e.id !== id);
+    setDish(list);
+    props.putOut("dish", id);
+  };
 
   const edit = () => {
     setLocal(true);
@@ -58,16 +64,14 @@ const DishesList = (props: {
               ) : (
                 ""
               )}
-              <h2>
+              <h3>
                 {e.title} x{billDish![id].number}
-              </h2>
-              <h3>one - {e.cost} zł</h3>
-              <p>full cost - {e.cost * billDish![id].number}zł</p>
+              </h3>
+              <h4>full cost - {e.cost * billDish![id].number}zł</h4>
+              <p>one - {e.cost} zł</p>
               <div className="buttons-container">
                 <button onClick={() => edit()}>Edit</button>
-                <button onClick={() => props.putOut("dish", e.id)}>
-                  Delete
-                </button>
+                <button onClick={() => deleteItem(e.id)}>Delete</button>
               </div>
             </li>
           );
