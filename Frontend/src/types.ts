@@ -82,6 +82,7 @@ export type BillDish = {
   id_bill: number;
   number: number;
   isReady: Boolean;
+  guest: number;
 };
 
 export type BillDrink = {
@@ -90,6 +91,7 @@ export type BillDrink = {
   id_bill: number;
   number: number;
   isReady: Boolean;
+  guest: number;
 };
 
 export type User = {

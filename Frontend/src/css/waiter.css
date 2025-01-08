@@ -1,24 +1,23 @@
-ul {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-  gap: 2rem;
-  & > li {
-    width: clamp(8rem, 100%, 12rem);
-    font-size: clamp(1rem, 8svw - 1rem, 2rem);
-  }
+.table-list {
+  grid-template-columns: 1fr !important;
 }
 
 .table-item {
   width: 100% !important;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  h1 {
+    grid-column: 1/3;
+  }
 }
+
 .bills-section > ul > li {
-  color: var(--white);
-  text-shadow: 0px 0px 2px var(--black);
+  color: var(--black);
+  text-shadow: 0px 0px 2px var(--silver);
+  background: linear-gradient(transparent, var(--white));
+  border-radius: 20px;
   & > img {
-    aspect-ratio: 1;
-    border-radius: 20px;
+    border-radius: inherit;
   }
 }
 
@@ -30,4 +29,18 @@ ul {
   place-self: center;
   border-radius: 50px;
   font-size: clamp(1.2rem, 10svw - 1rem, 2rem);
+}
+
+.bill-done {
+  & > li {
+    width: 100%;
+    & > .btn-container {
+      & > button {
+        width: clamp(5rem, 75%, 12rem);
+        font-size: clamp(0.8rem, 8svw - 1rem, 1.2rem);
+        color: var(--white);
+        text-shadow: 0px 0px 2px var(--black);
+      }
+    }
+  }
 }

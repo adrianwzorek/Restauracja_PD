@@ -54,15 +54,15 @@ const Dashboard = (props: { bill: Function }) => {
       setBills(filterBills || []);
       setItemDishes(listDishes);
       setItemDrinks(listDrinks);
-      console.log("Success", {
-        user,
-        bill_dishes,
-        bill_drinks,
-        bills,
-        itemDishes,
-        itemDrinks,
-        guestList,
-      });
+      // console.log("Success", {
+      //   user,
+      //   bill_dishes,
+      //   bill_drinks,
+      //   bills,
+      //   itemDishes,
+      //   itemDrinks,
+      //   guestList,
+      // });
     } catch (err) {
       setWait(true);
       console.error("Error fetching waiter data:", err);

@@ -1,5 +1,6 @@
 import React from "react";
 import api from "../api";
+import { Bill } from "../types";
 
 export const NewBill = async () => {
   const table = localStorage.getItem("table");
@@ -16,4 +17,23 @@ export const NewBill = async () => {
       throw err;
     });
   return res;
+};
+
+export const billAbaddon = async (bill: Bill) => {
+  try {
+    await api.put(`app/bill/${bill.id}/`, { ...bill, abandoned: true });
+    console.log("everything is fine :D");
+  } catch (err) {
+    console.log("something with put abandon " + err);
+    throw err;
+  }
+};
+export const billDone = async (bill: Bill) => {
+  try {
+    await api.put(`app/bill/${bill.id}/`, { ...bill, done: true });
+    console.log("everything is fine :D");
+  } catch (err) {
+    console.log("something with put abandon " + err);
+    throw err;
+  }
 };

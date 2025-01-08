@@ -27,7 +27,6 @@ class BillSerializer(serializers.ModelSerializer):
         instance.abandoned = abandoned
         instance.done = done
         instance.calculate_cost()
-        instance.check_items()
         instance.save()
         return instance
 

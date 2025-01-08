@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Bill, BillDish, BillDrink, Dish, Drink } from "../types";
 import "../css/waiter.css";
 import api from "../api";
+import { billAbaddon, billDone } from "./SetData";
+import CheckBill from "./CheckBill";
 
 const Table = (props: {
   table: number[];
@@ -38,9 +40,9 @@ const Table = (props: {
           src={import.meta.env.VITE_BASE_URL + item?.image}
           alt={item?.name}
         />
-        <p>
+        <h2>
           {item?.name} x {drink.number}
-        </p>
+        </h2>
         <button onClick={() => props.outDrink(drink)}>Done</button>
       </>
     );
@@ -53,17 +55,18 @@ const Table = (props: {
           src={import.meta.env.VITE_BASE_URL + item?.image}
           alt={item?.title}
         />
-        <p>
+        <h2>
           {item?.title} x{dish.number}
-        </p>
+        </h2>
         <button onClick={() => props.outDish(dish)}>Done</button>
       </>
     );
   };
 
-  console.log(props.billDish);
+  // console.log(props.billDish);
   return (
     <div className="table-list">
+      <CheckBill bills={props.bills} billDish={props.billDish} />
       {props.table.map((tableId) => (
         <div key={tableId} className="table-item">
           <h1>Table {tableId}</h1>
@@ -105,5 +108,4 @@ const Table = (props: {
     </div>
   );
 };
-
 export default Table;

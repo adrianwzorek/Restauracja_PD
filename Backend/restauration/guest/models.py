@@ -20,12 +20,6 @@ class Bill(models.Model):
             sum(item.cost() for item in self.bill_drink.all())
         )
         self.save()
-
-    def check_items(self, *args,**kwargs):
-        if all(bill_dish.out for bill_dish in self.bill_dish.all()) and all(bill_drink.out for bill_drink in self.bill_drink.all()):
-            if not self.abandoned:
-               self.done = True
-        super().save(*args,**kwargs)
     
 
 # ? Guest who came to the Restaurant and take a seat in one Table
