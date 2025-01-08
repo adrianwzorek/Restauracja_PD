@@ -1,9 +1,8 @@
 #root {
-  --color-black: #01161e;
-  --color-first: #124559;
-  --color-second: #598392;
-  --color-third: #aec3b0;
-  --color-back: #eff6e0;
+  --black: #1e1e1dff;
+  --silver: #b7b8b7ff;
+  --white: #f1f3f1ff;
+  --gray: #9b9c9bff;
   --padding: 0.5rem;
   --gap: 1rem;
   --min-font-size: 1.75rem;

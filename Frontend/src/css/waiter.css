@@ -1,21 +1,33 @@
-.table-container {
-  width: 100%;
-  background-color: red;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-}
-
 ul {
   display: grid;
   place-items: center;
   width: 100%;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
   gap: 2rem;
   & > li {
-    width: 80%;
+    width: clamp(8rem, 100%, 12rem);
+    font-size: clamp(1rem, 8svw - 1rem, 2rem);
   }
 }
-.bills-section > ul > li > img {
-  aspect-ratio: 1;
-  border-radius: 20px;
+
+.table-item {
+  width: 100% !important;
+}
+.bills-section > ul > li {
+  color: var(--white);
+  text-shadow: 0px 0px 2px var(--black);
+  & > img {
+    aspect-ratio: 1;
+    border-radius: 20px;
+  }
+}
+
+.info {
+  width: 25%;
+  box-shadow: 0px 0px 5px var(--white);
+  padding: 0.2rem;
+  background-color: rgba(255, 0, 0, 0.504);
+  place-self: center;
+  border-radius: 50px;
+  font-size: clamp(1.2rem, 10svw - 1rem, 2rem);
 }

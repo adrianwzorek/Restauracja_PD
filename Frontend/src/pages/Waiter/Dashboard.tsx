@@ -6,6 +6,7 @@ import {
   Dish,
   Drink,
   Guest,
+  Token,
   Waiter,
 } from "../../types";
 import { jwtDecode } from "jwt-decode";
@@ -19,14 +20,6 @@ import {
 } from "../../components/GetData";
 
 import "../../css/waiter.css";
-
-export type Token = {
-  exp: number;
-  iat: number;
-  jti: string;
-  token_type: string;
-  user_id: number;
-};
 
 const Dashboard = (props: { bill: Function }) => {
   const [user, setUser] = useState<Waiter | null>(null);
@@ -133,12 +126,12 @@ const Dashboard = (props: { bill: Function }) => {
   }, []);
 
   return (
-    <div>
+    <>
       {guest?.map((e) => {
         return e.wait ? (
-          <div className="hel" key={e.id}>
-            <p>🔴help🔴</p>
-            <p>{e.table}</p>
+          <div className="info" key={e.id}>
+            <p>🔴HELP🔴</p>
+            <p>Table-{e.table}</p>
             <button onClick={() => changeWait(e)}>Check</button>
           </div>
         ) : (
@@ -157,7 +150,7 @@ const Dashboard = (props: { bill: Function }) => {
       />
       <button onClick={logout}>Logout</button>
       {wait && <a href="http://127.0.0.1:8000/admin/">SuperUser</a>}
-    </div>
+    </>
   );
 };
 

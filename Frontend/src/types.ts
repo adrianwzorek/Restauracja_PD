@@ -106,3 +106,11 @@ export type Waiter = {
   work_start: string;
   has_table: number[];
 };
+
+export type Token = {
+  exp: number;
+  iat: number;
+  jti: string;
+  token_type: string;
+  user_id: number;
+};

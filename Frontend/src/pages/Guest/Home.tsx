@@ -35,15 +35,11 @@ const Home = () => {
       <h1>Hello and welcome in my Restoration!</h1>
       <div className="dishes-home-container">
         <h2>Check out Dishes</h2>
-        <div className="dishes-items-container">
-          <Dishes showPagination={false} />
-        </div>
+        <Dishes showPagination={false} />
       </div>
       <div className="drinks-home-container">
         <h2>Check out Drinks</h2>
-        <div className="drinks-items-container">
-          <Drinks showPagination={false} />
-        </div>
+        <Drinks showPagination={false} />
       </div>
     </>
   );

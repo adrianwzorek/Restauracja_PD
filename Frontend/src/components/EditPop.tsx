@@ -45,8 +45,8 @@ const EditPop = (props: {
     }
   };
   return (
-    <form action="/" onSubmit={change}>
-      <h1>{props.name}</h1>
+    <form action="/" onSubmit={change} className="edit-popup">
+      <h2>{props.name}</h2>
       <input
         type="number"
         name="number"
@@ -58,15 +58,17 @@ const EditPop = (props: {
           });
         }}
       />
-      <button
-        type="reset"
-        onClick={() => {
-          props.setWait(false);
-        }}
-      >
-        Cancel
-      </button>
-      <button type="submit">Change</button>
+      <div className="btn-container">
+        <button
+          type="reset"
+          onClick={() => {
+            props.setWait(false);
+          }}
+        >
+          Cancel
+        </button>
+        <button type="submit">Change</button>
+      </div>
     </form>
   );
 };

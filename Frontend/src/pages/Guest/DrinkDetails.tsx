@@ -38,18 +38,18 @@ const DrinkDetails = () => {
 
   return (
     <>
-      {wait ? (
-        <Confirm
-          id={drink!.id}
-          name={drink!.name}
-          setWait={setWait}
-          type="drink"
-        />
-      ) : (
-        ""
-      )}
       <div className="details-container">
-        <h1>{drink?.name}</h1>
+        {wait ? (
+          <Confirm
+            id={drink!.id}
+            name={drink!.name}
+            setWait={setWait}
+            type="drink"
+          />
+        ) : (
+          ""
+        )}
+        <h1 className={wait ? "disable" : ""}>{drink?.name}</h1>
         {drink?.image ? (
           <img
             src={import.meta.env.VITE_BASE_URL + drink?.image}
@@ -58,15 +58,18 @@ const DrinkDetails = () => {
         ) : (
           ""
         )}
-        <h3>Weight - {drink?.weight} ml</h3>
+        <h3 className={wait ? "disable" : ""}>Weight - {drink?.weight} ml</h3>
         <div className="wrapper-description">
-          <h3>Description</h3>
-          <p>{drink?.description}</p>
+          <h3 className={wait ? "disable" : ""}>Description</h3>
+          <p className={wait ? "disable" : ""}>{drink?.description}</p>
         </div>
-        <h3>{ALCOHOL(drink?.type ?? 2)}</h3>
-        <p>Cost - {drink?.cost} zł</p>
-        <p>Special {drink?.special ? "🟢" : "🔴"}</p>
+        <h3 className={wait ? "disable" : ""}>{ALCOHOL(drink?.type ?? 2)}</h3>
+        <p className={wait ? "disable" : ""}>Cost - {drink?.cost} zł</p>
+        <p className={wait ? "disable" : ""}>
+          Special {drink?.special ? "🟢" : "🔴"}
+        </p>
         <button
+          className={wait ? "disable" : ""}
           onClick={() => {
             getAddToBill();
           }}

@@ -49,7 +49,6 @@ const Confirm = (props: {
   };
   return (
     <form action="/" className="popup" onSubmit={addToBill}>
-      <h1>Confirm</h1>
       <h2>{props?.name}</h2>
       <label htmlFor="number">
         <input
@@ -66,7 +65,7 @@ const Confirm = (props: {
         />
       </label>
 
-      <div className="buttons-container">
+      <div className="btn-container">
         <button type="reset" onClick={() => props.setWait(false)}>
           Cancel
         </button>

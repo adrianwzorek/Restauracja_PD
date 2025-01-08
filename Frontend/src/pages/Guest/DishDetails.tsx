@@ -45,17 +45,17 @@ const DishDetails = () => {
 
   return (
     <>
-      {wait ? (
-        <Confirm
-          id={dish!.id}
-          name={dish!.title}
-          setWait={setWait}
-          type="dish"
-        />
-      ) : (
-        ""
-      )}
       <div className="details-container">
+        {wait ? (
+          <Confirm
+            id={dish!.id}
+            name={dish!.title}
+            setWait={setWait}
+            type="dish"
+          />
+        ) : (
+          ""
+        )}
         <h1>{dish?.title}</h1>
         {dish?.image ? (
           <img
@@ -65,30 +65,39 @@ const DishDetails = () => {
         ) : (
           ""
         )}
+        <h4 className={wait ? "disable" : ""}>
+          Portion weight {dish?.portion_weight} g
+        </h4>
         <div className="wrapper-description">
-          <h3>Description</h3>
-          <p>{dish?.description}</p>
+          <h3 className={wait ? "disable" : ""}>Description</h3>
+          <p className={wait ? "disable" : ""}>{dish?.description}</p>
         </div>
         <div className="wrapper-ingredients">
-          <h3>Ingredients</h3>
-          <p>{dish?.ingredients}</p>
+          <h3 className={wait ? "disable" : ""}>Ingredients</h3>
+          <p className={wait ? "disable" : ""}>{dish?.ingredients}</p>
         </div>
-        <p>Special - {dish?.special ? "🟢" : "🔴"}</p>
+        <p className={wait ? "disable" : ""}>
+          Special - {dish?.special ? "🟢" : "🔴"}
+        </p>
         <div className="wrapper-cost">
-          <h3>Portion weight {dish?.portion_weight} g</h3>
-          <h3>Cost {dish?.cost} zł</h3>
+          <h3 className={wait ? "disable" : ""}>Cost {dish?.cost} zł</h3>
         </div>
         <ul className="allergen-container">
-          <h3>Allergens</h3>
+          <h3 className={wait ? "disable" : ""}>Allergens</h3>
           {allergen.length > 0 ? (
             allergen.map((e) => {
-              return <li key={e.id}>{e.name}</li>;
+              return (
+                <li key={e.id} className={wait ? "disable" : ""}>
+                  {e.name}
+                </li>
+              );
             })
           ) : (
-            <li>BRAK</li>
+            <li className={wait ? "disable" : ""}>BRAK</li>
           )}
         </ul>
         <button
+          className={wait ? "disable" : ""}
           onClick={() => {
             getAddToBill();
           }}

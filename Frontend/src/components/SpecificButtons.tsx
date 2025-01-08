@@ -35,7 +35,7 @@ const SpecificButtons = (props: { type: string; id: number; name: string }) => {
       ) : (
         ""
       )}
-      <div className="buttons-container">
+      <div className="btn-container">
         <button className="s-btn" onClick={() => goToDetails()}>
           Details
         </button>
