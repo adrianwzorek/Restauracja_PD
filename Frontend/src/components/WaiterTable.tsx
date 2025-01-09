@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { Bill, BillDish, BillDrink, Dish, Drink } from "../types";
+import { Bill, BillDish, BillDrink, Dish, Drink, Guest } from "../types";
 import "../css/waiter.css";
-import api from "../api";
 import { billAbaddon, billDone } from "./SetData";
-import CheckBill from "./CheckBill";
 
 const Table = (props: {
   table: number[];
@@ -13,8 +11,13 @@ const Table = (props: {
   billDrink: BillDrink[];
   itemDishes: Dish[];
   itemDrinks: Drink[];
+  checkBill: Bill[];
+  guest: Guest[];
+  setGuest: Function;
   outDish: Function;
   outDrink: Function;
+  done: Function;
+  abaddon: Function;
 }) => {
   // Funkcja filtrująca dania przypisane do konkretnego stolika
   const getDishesForTable = (tableId: number) => {
@@ -41,8 +44,9 @@ const Table = (props: {
           alt={item?.name}
         />
         <h2>
-          {item?.name} x {drink.number}
+          {item?.name} x{drink.number}
         </h2>
+        <h3>Bill - {drink.id_bill}</h3>
         <button onClick={() => props.outDrink(drink)}>Done</button>
       </>
     );
@@ -58,15 +62,33 @@ const Table = (props: {
         <h2>
           {item?.title} x{dish.number}
         </h2>
+        <h3> Bill - {dish.id_bill}</h3>
+
         <button onClick={() => props.outDish(dish)}>Done</button>
       </>
     );
   };
 
-  // console.log(props.billDish);
   return (
     <div className="table-list">
-      <CheckBill bills={props.bills} billDish={props.billDish} />
+      <ul className="bill-done">
+        {props.checkBill?.map((e) => {
+          return (
+            <li key={e.id}>
+              <h1>
+                Table - {e.table} Bill -{e.id}
+              </h1>
+              <h2>{e.date.toString()}</h2>
+              <h3>Pay-{e.full_cost}zł</h3>
+              <div className="btn-container">
+                <button onClick={() => props.abaddon(e)}>Abaddon</button>
+                <button onClick={() => props.done(e)}>Done</button>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+
       {props.table.map((tableId) => (
         <div key={tableId} className="table-item">
           <h1>Table {tableId}</h1>

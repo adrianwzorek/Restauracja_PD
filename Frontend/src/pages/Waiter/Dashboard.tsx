@@ -20,6 +20,7 @@ import {
 } from "../../components/GetData";
 
 import "../../css/waiter.css";
+import { billAbaddon, billDone } from "../../components/SetData";
 
 const Dashboard = (props: { bill: Function }) => {
   const [user, setUser] = useState<Waiter | null>(null);
@@ -30,6 +31,7 @@ const Dashboard = (props: { bill: Function }) => {
   const [itemDishes, setItemDishes] = useState<Dish[]>();
   const [itemDrinks, setItemDrinks] = useState<Drink[]>();
   const [guest, setGuest] = useState<Guest[]>();
+  const [checkBill, setCheckBill] = useState<Bill[]>();
   const navigator = useNavigate();
 
   const getUser = async () => {
@@ -47,6 +49,9 @@ const Dashboard = (props: { bill: Function }) => {
       );
       const filterBills = bills.filter((e: Bill) => e.date !== specificDate);
       const guestList = await getGuests(bills);
+      const billCheck = bills.filter(
+        (e: Bill) => e.abandoned === false && e.done === false
+      );
       setGuest(guestList);
       setUser(user);
       setBillDish(bill_dishes || []);
@@ -54,20 +59,23 @@ const Dashboard = (props: { bill: Function }) => {
       setBills(filterBills || []);
       setItemDishes(listDishes);
       setItemDrinks(listDrinks);
-      // console.log("Success", {
-      //   user,
-      //   bill_dishes,
-      //   bill_drinks,
-      //   bills,
-      //   itemDishes,
-      //   itemDrinks,
-      //   guestList,
-      // });
+      setCheckBill(billCheck);
+      console.log("Success", {
+        user,
+        bill_dishes,
+        bill_drinks,
+        bills,
+        itemDishes,
+        itemDrinks,
+        guestList,
+        billCheck,
+      });
     } catch (err) {
       setWait(true);
       console.error("Error fetching waiter data:", err);
     }
   };
+  console.log(checkBill);
   const setReadyDish = async (item: BillDish) => {
     if (!item) return 0;
     try {
@@ -121,9 +129,28 @@ const Dashboard = (props: { bill: Function }) => {
     }
   };
 
+  const abaddonBill = (bill: Bill) => {
+    setCheckBill((prev) => prev?.filter((e) => e.id !== bill.id));
+    billAbaddon(bill);
+  };
+
+  const doneBill = (bill: Bill) => {
+    setCheckBill((prev) => prev?.filter((e) => e.id !== bill.id));
+    billDone(bill);
+  };
+
   useEffect(() => {
     getUser();
   }, []);
+
+  const superUser = () => {
+    return (
+      <div className="super-user">
+        <a href="http://127.0.0.1:8000/admin/">SuperUser</a>
+        <a href="http://127.0.0.1:8000/api/register/">Create new Waiter</a>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -147,9 +174,14 @@ const Dashboard = (props: { bill: Function }) => {
         itemDrinks={itemDrinks ?? []}
         outDish={setReadyDish}
         outDrink={setReadyDrink}
+        guest={guest ?? []}
+        checkBill={checkBill ?? []}
+        setGuest={setGuest}
+        done={doneBill}
+        abaddon={abaddonBill}
       />
       <button onClick={logout}>Logout</button>
-      {wait && <a href="http://127.0.0.1:8000/admin/">SuperUser</a>}
+      {wait && superUser()}
     </>
   );
 };

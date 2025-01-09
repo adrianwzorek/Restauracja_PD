@@ -114,7 +114,7 @@ class ManageByWaiter(APIView):
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.AllowAny, IsSuperUser]
+    permission_classes = [permissions.AllowAny]
 
 class ListAllergens(generics.ListCreateAPIView):
     queryset = Allergen.objects.all()
