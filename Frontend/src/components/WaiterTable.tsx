@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { Bill, BillDish, BillDrink, Dish, Drink, Guest } from "../types";
 import "../css/waiter.css";
-import { billAbaddon, billDone } from "./SetData";
 
 const Table = (props: {
   table: number[];
@@ -46,7 +45,7 @@ const Table = (props: {
         <h2>
           {item?.name} x{drink.number}
         </h2>
-        <h3>Bill - {drink.id_bill}</h3>
+        <h3>Rachunek - {drink.id_bill}</h3>
         <button onClick={() => props.outDrink(drink)}>Done</button>
       </>
     );
@@ -62,7 +61,7 @@ const Table = (props: {
         <h2>
           {item?.title} x{dish.number}
         </h2>
-        <h3> Bill - {dish.id_bill}</h3>
+        <h3> Rachunek - {dish.id_bill}</h3>
 
         <button onClick={() => props.outDish(dish)}>Done</button>
       </>
@@ -76,13 +75,13 @@ const Table = (props: {
           return (
             <li key={e.id}>
               <h1>
-                Table - {e.table} Bill -{e.id}
+                Stolik - {e.table} Bill -{e.id}
               </h1>
               <h2>{e.date.toString()}</h2>
-              <h3>Pay-{e.full_cost}zł</h3>
+              <h3>Całość - {e.full_cost}zł</h3>
               <div className="btn-container">
-                <button onClick={() => props.abaddon(e)}>Abaddon</button>
-                <button onClick={() => props.done(e)}>Done</button>
+                <button onClick={() => props.abaddon(e)}>Porzuć</button>
+                <button onClick={() => props.done(e)}>Zakończ</button>
               </div>
             </li>
           );
@@ -91,9 +90,9 @@ const Table = (props: {
 
       {props.table.map((tableId) => (
         <div key={tableId} className="table-item">
-          <h1>Table {tableId}</h1>
+          <h1>Stolik {tableId}</h1>
           <div className="bills-section">
-            <h2>Drinks</h2>
+            <h2>Napoje</h2>
             {getDrinksForTable(tableId).length > 0 ? (
               <ul>
                 {getDrinksForTable(tableId).map((drink) =>
@@ -110,7 +109,7 @@ const Table = (props: {
           </div>
 
           <div className="bills-section">
-            <h2>Dishes</h2>
+            <h2>Dania</h2>
             {getDishesForTable(tableId).length > 0 ? (
               <ul>
                 {getDishesForTable(tableId).map((dish) =>

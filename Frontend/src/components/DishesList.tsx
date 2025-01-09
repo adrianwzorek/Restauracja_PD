@@ -68,20 +68,20 @@ const DishesList = (props: {
                 {e.title} x{billDish![id].number}
               </h3>
               <h4 className={props.mainWait ? "disable" : ""}>
-                full cost - {e.cost * billDish![id].number}zł
+                Koszt - {e.cost * billDish![id].number}zł
               </h4>
               <p className={props.mainWait ? "disable" : ""}>
-                one - {e.cost} zł
+                Jedno - {e.cost} zł
               </p>
               <div className="btn-container">
                 <button onClick={() => edit()} disabled={props.mainWait}>
-                  Edit
+                  Edytuj
                 </button>
                 <button
                   onClick={() => deleteItem(e.id)}
                   disabled={props.mainWait}
                 >
-                  Delete
+                  Usuń
                 </button>
               </div>
             </li>

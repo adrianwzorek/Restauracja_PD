@@ -66,24 +66,24 @@ const DishDetails = () => {
           ""
         )}
         <h4 className={wait ? "disable" : ""}>
-          Portion weight {dish?.portion_weight} g
+          Porcja - {dish?.portion_weight} g
         </h4>
         <div className="wrapper-description">
-          <h3 className={wait ? "disable" : ""}>Description</h3>
+          <h3 className={wait ? "disable" : ""}>Opis</h3>
           <p className={wait ? "disable" : ""}>{dish?.description}</p>
         </div>
         <div className="wrapper-ingredients">
-          <h3 className={wait ? "disable" : ""}>Ingredients</h3>
+          <h3 className={wait ? "disable" : ""}>Składniki</h3>
           <p className={wait ? "disable" : ""}>{dish?.ingredients}</p>
         </div>
         <p className={wait ? "disable" : ""}>
-          Special - {dish?.special ? "🟢" : "🔴"}
+          Oferta specjalna - {dish?.special ? "🟢" : "🔴"}
         </p>
         <div className="wrapper-cost">
-          <h3 className={wait ? "disable" : ""}>Cost {dish?.cost} zł</h3>
+          <h3 className={wait ? "disable" : ""}>Koszt {dish?.cost} zł</h3>
         </div>
         <ul className="allergen-container">
-          <h3 className={wait ? "disable" : ""}>Allergens</h3>
+          <h3 className={wait ? "disable" : ""}>Alergeny</h3>
           {allergen.length > 0 ? (
             allergen.map((e) => {
               return (
@@ -102,7 +102,7 @@ const DishDetails = () => {
             getAddToBill();
           }}
         >
-          Add
+          Dodaj
         </button>
       </div>
     </>

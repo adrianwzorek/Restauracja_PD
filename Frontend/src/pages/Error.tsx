@@ -4,9 +4,8 @@ import { Link } from "react-router-dom";
 const Error = () => {
   return (
     <div className="error">
-      <h1>Error page</h1>
-      <h2>Something goes wrong</h2>
-      <Link to="/">Go back</Link>
+      <h1>Coś poszło nie tak</h1>
+      <Link to="/">Powrót</Link>
     </div>
   );
 };

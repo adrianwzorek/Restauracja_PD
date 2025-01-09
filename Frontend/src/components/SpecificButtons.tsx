@@ -37,10 +37,10 @@ const SpecificButtons = (props: { type: string; id: number; name: string }) => {
       )}
       <div className="btn-container">
         <button className="s-btn" onClick={() => goToDetails()}>
-          Details
+          Opis
         </button>
         <button className="s-btn" onClick={() => openPop()}>
-          Add
+          Dodaj
         </button>
       </div>
     </>

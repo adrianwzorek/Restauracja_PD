@@ -14,7 +14,7 @@ const ChangePage = (props: {
       <button className="btn" onClick={() => setPage(props?.prev)}>
         {"<<"}
       </button>
-      <p>Page {props.page}</p>
+      <p>Strona {props.page}</p>
       <button className="btn" onClick={() => setPage(props?.next)}>
         {">>"}
       </button>

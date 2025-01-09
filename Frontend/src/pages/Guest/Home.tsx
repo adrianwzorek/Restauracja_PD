@@ -32,13 +32,13 @@ const Home = () => {
 
   return (
     <>
-      <h1>Hello and welcome in my Restoration!</h1>
+      <h1>Witamy w naszej restauracji</h1>
       <div className="dishes-home-container">
-        <h2>Check out Dishes</h2>
+        <h2>Dania najwyżej ocenianie</h2>
         <Dishes showPagination={false} />
       </div>
       <div className="drinks-home-container">
-        <h2>Check out Drinks</h2>
+        <h2>Napoje warte uwagi</h2>
         <Drinks showPagination={false} />
       </div>
     </>

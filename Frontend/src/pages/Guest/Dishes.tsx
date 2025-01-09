@@ -25,7 +25,7 @@ const Dishes = ({ showPagination }: { showPagination: boolean }) => {
     <>
       {showPagination ? (
         <>
-          <h2>List of Dishes</h2>
+          <h2>Nasze Dania</h2>
           <ChangePage
             next={data?.movement.next ?? null}
             prev={data?.movement.prev ?? null}
@@ -49,8 +49,8 @@ const Dishes = ({ showPagination }: { showPagination: boolean }) => {
                 ""
               )}
               <h3 className="title">{e.title}</h3>
-              <p className="weight"> Portion - {e.portion_weight}g</p>
-              <p className="cost">Cost - {e.cost}zł</p>
+              <p className="weight"> Porcja - {e.portion_weight}g</p>
+              <p className="cost">Koszt - {e.cost}zł</p>
               <SpecificButtons id={e.id} type="dish" name={e.title} />
             </li>
           );

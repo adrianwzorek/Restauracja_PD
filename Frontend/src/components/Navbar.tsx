@@ -8,25 +8,25 @@ const Navbar = () => {
         to="/"
         className={({ isActive }) => (isActive ? "active link" : "link")}
       >
-        Home
+        Głowna
       </NavLink>
       <NavLink
         to="/dishes/"
         className={({ isActive }) => (isActive ? "active link" : "link")}
       >
-        Dishes
+        Dania
       </NavLink>
       <NavLink
         to="/drinks/"
         className={({ isActive }) => (isActive ? "active link" : "link")}
       >
-        Drinks
+        Napoje
       </NavLink>
       <NavLink
         to="/bill/"
         className={({ isActive }) => (isActive ? "active link" : "link")}
       >
-        Bill
+        Rachunek
       </NavLink>
       <NavLink
         to="/login/"

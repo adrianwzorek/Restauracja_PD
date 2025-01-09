@@ -60,7 +60,7 @@ const WaiterDish = (props: { dish: BillDish[]; setDish: Function }) => {
               className="btn"
               onClick={() => itemOut("dish", props.dish[id])}
             >
-              DONE
+              Zakończ
             </button>
           </li>
         ) : (

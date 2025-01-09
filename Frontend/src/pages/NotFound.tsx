@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 const NotFound = () => {
   return (
     <div className="not-found">
-      <h1>Oh noooooo!</h1>
-      <h2>This site is not found :(</h2>
-      <Link to="/">Go back</Link>
+      <h1>Coś poszło nie tak :(</h1>
+      <h2>Nie znaleziono strony</h2>
+      <Link to="/">Powrót</Link>
     </div>
   );
 };

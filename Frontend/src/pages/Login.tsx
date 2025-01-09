@@ -41,9 +41,9 @@ const Login = () => {
   return (
     <>
       <form onSubmit={handleLogin}>
-        <h1>Login</h1>
+        <h1>Logowanie</h1>
         <label htmlFor="username">
-          <h2>Username</h2>
+          <h2>Login</h2>
           <input
             type="text"
             name="username"
@@ -54,7 +54,7 @@ const Login = () => {
           />
         </label>
         <label htmlFor="password">
-          <h2>Password</h2>
+          <h2>Hasło</h2>
           <input
             type="password"
             name="password"
@@ -65,7 +65,7 @@ const Login = () => {
           />
         </label>
         <div className="buttons-container">
-          <button type="submit">Login</button>
+          <button type="submit">Zaloguj</button>
         </div>
       </form>
     </>

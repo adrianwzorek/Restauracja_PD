@@ -7,7 +7,7 @@ const GetWaiter = () => {
     if (!guest) return console.log("no such guest");
     try {
       await api.put(`app/guest/${guest}/`, { wait: true });
-      alert("Waiter got message");
+      alert("Kelner przyjdzie za moment");
     } catch (err) {
       console.log("error with change wait in guest " + err);
       throw err;
@@ -15,7 +15,7 @@ const GetWaiter = () => {
   };
   return (
     <button onClick={() => getWaiter()} className="help">
-      Help
+      Pomoc
     </button>
   );
 };

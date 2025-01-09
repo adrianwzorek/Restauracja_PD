@@ -3,9 +3,9 @@ import React from "react";
 const Abaddon = () => {
   return (
     <div className="abaddon">
-      <h1>Ohhh seriously?</h1>
+      <h1>Poważnie?</h1>
       <p>
-        Your bill goes away and <strong>never</strong> go back :(
+        Twój rachunek została porzucony i <strong>nigdy</strong> nie wróci :(
       </p>
     </div>
   );

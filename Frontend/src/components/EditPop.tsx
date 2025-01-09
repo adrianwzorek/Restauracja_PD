@@ -65,9 +65,9 @@ const EditPop = (props: {
             props.setWait(false);
           }}
         >
-          Cancel
+          Anuluj
         </button>
-        <button type="submit">Change</button>
+        <button type="submit">Zmień</button>
       </div>
     </form>
   );

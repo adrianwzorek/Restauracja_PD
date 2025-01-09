@@ -30,7 +30,7 @@ const Confirm = (props: {
           guest: guest,
           isReady: false,
         });
-        alert("added dish");
+        alert("Dodano danie do Twojego rachunku");
       } else {
         api.post(`app/bill_${props.type}/`, {
           id_drink: props.id,
@@ -39,7 +39,7 @@ const Confirm = (props: {
           guest: guest,
           isReady: false,
         });
-        alert("added drink");
+        alert("Dodano napój do Twojego rachunku");
       }
     } catch (err) {
       console.log("wrong query " + err);
@@ -67,9 +67,9 @@ const Confirm = (props: {
 
       <div className="btn-container">
         <button type="reset" onClick={() => props.setWait(false)}>
-          Cancel
+          Anuluj
         </button>
-        <button type="submit">Add</button>
+        <button type="submit">Dodaj</button>
       </div>
     </form>
   );

@@ -51,7 +51,7 @@ const WaiterDrinks = (props: {
             <p>bill - {props.drink[id].id_bill}</p>
             <p>number - {props.drink[id].number}</p>
             <button onClick={() => itemOut("drink", props.drink[id])}>
-              DONE
+              Zakończ
             </button>
           </div>
         ) : (

@@ -69,21 +69,21 @@ const GuestBill = (props: { setBill: Function }) => {
   console.log(order);
   return (
     <>
-      <h1>Bill {order?.id}</h1>
+      <h1>Rachunek {order?.id}</h1>
       <h2>
-        Full cost <i>{order?.full_cost} zł</i>
+        Suma <i>{order?.full_cost} zł</i>
       </h2>
       <div className="btn-container">
         <button type="button" onClick={() => abaddonBill()}>
-          Cancel
+          Porzuć
         </button>
         <button type="button" onClick={() => orderNow()}>
-          Order
+          Zamów
         </button>
       </div>
-      <h2>Dishes</h2>
+      <h2>Dania</h2>
       <DishesList putOut={putOutItem} mainWait={wait} setWait={setWait} />
-      <h2>Drinks</h2>
+      <h2>Napoje</h2>
       <DrinksList putOut={putOutItem} mainWait={wait} setWait={setWait} />
     </>
   );

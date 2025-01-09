@@ -58,13 +58,13 @@ const DrinkDetails = () => {
         ) : (
           ""
         )}
-        <h3 className={wait ? "disable" : ""}>Weight - {drink?.weight} ml</h3>
+        <h3 className={wait ? "disable" : ""}>Porcja - {drink?.weight} ml</h3>
         <div className="wrapper-description">
-          <h3 className={wait ? "disable" : ""}>Description</h3>
+          <h3 className={wait ? "disable" : ""}>Opis</h3>
           <p className={wait ? "disable" : ""}>{drink?.description}</p>
         </div>
         <h3 className={wait ? "disable" : ""}>{ALCOHOL(drink?.type ?? 2)}</h3>
-        <p className={wait ? "disable" : ""}>Cost - {drink?.cost} zł</p>
+        <p className={wait ? "disable" : ""}>Koszt - {drink?.cost} zł</p>
         <p className={wait ? "disable" : ""}>
           Special {drink?.special ? "🟢" : "🔴"}
         </p>
@@ -74,7 +74,7 @@ const DrinkDetails = () => {
             getAddToBill();
           }}
         >
-          Add
+          Dodaj
         </button>
       </div>
     </>

@@ -10,7 +10,7 @@ const Bill = (props: { haveBill: boolean; setBill: Function }) => {
       await NewBill();
       props.setBill(true);
     } else {
-      alert("No table found, Please speak to one of our employee");
+      alert("Brak stolika. Proszę zwrócić się do naszego personelu");
     }
   };
 
@@ -18,13 +18,13 @@ const Bill = (props: { haveBill: boolean; setBill: Function }) => {
     <div className="bill-container">
       {props.haveBill ? (
         <>
-          <h1>Welcome in your bill view</h1>
+          <h1>Twój rachunek</h1>
           <GuestBill setBill={props.setBill} />
         </>
       ) : (
         <>
-          <h1>Right now you do not have a bill</h1>
-          <button onClick={() => createNewBill()}>Create Bill</button>
+          <h1>W tym momencie nie masz otwartego rachunku</h1>
+          <button onClick={() => createNewBill()}>Otwórz</button>
         </>
       )}
     </div>

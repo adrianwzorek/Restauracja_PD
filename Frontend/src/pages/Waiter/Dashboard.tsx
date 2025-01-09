@@ -146,8 +146,8 @@ const Dashboard = (props: { bill: Function }) => {
   const superUser = () => {
     return (
       <div className="super-user">
-        <a href="http://127.0.0.1:8000/admin/">SuperUser</a>
-        <a href="http://127.0.0.1:8000/api/register/">Create new Waiter</a>
+        <a href="http://127.0.0.1:8000/admin/">Manager</a>
+        <a href="http://127.0.0.1:8000/api/register/">Nowy kelner</a>
       </div>
     );
   };
@@ -157,9 +157,9 @@ const Dashboard = (props: { bill: Function }) => {
       {guest?.map((e) => {
         return e.wait ? (
           <div className="info" key={e.id}>
-            <p>🔴HELP🔴</p>
-            <p>Table-{e.table}</p>
-            <button onClick={() => changeWait(e)}>Check</button>
+            <p>🔴Pomoc🔴</p>
+            <p>Stolik-{e.table}</p>
+            <button onClick={() => changeWait(e)}>Zakończ</button>
           </div>
         ) : (
           ""
@@ -180,7 +180,7 @@ const Dashboard = (props: { bill: Function }) => {
         done={doneBill}
         abaddon={abaddonBill}
       />
-      <button onClick={logout}>Logout</button>
+      <button onClick={logout}>Wyloguj</button>
       {wait && superUser()}
     </>
   );
