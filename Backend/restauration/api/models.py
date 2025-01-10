@@ -1,18 +1,17 @@
 from datetime import date
 import os
 from django.db import models,transaction
-from django.urls import reverse
 import qrcode
 from io import BytesIO
 from django.core.files.base import ContentFile
-
+from django.contrib.auth.models import User
 from restauration import settings
 # Create your models here.
 
 
 # All allergens 
 class Allergen(models.Model):
-    id_allergen = models.AutoField(primary_key=True, unique=True)
+    id = models.AutoField(primary_key=True, unique=True)
     name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -20,7 +19,7 @@ class Allergen(models.Model):
 
 # Dish model
 class Dish(models.Model):
-    id_dish = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255, blank=False)
     description = models.TextField(max_length=255, blank=True)
     ingredients = models.CharField(max_length=255, blank=True)
@@ -39,7 +38,7 @@ class Drink(models.Model):
     class TYPE(models.IntegerChoices):
         Normal = 0, "No Alcohol"
         Alcohol = 1, "Alcohol"
-    id_drink = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     type = models.PositiveSmallIntegerField(choices=TYPE, default=TYPE.Normal)
     description = models.TextField(max_length=255)
@@ -54,7 +53,7 @@ class Drink(models.Model):
 
 # All possibility menu from Restoration 
 class Menu(models.Model):
-    id_menu = models.AutoField(primary_key=True, unique=True)
+    id = models.AutoField(primary_key=True, unique=True)
     name = models.CharField(max_length=50, blank=False)
     date_of_change = models.DateField(auto_now=True)
     dishes = models.ManyToManyField(Dish, related_name='dishes')
@@ -82,18 +81,17 @@ class Menu(models.Model):
 
 # Tables for one Restoration
 class Table(models.Model):
-    id_table = models.AutoField(primary_key=True, unique=True)
+    id = models.AutoField(primary_key=True)
     qr_code = models.ImageField(blank=True, upload_to='qr_codes')
 
     def __str__(self):
-        return f'Table - {self.id_table}'
+        return f'Table - {self.id}'
     
     def save(self, *args, **kwargs):
         
-        super().save(*args, **kwargs)
         
         # Generuj URL dla tabeli
-        table_url = settings.FRONT_URL + '/table/'+ str(self.id_table) +'/'
+        table_url = settings.FRONT_URL + '/table/'+ str(self.id) +'/'
 
         # Tworzenie kodu QR
         qr = qrcode.QRCode(
@@ -111,7 +109,7 @@ class Table(models.Model):
         # Zapisz obraz w polu `qr_code`
         buffer = BytesIO()
         img.save(buffer)
-        file_name = f"qr_code_table_{self.id_table}.png"
+        file_name = f"qr_code_table_{self.id}.png"
         self.qr_code.save(file_name, ContentFile(buffer.getvalue()), save=False)
         buffer.close()
 
@@ -126,7 +124,8 @@ class Table(models.Model):
 
 # Waiter models
 class Waiter(models.Model):
-    id_waiter = models.AutoField(primary_key=True,null=False)
+    id = models.AutoField(primary_key=True,null=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='waiter_user')
     name = models.CharField(max_length=255)
     surname= models.CharField(max_length=255)
     phone_num = models.IntegerField()

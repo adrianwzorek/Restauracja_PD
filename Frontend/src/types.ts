@@ -1,5 +1,5 @@
 export type Dish = {
-  id_dish: number;
+  id: number;
   title: string;
   description: string;
   ingredients: string;
@@ -11,7 +11,7 @@ export type Dish = {
 };
 
 export type Drink = {
-  id_drink: number;
+  id: number;
   name: string;
   type: number;
   description: string;
@@ -23,13 +23,21 @@ export type Drink = {
 
 export const ALCOHOL = (num: number) => {
   switch (num) {
+    case 0:
+      return "Bez Alkoholu";
     case 1:
-      return "Alcohol";
-    case 2:
-      return "No Alcohol";
+      return "Alkohol";
     default:
       return "Unknown";
   }
+};
+
+export type Guest = {
+  id: number;
+  table: number;
+  bill: number;
+  date_came: Date;
+  wait: boolean;
 };
 
 export type DataDrink = {
@@ -57,13 +65,54 @@ export type Bill = {
   dishes: number[];
   drinks: number[];
   full_cost: number;
-  id_bill: number;
+  id: number;
   table: number;
   done: boolean;
   abandoned: boolean;
 };
 
 export type Allergen = {
-  id_allergen: number;
+  id: number;
   name: string;
+};
+
+export type BillDish = {
+  id?: number;
+  id_dish?: number;
+  id_bill: number;
+  number: number;
+  isReady: Boolean;
+  guest: number;
+};
+
+export type BillDrink = {
+  id?: number;
+  id_drink?: number;
+  id_bill: number;
+  number: number;
+  isReady: Boolean;
+  guest: number;
+};
+
+export type User = {
+  username: string;
+  password: string;
+};
+
+export type Waiter = {
+  id: number;
+  user: User;
+  name: string;
+  surname: string;
+  phone_num: number;
+  work_start: string;
+  has_table: number[];
+};
+
+export type Token = {
+  exp: number;
+  iat: number;
+  jti: string;
+  token_type: string;
+  user_id: number;
 };

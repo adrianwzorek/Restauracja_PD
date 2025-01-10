@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-yv!a^giy3vo3yxfek4pr_t#f4b-!f^(38l6!q_50hm6&#@m1=y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['127.0.0.1','localhost','0.0.0.0']
 
 
 # Application definition
@@ -94,10 +94,10 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES':(
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'api.authentication.BearerJWTAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 8
+    'PAGE_SIZE': 6
 }
 
 SIMPLE_JWT ={
@@ -151,6 +151,13 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWS_CREDENTIALS = True
-
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',  # Dodaj adres swojej aplikacji frontendowej
+]
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',
+    'x-csrftoken',
+]
 SITE_URL='http://127.0.0.1:8000'
 FRONT_URL ='http://localhost:5173'

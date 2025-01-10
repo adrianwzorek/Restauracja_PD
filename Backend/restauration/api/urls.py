@@ -17,9 +17,14 @@ from .views import (
     ListBill,
     BillDetails,
     ListGuest,
-    GuestDetails
+    GuestDetails,
+    CreateUserView,
+    ManageByWaiter,
+    WaiterOrders
     )
 urlpatterns = [
+    path('login/<int:pk>/',ManageByWaiter.as_view(), name='login' ),
+    path('register/',CreateUserView.as_view(), name='register_waiter'),
     path('allergen/', ListAllergens.as_view(),name='all_allergens'),
     path('allergen/<int:pk>/', AllergenDetails.as_view(), name='allergen_details'),
     path('dish/', ListDishes.as_view(), name='all_dishes'),
@@ -36,4 +41,5 @@ urlpatterns = [
     path('bill/<int:pk>/',BillDetails.as_view(), name='bill_details'),
     path('guest/', ListGuest.as_view(), name='all_guest'),
     path('guest/<int:pk>/', GuestDetails.as_view(),name='guest_details'),
+    path('order/',WaiterOrders.as_view(),name='order'),
 ] 

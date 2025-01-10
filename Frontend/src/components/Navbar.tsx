@@ -1,23 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
+import React from "react";
+import { NavLink } from "react-router-dom";
+import "../css/navbar.css";
 const Navbar = () => {
-  const [link, setLink] = useState("/bill/");
-  const [page, setPage] = useState("Your Bill");
   return (
     <nav className="navbar">
-      <Link to="/" className="link">
-        Home
-      </Link>
-      <Link to="/dishes/" className="link">
-        Dishes
-      </Link>
-      <Link to="/drinks/" className="link">
-        Drinks
-      </Link>
-      <Link to={link} className="link">
-        {page}
-      </Link>
+      <NavLink
+        to="/"
+        className={({ isActive }) => (isActive ? "active link" : "link")}
+      >
+        Głowna
+      </NavLink>
+      <NavLink
+        to="/dishes/"
+        className={({ isActive }) => (isActive ? "active link" : "link")}
+      >
+        Dania
+      </NavLink>
+      <NavLink
+        to="/drinks/"
+        className={({ isActive }) => (isActive ? "active link" : "link")}
+      >
+        Napoje
+      </NavLink>
+      <NavLink
+        to="/bill/"
+        className={({ isActive }) => (isActive ? "active link" : "link")}
+      >
+        Rachunek
+      </NavLink>
+      <NavLink
+        to="/login/"
+        className={({ isActive }) => (isActive ? "active link" : "link")}
+      >
+        Admin
+      </NavLink>
     </nav>
   );
 };

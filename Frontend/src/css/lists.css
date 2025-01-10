@@ -1,0 +1,3 @@
+.main {
+  grid-template-rows: min-content min-content 1fr;
+}
