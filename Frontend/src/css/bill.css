@@ -1,0 +1,74 @@
+.bill-container {
+  grid-row: 1/4;
+  display: grid;
+  gap: 1.5rem;
+  & > .btn-container {
+    & > button {
+      width: clamp(5rem, 100%, 20rem);
+    }
+  }
+  .dish-container,
+  .drink-container {
+    display: grid;
+    width: 100%;
+    place-items: center;
+    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  }
+}
+
+[class$="-item"] {
+  position: relative;
+  width: clamp(10rem, 100%, 22rem) !important;
+  & > h3 {
+    text-align: center;
+    width: 80%;
+    place-self: center;
+    z-index: -1;
+  }
+  & > h4 {
+    z-index: -1;
+    font-size: clamp(0.8rem, 8svw - 1rem, 1.5rem);
+  }
+}
+
+.edit-popup {
+  grid-row: 1/6;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(transparent 25%, var(--white), transparent);
+  gap: var(--gap, 1rem);
+  & > h2 {
+    font-size: clamp(0.8rem, 8svw - 1rem, 1.5rem);
+  }
+  & > input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid var(--white);
+    border-radius: 2px;
+    width: 50%;
+    text-align: center;
+    font-size: clamp(var(--min-font-size), 5svw - 1rem, var(--max-font-size));
+    &:active,
+    &:focus {
+      outline: none;
+    }
+  }
+  & > .btn-container {
+    width: 100%;
+    gap: var(--gap);
+    z-index: 10;
+    & > button {
+      font-size: clamp(0.8rem, 8svw - 2rem, 1.2rem);
+      z-index: 100;
+      width: clamp(3rem, 100%, 10rem);
+      background: linear-gradient(to top, var(--white), transparent);
+      &:hover {
+        background-color: var(--black);
+      }
+    }
+  }
+}
